@@ -1,0 +1,18 @@
+{% extends 'v1/layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+<div>
+{% for pic in pics %}
+<img src="{{pic}}" alt="" style="max-width: 200px; height: auto;">
+{% endfor %}
+</div>
+
+
+{% endblock %}

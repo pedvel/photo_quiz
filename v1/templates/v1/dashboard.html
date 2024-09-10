@@ -1,0 +1,21 @@
+{% extends 'v1/layout.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<h2>Quiz fot today: {{quiz}}. Upload your picture</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="cameraInput">Tomar foto:</label>
+    <input type="file" id="cameraInput" name="pic" accept="image/*" capture="environment">
+    
+    <button type="submit">Subir imagen</button>
+</form>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+{% endblock %}
