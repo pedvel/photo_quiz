@@ -2,6 +2,7 @@
 from datetime import timezone, datetime
 import csv
 from multiprocessing import Value
+from .models import User, Content
 
 
 def get_quiz():
@@ -18,6 +19,9 @@ def get_quiz():
     except FileNotFoundError:
         print("File not found")
 
+def completed_quizzes(user):
+    quizzes = Content.objects.filter(user=user).values_list('quiz_content', flat=True)
+    return quizzes
     
             
     

@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.shortcuts import redirect, render
-from .utils import get_quiz
+from .utils import completed_quizzes, get_quiz
 from .forms import UserForm, ContentForm
 from .models import User, Content
 from django.contrib.auth.views import LoginView
@@ -92,7 +93,7 @@ def dashboard(request):
             content.quiz_content = quiz
             content.save()
             img = Image.open(content.pic.path)
-            max_size = (200, 200)  # Ajusta el tamaño a lo que necesites
+            max_size = (200, 200)  
             img.thumbnail(max_size, Image.LANCZOS)
             img.save(content.pic.path)
             return redirect('home')
@@ -108,15 +109,16 @@ def dashboard(request):
 
 @login_required()
 def home(request):
-    pics=[]
-    quiz=get_quiz()
+
     user = request.user
-    contents = Content.objects.filter(quiz_content=quiz)
-    for content in contents:
-        if content.pic:
-            pics.append(content.pic.url)
-        else:
-            continue    
+    #COMPLETED QUIZZES LIST FOR USER
+    quizzes = completed_quizzes(user)
+    pics = []
+
+    for quiz in quizzes:     
+        images = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).values_list('pic', flat=True)
+        pics.extend([f"{settings.MEDIA_URL}{pic}" for pic in images])
+   
     return render(request, 'v1/home.html', {
         'pics':pics
     })
