@@ -79,7 +79,7 @@ def dashboard(request):
     user = request.user
     quiz = get_quiz()
     today = timezone.now().date()
-    existing_content = Content.objects.filter(user=user, created_at__date=today).first()
+    existing_content = Content.objects.filter(user=user, quiz_content = quiz).first()
 
     if existing_content:
         return render(request, 'v1/home.html')
@@ -88,15 +88,21 @@ def dashboard(request):
     if request.method =='POST':
         form = ContentForm(request.POST, request.FILES)
         if form.is_valid():
-            content=form.save(commit=False)
-            content.user=user
+            content = form.save(commit=False)
+            content.user = user
             content.quiz_content = quiz
-            content.save()
-            img = Image.open(content.pic.path)
-            max_size = (200, 200)  
-            img.thumbnail(max_size, Image.LANCZOS)
-            img.save(content.pic.path)
-            return redirect('home')
+            try:
+                img = Image.open(content.pic) 
+                max_size = (200, 200)
+                img.thumbnail(max_size, Image.LANCZOS)
+                img.save(content.pic.path) 
+                content.save()
+                return redirect('home')
+            except ValueError as e:
+                form.add_error('pic', 'Por favor, sube una imagen válida.')
+            except Exception as e:
+                form.add_error(None, 'Ocurrió un error al procesar la imagen. Intenta nuevamente.')
+    
     else:
         form = ContentForm()
 
