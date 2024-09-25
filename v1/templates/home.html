@@ -22,12 +22,12 @@
         </nav>
     </header>
     <main class="mainPhoto">
-            <h1>{ quiz }</h1>
+            <h1>{{ quiz }}</h1>
 
-            {% for pic in pics %}
+            {% for pic, user in pics %}
             <div class="photoContainer">
                 <div>
-                    <p>{ user }</p>
+                    <p>{{user}}</p>
                     <p>...</p>
                 </div>
                 <div class="photo">

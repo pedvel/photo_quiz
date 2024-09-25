@@ -1,6 +1,7 @@
 from typing import Required
 from django.conf import settings
 from django.shortcuts import redirect, render
+from httpx import get
 from .utils import completed_quizzes, get_quiz
 from .forms import UserForm, ContentForm
 from .models import User, Content
@@ -113,17 +114,18 @@ def snap(request):
 @login_required()
 def home(request):
 
-    user = request.user
-    #COMPLETED QUIZZES LIST FOR USER
-    quizzes = completed_quizzes(user)
+    quiz = get_quiz()
     pics = []
 
-    for quiz in quizzes:     
-        images = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).values_list('pic', flat=True)
-        pics.extend([f"{settings.MEDIA_URL}{pic}" for pic in images])
-   
+    # Obtener pic y name
+    content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('pic', 'user__name')
+
+    # Crear una lista de tuplas
+    pics = [(f"{settings.MEDIA_URL}{item['pic']}", item['user__name']) for item in content_items]
+
     return render(request, 'home.html', {
-        'pics':pics
+        'pics': pics,
+        'quiz': quiz
     })
 
 @login_required()
