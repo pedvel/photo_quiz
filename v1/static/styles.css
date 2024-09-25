@@ -646,7 +646,22 @@ body.dark-mode .greyButton:hover {
     font-size: 1.1rem;
 }
 
+.errorlist li {
+    list-style: none;
+    font-weight: 600;
+    color: var(--purple);
+}
+
+body.dark-mode .errorlist li {
+    color: var(--yellow);
+}
+
 /*Snap*/
+.logout {
+    z-index: 2;
+    position: fixed;
+}
+
 .bodyApp {
     display: flex;
     justify-content: center;
