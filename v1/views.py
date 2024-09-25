@@ -23,7 +23,14 @@ import io
 
 class CustomLoginView(LoginView):
     template_name='login.html'
-    #redirect_authenticated_user = True
+    
+    def get(self, request, *args, **kwargs):
+        # Verifica si el usuario ya está autenticado
+        if request.user.is_authenticated:
+            # Redirige a 'home' si el usuario está autenticado
+            return redirect('home')  # Cambia 'home' por la URL a la que quieras redirigir
+
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         user = self.request.user
