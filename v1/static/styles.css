@@ -1,0 +1,990 @@
+:root {
+    --white: #F2F2F2;
+    --black: #0A0A0A;
+    --shadow: rgba(10, 10, 10, 0.5);
+    --purple: #4D5FA8;
+    --purpleshadow: rgba(77, 95, 168, 0.75);
+    --purplehover: #434f8a;
+    --yellow: #D0A616;
+    --yellowhover: #bd8811;
+    --yellowshadow: rgba(208, 166, 22, 0.75);
+    --lightgrey: #EBEBEB;
+    --darkgrey: #AEAEAE;
+    --darkgrey2: #141414;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Manrope", sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--black);
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: var(--black);
+    color: var(--white);
+    transition: background-color 0.3s ease;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: -webkit-fill-available;
+    padding-right: 1vw;
+    backdrop-filter: blur(10px);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 15px;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: var(--black);
+}
+
+body.dark-mode nav a {
+    color: var(--white);
+}
+
+nav div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+nav img {
+    height: 40px;
+    width: 40px;
+    background-color: var(--darkgrey);
+}
+
+main {
+    text-align: -webkit-center;
+}
+
+section {
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90vw;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+.highlightText {
+    color: var(--purple);
+}
+
+body.dark-mode .highlightText {
+    color: var(--yellow);
+}
+
+.highlightSection {
+    background-color: var(--yellow);
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .highlightSection {
+    background-color: var(--purple);
+    transition: background-color 0.3s ease;
+}
+
+.buttonprimary1 {
+    background-color: var(--yellow);
+    border-radius: 8px;
+    margin: .25rem .125rem;
+    padding: 0.50rem 0.75rem;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.buttonprimary1:hover {
+    background-color: var(--yellowhover);
+}
+
+body.dark-mode .buttonprimary1 {
+    background-color: var(--purple);
+}
+
+body.dark-mode .buttonprimary1:hover {
+    background-color: var(--purplehover);
+}
+
+.buttonsecondary {
+    border-radius: 8px;
+    border: 1px solid var(--yellow);
+    margin: .25rem .125rem;
+    padding: 0.50rem 0.75rem;
+    text-decoration: none;
+    color: var(--yellow);
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.buttonsecondary:hover {
+    background-color: var(--lightgrey);
+}
+
+body.dark-mode .buttonsecondary {
+    border: 1px solid var(--purple);
+    color: var(--purple);
+}
+
+body.dark-mode .buttonsecondary:hover {
+    background-color: var(--darkgrey2);
+}
+
+/*Nav*/
+/*Toggle*/
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    margin: 5px;
+  }
+  
+  .toggle-switch .toggle-input {
+    display: none;
+  }
+
+  .toggle-switch .toggle-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 24px;
+    background-color: var(--darkgrey);
+    border-radius: 34px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-switch .toggle-label::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    background-color: var(--black);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+  }
+   
+  .toggle-switch .toggle-input:checked + .toggle-label::before {
+    transform: translateX(16px);
+    background-color: var(--white);
+  }
+  
+  .toggle-switch.light .toggle-label {
+    background-color: #BEBEBE;
+  }
+  
+  .toggle-switch.light .toggle-input:checked + .toggle-label {
+    background-color: #9B9B9B;
+  }
+  
+  .toggle-switch.light .toggle-input:checked + .toggle-label::before {
+    transform: translateX(6px);
+  }
+  
+  .toggle-switch.dark .toggle-label {
+    background-color: #4B4B4B;
+  }
+  
+  .toggle-switch.dark .toggle-input:checked + .toggle-label {
+    background-color: #717171;
+  }
+  
+  .toggle-switch.dark .toggle-input:checked + .toggle-label::before {
+    transform: translateX(16px);
+  }
+  
+/*Landing*/
+.landing {
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.landingText {
+    text-align: -webkit-left;
+    width: 35%;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.landing h1 {
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.landingText_buttons {
+    position: relative;
+    bottom: 8px;
+}
+
+.landingImage {
+    width: fit-content;
+}
+.landingImage img {
+    height: 350px;
+    width: auto;
+    border-radius: 8px;
+}
+
+/*Features*/
+.features {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.featuresContainer {
+    display: flex;
+    gap: 60px;
+    max-width: 900px;
+}
+
+.feature {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 25px 30px;
+    width: -webkit-fill-available;
+    box-shadow: 10px 10px 15px var(--shadow);
+}
+
+body.dark-mode .feature {
+    background-color: var(--black);
+}
+
+.feature i {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.feature p {
+    margin-top: 15px;
+}
+
+/*Gallery*/
+.divider2 .modeGallery {
+    fill: var(--yellow);
+    transition: fill 0.3s ease;
+}
+
+body.dark-mode .divider2 .modeGallery {
+    fill: var(--purple);
+    transition: fill 0.3s ease;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  /* Create four equal columns that sits next to each other */
+  .column {
+    flex: 25%;
+    max-width: 25%;
+  }
+  
+  .column img {
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  /* From Uiverse.io by adamgiebl */ 
+.card {
+    position: absolute; 
+    bottom: 10px; 
+    right: 10px; 
+    border-radius: 4px;
+    padding: 4px;
+    background-image: linear-gradient(144deg,var(--purple),var(--yellow));
+  }
+  
+  .card__content {
+    background: var(--white);
+    border-radius: 4px;
+    width: fit-content;
+    padding: 4px 8px;
+    color: white;
+    align-content: center;
+  }
+
+  body.dark-mode .card__content {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .card__content p {
+    color: var(--black);
+  }
+
+  body.dark-mode .card__content p {
+    color: var(--white);
+  }
+
+  
+
+  /* Responsive layout - makes a two column-layout instead of four columns */
+  @media screen and (max-width: 800px) {
+    .column {
+      flex: 50%;
+      max-width: 50%;
+    }
+  }
+  
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .column {
+      flex: 100%;
+      max-width: 100%;
+    }
+  }
+  
+  #scrollToTop {
+    position: fixed;
+    bottom: 65px;
+    right: 20px;
+    background-color: var(--purple); 
+    color: var(--white); 
+    padding: 10px 18px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1.5rem;
+    transition: opacity 0.3s;
+    z-index: 3;
+}
+
+body.dark-mode #scrollToTop {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+#scrollToTop:hover {
+    background-color: var(--black); 
+}
+
+body.dark-mode #scrollToTop:hover {
+    background-color: var(--white); 
+}
+
+/*Register*/
+.noScroll {
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.mainForm {
+    height: 95dvh;
+    padding-top: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--yellowhover);
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .mainForm {
+    background-color: var(--purplehover);
+    transition: background-color 0.3s ease;
+}
+
+.formContainer {
+    background-color: var(--white);
+    width: 375px;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 10px 10px 15px var(--shadow);
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .formContainer {
+    background-color: var(--black);
+    transition: background-color 0.3s ease;
+}
+
+.formContainer h1 {
+    margin-bottom: 20px;
+}
+
+.formContainer form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0px;
+    gap: 3px;
+}
+
+.formContainer input {
+    border-radius: 4px;
+    width: 97%;
+    margin: 5px;
+    text-align: center;
+    border: var(--darkgrey) solid 1px;
+    transition: background-color 0.3s ease;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 5px 0px;
+}
+
+.formContainer input:focus {
+    outline: none;
+    border: 3px solid var(--purple);
+}
+
+body.dark-mode .formContainer input:focus {
+    border: 3px solid var(--yellow);
+}
+
+.forgotPassword {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/*Password toggle*/
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: -webkit-fill-available;
+    border-radius: 4px;
+}
+
+.password-container button {
+    position: absolute;
+    right: 1rem;
+    top: 27%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.password-container .fa-eye {
+    color: var(--darkgrey);
+    font-size: 1.2rem;
+}
+
+.password-container .fa-eye-slash {
+    color: var(--darkgrey);
+    font-size: 1.2rem;
+}
+
+#suscribeCheckbox {
+    flex-direction: row;
+}
+
+#suscribeCheckbox input {
+    width: auto;
+}
+
+.buttonprimary2 {
+    display: flex;
+    justify-content: center;
+    background-color: var(--purple);
+    border-radius: 8px;
+    margin: .25rem .125rem;
+    padding: 0.50rem 0.75rem;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    transition: background-color 0.3s ease;
+    width: -webkit-fill-available;
+}
+
+.loginButton {
+    display: flex;
+    justify-content: center;
+    background-color: var(--purple);
+    border-radius: 8px;
+    margin: .25rem .125rem;
+    padding: 0.50rem 0.75rem;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    transition: background-color 0.3s ease;
+    width: -webkit-fill-available;
+}
+
+.buttonprimary2:hover {
+    background-color: var(--purplehover);
+    cursor: pointer;
+}
+
+.loginButton:hover {
+    background-color: var(--purplehover);
+    cursor: pointer;
+}
+
+body.dark-mode .buttonprimary2 {
+    background-color: var(--yellow);
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .loginButton {
+    background-color: var(--yellow);
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .buttonprimary2:hover {
+    background-color: var(--yellowhover);
+}
+
+body.dark-mode .loginButton:hover {
+    background-color: var(--yellowhover);
+}
+
+#divider-wrapper {
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin: 0;
+    padding: 24px 0 0;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#divider-wrapper:before, #divider-wrapper:after {
+    content: "";
+    border-bottom: 1px solid #c2c8d0;
+    flex: 1 0 auto;
+    margin: 0;
+}
+
+.divider {
+    margin: 0px 5px;
+}
+
+.greyButton {
+    display: block;
+    background-color: var(--darkgrey);
+    border-radius: 8px;
+    margin: 24px .125rem;
+    padding: 0.50rem 0.75rem;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1rem;
+    width: -webkit-fill-available;
+    transition: background-color 0.3s ease;
+}
+
+.greyButton:hover {
+    background-color: var(--purplehover);
+    cursor: pointer;
+}
+
+body.dark-mode .greyButton:hover {
+    background-color: var(--yellowhover);
+}
+
+.formContainer p {
+    font-size: 0.8rem;
+}
+
+.formContainer p a {
+    text-decoration: none;
+}
+
+/*Login*/
+.login h1 {
+    margin: 0;
+}
+
+.login h2 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+/*Snap*/
+.bodyApp {
+    display: flex;
+    justify-content: center;
+}
+
+.mainNoPhoto {
+    top: 65px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: -webkit-fill-available;
+    max-width: 450px;
+    height: 70vh;
+}
+
+.mainNoPhoto form input {
+    display: none;
+}
+
+.shutter-button {
+    z-index: 2;
+    display: inline-block;
+    width: 80px; 
+    height: 80px; 
+    background-color: var(--yellow); 
+    border: 3px solid var(--black);
+    border-radius: 50%; 
+    animation: shadows 5s infinite;
+    cursor: pointer; 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%); 
+}
+
+body.dark-mode .shutter-button {
+    background-color: var(--purple);
+}
+
+@keyframes shadows {
+    0% {
+      box-shadow: var(--purple) 0 0 40px;
+    }
+    50% {
+      box-shadow: var(--yellow) 0 0 40px;
+    }
+    75% {
+      box-shadow: var(--yellowhover) 0 0 40px;
+    }
+    100% {
+      box-shadow: var(--purplehover) 0 0 40px;
+    }
+  }
+
+.shutter-button:hover {
+    background-color: var(--yellowhover);
+}
+
+body.dark-mode .shutter-button:hover {
+    background-color: var(--purplehover);
+}
+
+footer {
+    bottom: 0;
+    position: fixed;
+    display: flex;
+    width: -webkit-fill-available;
+    max-width: 450px;
+    justify-content: space-evenly;
+    background-color: var(--white);
+    transition: background-color 0.3s ease;
+    padding: 15px 0;
+}
+
+body.dark-mode footer {
+    background-color: var(--black);
+    transition: background-color 0.3s ease;
+}
+
+footer a {
+    font-size: 2rem;
+    text-decoration: none;
+    color: var(--black);
+}
+
+body.dark-mode footer a {
+    color: var(--white);
+}
+
+.active {
+    color: var(--purple);
+}
+
+body.dark-mode .active {
+    color: var(--yellow);
+}
+
+/*Home - Theme completed*/
+.headerApp {
+    background-color: var(--white);
+    transition: background-color 0.3s ease;
+    max-width: 450px;
+}
+
+body.dark-mode .headerApp {
+    background-color: var(--black);
+    transition: background-color 0.3s ease;
+}
+.mainPhoto {
+    top: 120px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: -webkit-fill-available;
+    max-width: 450px;
+}
+
+.photoContainer {
+    margin-bottom: 15px;
+}
+
+.mainPhoto h1 {
+    position: fixed;
+    top: 59px;
+    padding-bottom: 10px;
+    z-index: 1;
+    background-color: var(--white);
+    width: -webkit-fill-available;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .mainPhoto h1 {
+    background-color: var(--black);
+    transition: background-color 0.3s ease;
+}
+
+.photoContainer p {
+    font-weight: 500;
+}
+
+.photoContainer > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin: 10px 0;
+}
+
+.photo {
+    position: relative; 
+    display: inline-block; 
+}
+
+.photo img {
+    width: 100%;
+}
+
+.bookmark-toggle {
+    display: none; /* Hide the checkbox */
+}
+
+.bookmark-icon {
+    position: absolute; 
+    bottom: 15px; 
+    right: 15px; 
+    font-size: 2.2rem; 
+    color: var(--yellow); 
+}
+
+body.dark-mode .bookmark-icon {
+    color: var(--purple);
+}
+
+.bookmark-icon::before {
+    font-family: "Font Awesome 5 Free"; 
+    content: "\f02e"; 
+    font-weight: 400; 
+}
+
+.bookmark-toggle:checked + .bookmark-icon::before {
+    content: "\f02e"; 
+    font-weight: 900; /* Solid weight */
+}
+
+.popup {
+    position: fixed;
+    background-color: var(--yellowshadow);
+    color: var(--black);
+    font-weight: 600;
+    padding: 20px 25px;
+    border-radius: 4px;
+    display: none;
+    transition: opacity 1s ease;
+    z-index: 3;
+    top: 50%;
+}
+
+body.dark-mode .popup {
+    background-color: var(--purpleshadow);
+    color: var(--white);
+}
+
+.homeEnd {
+    height: 160px;
+    margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.homeEnd i {
+    font-size: 3rem;
+    color: var(--purple);
+}
+
+body.dark-mode .homeEnd i {
+    color: var(--yellow);
+}
+
+.homeEnd h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--purple);
+}
+
+body.dark-mode .homeEnd h3 {
+    color: var(--yellow);
+}
+
+.homeEnd h4 {
+    font-weight: 100;
+}
+
+.homeEnd a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.highlightText2 {
+    color: var(--yellow);
+}
+
+body.dark-mode .highlightText2 {
+    color: var(--purple);
+}
+
+/*Media Queries*/
+/*Tablets*/
+@media (max-width: 850px) {
+    header {
+        height: 65px;
+    }
+    .mainIndex {
+        position: absolute;
+        top: 65px;
+    }
+    .landingSection {
+        align-items: flex-start;
+    }
+    .container {
+        width: 100%;
+    }
+    .landing {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 20px;
+    }
+    .landingText {
+        width: 90%;
+        height: 40dvh;
+    }
+    .landingText_buttons {
+        align-self: center;
+    }
+    .landingImage {
+        width: 100%;
+    }
+    .landingImage img {
+        height: 40dvh;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0px;
+    }
+
+    .featuresSection {
+        height: auto;
+    }
+    .features {
+        padding: 55px 0px;
+    }
+    .featuresContainer {
+        flex-direction: column;
+        width: 80%;
+        max-width: 400px;
+    }
+    .mainPhoto h1 {
+        top: 64px;
+    }
+}
+
+/*Tablets & phones*/
+@media (max-width: 500px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+    h2 {
+        font-size: 1rem;
+    }
+    .landingText {
+        height: 50dvh;
+    }
+    .landingImage img {
+        height: 30dvh;
+    }
+    .feature i {
+        font-size: 1.75rem;
+    }
+    .mainForm {
+        background-color: var(--white);
+        transition: background-color 0.3s ease;
+    }
+    body.dark-mode .mainForm {
+        background-color: var(--black);
+        transition: background-color 0.3s ease;
+    }
+    .formContainer {
+        box-shadow: none;
+    }
+    .formContainer h1 {
+        font-size: 2rem;
+    }
+    .mainNoPhoto h1 {
+        font-size: 2rem;
+    }
+    .mainNoPhoto h2 {
+        font-size: 1.2rem;
+    }
+   
+}

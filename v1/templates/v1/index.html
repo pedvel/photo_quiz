@@ -3,9 +3,215 @@
 
 
 {% block body %}
-<div>
-    Today's Quiz: {{quiz}}
-</div>
-<a href="v1/register">Register</a>
-<a href="v1/login">Login</a>
+
+    <header>
+        <nav>
+            <a href="#">
+                <img>
+                <p>PhotoQuiz</p>
+            </a>
+            <div>
+                <i class="fa-regular fa-lightbulb"></i>
+                <div class="toggle-switch">
+                    <input class="toggle-input" id="toggle" type="checkbox">
+                    <label class="toggle-label" for="toggle" id="toggle2"></label>
+                </div>
+                <i class="fa-regular fa-moon"></i>
+            </div>
+            
+        </nav>
+    </header>
+    <main class="mainIndex">
+        <section class="landingSection">
+            <div class="container landing">
+                <div class="landingText">
+                    <div>
+                        <h1>Unlock Daily Creativity.
+                        <br><span class="highlightText">Capture, Share, Get Inspired!</span></h1>
+                        <h2>Hack your daily routine with fresh photo themes every day. See what others capture, and ignite your imagination.</h2>
+                    </div>
+                    <div class="landingText_buttons">
+                        <a href="{% url 'register' %}" class="buttonprimary1">Sign Up for Free</a>
+                        <a href="{% url 'login' %}" class="buttonsecondary">Log In</a>
+                    </div>
+                </div>
+                <div class="landingImage">
+                    <img src="../../static/img/green.jpg" alt="Green forest">
+                </div>
+            </div>
+        </section>
+        <section id="features" class="highlightSection featuresSection">
+            <div class="container features">
+                <h1>3 Simple Steps</h1>
+                <div class="featuresContainer">
+                    <div class="feature">
+                        <div class="highlightText">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <h2>Sign Up</h2>
+                        </div>
+                        <p>Create your <strong>free profile</strong> to start capturing daily themes and storing your snaps.</p>
+                        <p>Choose between a public or <strong>private</strong> profile, and rest assured <strong>your photos are securely protected</strong>.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="highlightText">
+                            <i class="fa-solid fa-camera"></i>
+                            <h2>Capture</h2>
+                        </div>
+                        <p>Every day features a <strong>new theme</strong>. Snap a photo that fits the theme and upload it <strong>on the same day</strong> to complete the challenge.</p>
+                        <p>Once the day is over, the theme will close, so <strong>stay on track!</strong></p>
+                    </div>
+                    <div class="feature">
+                        <div class="highlightText">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <h2>Get Inspired</h2>
+                        </div>
+                        <p>Explore what <strong>others are sharing</strong> for the day's theme.</p>
+                        <p>Visit public profiles and view the photos for the themes you <strong>both participated in</strong>. Discover <strong>new perspectives</strong>!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="row">
+            <div class="column">
+                <div class="photo">
+                    <img src="../../static/img/landing/1.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Yellow</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/2.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Nature</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/3.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Water</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/4.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Spring</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="photo">
+                    <img src="../../static/img/landing/5.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Passion</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/6.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Breakfast</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/7.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Your sky</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/8.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Close up</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="photo">
+                    <img src="../../static/img/landing/9.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Neon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/10.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Calm</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/11.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Favorite place</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/12.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Home</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="photo">
+                    <img src="../../static/img/landing/13.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Shadows</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/14.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Night</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/15.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Friend</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo">
+                    <img src="../../static/img/landing/16.jpg">
+                    <div class="card">
+                        <div class="card__content">
+                            <p>Heights</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </main>
+    <a id="scrollToTop" href="#" style="display: none;">
+        <i class="fa-solid fa-arrow-up"></i>
+    </a>    
+
 {% endblock %}

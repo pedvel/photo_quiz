@@ -1,18 +1,51 @@
 {% extends 'v1/layout.html' %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Snap{% endblock %}
 
 {% block body %}
 
-<h2>Quiz fot today: {{quiz}}. Upload your picture</h2>
+<div class="noScroll">
+    <div class="bodyApp">
+        <header class="headerApp">
+            <nav>
+                <a href="">
+                    <img>
+                </a>
+                <div>
+                    <i class="fa-regular fa-lightbulb"></i>
+                    <div class="toggle-switch">
+                        <input class="toggle-input" id="toggle" type="checkbox">
+                        <label class="toggle-label" for="toggle" id="toggle2"></label>
+                    </div>
+                    <i class="fa-regular fa-moon"></i>
+                </div>
+                
+            </nav>
+        </header>
+        <main class="mainNoPhoto">
+            <div>
+                <h2>Today's theme is</h2>
+                <h1 class="highlightText">{{quiz}}</h1>
+            </div>
+            <div>
+                <p>You haven’t taken today’s theme photo.</p>
+                <p>Snap below!</p>
+            </div>
+            <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input id="cameraInput" name="pic" type="file" accept="image/*" capture="environment" required onchange="this.form.submit();"/>
+                <label for="cameraInput" class="shutter-button"></label>
+            </form>  
+        </main>
+        <footer>
+            <div><a href="{% url 'dashboard' %}" class="fa-solid fa-house active"></a></div>
+            <div><a class="fa-solid fa-compass"></a></div>
+            <div><a class="fa-solid fa-user"></a></div>
+        </footer>
+    </div>
+    <script src="../static/js.js"></script>
+    <script src="../static/upload.js"></script>
+</div>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    <label for="cameraInput">Tomar foto:</label>
-    <input type="file" id="cameraInput" name="pic" accept="image/*" capture="environment">
-    
-    <button type="submit">Subir imagen</button>
-</form>
 <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Logout</button>

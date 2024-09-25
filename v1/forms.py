@@ -6,9 +6,11 @@ from .models import Content, User
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email', 'name', 'password']  # Los campos que quieres incluir en el formulario
+        fields = ['email', 'name', 'password']
         widgets = {
-            'password': forms.PasswordInput(),  # Esto hará que el campo de contraseña oculte el texto
+            'email': forms.EmailInput(attrs={'placeholder': 'youremail@photoquiz.com'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Choose a username'}),
+            'password': forms.PasswordInput(attrs={'placeholder': 'Choose a password'}),
         }
 
 class ContentForm (forms.ModelForm):

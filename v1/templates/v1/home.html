@@ -4,15 +4,61 @@
 
 {% block body %}
 
+<div class="bodyApp">
+    <header class="headerApp">
+        <nav>
+            <a href="">
+                <img>
+            </a>
+            <div>
+                <i class="fa-regular fa-lightbulb"></i>
+                <div class="toggle-switch">
+                    <input class="toggle-input" id="toggle" type="checkbox">
+                    <label class="toggle-label" for="toggle" id="toggle2"></label>
+                </div>
+                <i class="fa-regular fa-moon"></i>
+            </div>
+            
+        </nav>
+    </header>
+    <main class="mainPhoto">
+            <h1>{ quiz }</h1>
+
+            {% for pic in pics %}
+            <div class="photoContainer">
+                <div>
+                    <p>{ user }</p>
+                    <p>...</p>
+                </div>
+                <div class="photo">
+                    <img src="{{pic}}">
+                    <input type="checkbox" id="{{pic}}" class="bookmark-toggle">
+                    <label for="{{pic}}" class="bookmark-icon"></label>
+                </div>
+            </div>
+            {% endfor %}
+            <div id="popup" class="popup">Saved</div>
+
+            <div class="homeEnd">
+                <i class="fa-regular fa-circle-check"></i>
+                <div>
+                    <h3>You are all caught up</h3>
+                    <h4>You've seen all new posts</h4>
+                </div>
+                <a class="highlightText2">Explore prior themes</a>    
+            </div>
+    </main>
+    <footer>
+        <div><a href="{% url 'home' %}" class="fa-solid fa-house active"></a></div>
+        <div><a class="fa-solid fa-compass"></a></div>
+        <div><a class="fa-solid fa-user"></a></div>
+    </footer>
+</div>
+<script src="../static/js.js"></script>
+<script src="../static/bookmark.js"></script>
+
 <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Logout</button>
 </form>
-<div>
-{% for pic in pics %}
-<img src="{{pic}}" alt="" style="max-width: 200px; height: auto;">
-{% endfor %}
-</div>
-
-
 {% endblock %}

@@ -3,12 +3,42 @@
 
 {% block body %}
 
-<h2>Login</h2>
-<form action="" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Login</button>
-</form>
+<div class="noScroll">
+    <header>
+        <nav>
+            <a href="{% url 'index' %}">
+                <img>
+                <p>PhotoQuiz</p>
+            </a>
+            <div>
+                <i class="fa-regular fa-lightbulb"></i>
+                <div class="toggle-switch">
+                    <input class="toggle-input" id="toggle" type="checkbox">
+                    <label class="toggle-label" for="toggle" id="toggle2"></label>
+                </div>
+                <i class="fa-regular fa-moon"></i>
+            </div>
+            
+        </nav>
+    </header>
+    <main class="mainForm">
+        <div class="formContainer login">
+            <h1>Welcome back</h1>
+            <h2>Please enter your login details</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit" class="loginButton">Login</button>
+            </form>
+            <div id="divider-wrapper">
+                <span class="divider">Or</span>
+            </div>
+            <a class="greyButton">Continue with Google</a>
+            <p>Don't have an account? <a href="{% url 'register' %}" class="highlightText">Create one</a></p>
+        </div>
+    </main>
+    <script src="../../static/password.js"></script>
+</div>
 
 
 {% endblock %}

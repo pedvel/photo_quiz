@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.shortcuts import redirect, render
-from .utils import get_quiz
+from .utils import completed_quizzes, get_quiz
 from .forms import UserForm, ContentForm
 from .models import User, Content
 from django.contrib.auth.views import LoginView
@@ -44,11 +45,7 @@ class ContentUploadView(generics.CreateAPIView):
 
 
 def index(request):
-    quiz = get_quiz()   
-
-    return render(request, 'v1/index.html', {
-        'quiz':quiz
-    })
+    return render(request, 'v1/index.html')
 
 def register(request):
     form = UserForm()
@@ -78,7 +75,7 @@ def dashboard(request):
     user = request.user
     quiz = get_quiz()
     today = timezone.now().date()
-    existing_content = Content.objects.filter(user=user, created_at__date=today).first()
+    existing_content = Content.objects.filter(user=user, quiz_content = quiz).first()
 
     if existing_content:
         return render(request, 'v1/home.html')
@@ -87,15 +84,21 @@ def dashboard(request):
     if request.method =='POST':
         form = ContentForm(request.POST, request.FILES)
         if form.is_valid():
-            content=form.save(commit=False)
-            content.user=user
+            content = form.save(commit=False)
+            content.user = user
             content.quiz_content = quiz
-            content.save()
-            img = Image.open(content.pic.path)
-            max_size = (200, 200)  # Ajusta el tamaño a lo que necesites
-            img.thumbnail(max_size, Image.LANCZOS)
-            img.save(content.pic.path)
-            return redirect('home')
+            try:
+                img = Image.open(content.pic) 
+                max_size = (200, 200)
+                img.thumbnail(max_size, Image.LANCZOS)
+                img.save(content.pic.path) 
+                content.save()
+                return redirect('home')
+            except ValueError as e:
+                form.add_error('pic', 'Por favor, sube una imagen válida.')
+            except Exception as e:
+                form.add_error(None, 'Ocurrió un error al procesar la imagen. Intenta nuevamente.')
+    
     else:
         form = ContentForm()
 
@@ -108,15 +111,16 @@ def dashboard(request):
 
 @login_required()
 def home(request):
-    pics=[]
-    quiz=get_quiz()
+
     user = request.user
-    contents = Content.objects.filter(quiz_content=quiz)
-    for content in contents:
-        if content.pic:
-            pics.append(content.pic.url)
-        else:
-            continue    
+    #COMPLETED QUIZZES LIST FOR USER
+    quizzes = completed_quizzes(user)
+    pics = []
+
+    for quiz in quizzes:     
+        images = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).values_list('pic', flat=True)
+        pics.extend([f"{settings.MEDIA_URL}{pic}" for pic in images])
+   
     return render(request, 'v1/home.html', {
         'pics':pics
     })

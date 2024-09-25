@@ -1,15 +1,62 @@
 {% extends 'v1/layout.html' %}
-
-{% block title %}{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block body %}
 
-<div>            
-    <form action="" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Register</button>
-    </form>
+<div class="noScroll">
+    <header>
+        <nav>
+            <a href="{% url 'index' %}">
+                <img>
+                <p>PhotoQuiz</p>
+            </a>
+            <div>
+                <i class="fa-regular fa-lightbulb"></i>
+                <div class="toggle-switch">
+                    <input class="toggle-input" id="toggle" type="checkbox">
+                    <label class="toggle-label" for="toggle" id="toggle2"></label>
+                </div>
+                <i class="fa-regular fa-moon"></i>
+            </div>
+            
+        </nav>
+    </header>
+    <main class="mainForm">
+        <div class="formContainer">
+            <h1>Create an Account</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                </div>
+                <div>
+                    <label for="{{ form.name.id_for_label }}">Username</label>
+                    {{ form.name }}
+                </div>
+                <div>
+                    <label for="{{ form.password.id_for_label }}">Password</label>
+                    <div class="password-container">
+                        {{ form.password }}
+                        <button type="button" id="togglePassword" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="suscribeCheckbox">
+                    <input type="checkbox" id="suscribe" name="suscribe">
+                    <label for="suscribe">Suscribe</label>
+                </div>
+                <button type="submit" class="buttonprimary2">Create</button>
+            </form>
+            <div id="divider-wrapper">
+                <span class="divider">Or</span>
+            </div>
+            <a class="greyButton">Continue with Google</a>
+            <p>Already have an account? <a href="{% url 'login' %}" class="highlightText">Log In</a></p>
+        </div>
+    </main>
+    <script src="../../static/password.js"></script>
 </div>
 
 {% endblock %}
