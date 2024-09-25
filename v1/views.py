@@ -1,3 +1,4 @@
+from typing import Required
 from django.conf import settings
 from django.shortcuts import redirect, render
 from .utils import completed_quizzes, get_quiz
@@ -17,7 +18,7 @@ from PIL import Image
 # Create your views here.
 
 class CustomLoginView(LoginView):
-    template_name='v1/login.html'
+    template_name='login.html'
     #redirect_authenticated_user = True
 
     def get_success_url(self):
@@ -32,7 +33,7 @@ class CustomLoginView(LoginView):
             return reverse_lazy('home')
         else:
             # Redirige a 'dashboard' si no hay contenido
-            return reverse_lazy('dashboard')
+            return reverse_lazy('snap')
 
 class ContentUploadView(generics.CreateAPIView):
     queryset = Content.objects.all()
@@ -45,7 +46,7 @@ class ContentUploadView(generics.CreateAPIView):
 
 
 def index(request):
-    return render(request, 'v1/index.html')
+    return render(request, 'index.html')
 
 def register(request):
     form = UserForm()
@@ -59,11 +60,11 @@ def register(request):
             backend = get_backends()[0]  # Selecciona el primer backend// ESTO LO TENGO QUE REVER PORQUE DEJE UNO SOLO.
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
             login(request, user)
-            return redirect('dashboard')
+            return redirect('snap')
         else:
             form = UserForm()
 
-    return render(request, 'v1/register.html', {
+    return render(request, 'register.html', {
         'form':form
     })
 
@@ -71,14 +72,14 @@ def register(request):
 
 #SIGUENTE PASO ES CREAR EL MODEL Y SU RESPECTIVO FORM PARA ALMACENAR LAS FOTOS Y GUARDARLAS.
 @login_required()
-def dashboard(request):
+def snap(request):
     user = request.user
     quiz = get_quiz()
     today = timezone.now().date()
     existing_content = Content.objects.filter(user=user, quiz_content = quiz).first()
 
     if existing_content:
-        return render(request, 'v1/home.html')
+        return render(request, 'home.html')
     
 
     if request.method =='POST':
@@ -103,7 +104,7 @@ def dashboard(request):
         form = ContentForm()
 
 
-    return render(request, 'v1/dashboard.html', {
+    return render(request, 'snap.html', {
         'quiz':quiz,
         'form':form,
         'existing_content':existing_content
@@ -121,6 +122,18 @@ def home(request):
         images = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).values_list('pic', flat=True)
         pics.extend([f"{settings.MEDIA_URL}{pic}" for pic in images])
    
-    return render(request, 'v1/home.html', {
+    return render(request, 'home.html', {
         'pics':pics
     })
+
+@login_required()
+def explore(request):
+    return render(request, 'explore.html')
+
+@login_required()
+def profile(request):
+    return render(request, 'profile.html')
+
+@login_required()
+def notifications(request):
+    return render(request, 'notifications.html')
