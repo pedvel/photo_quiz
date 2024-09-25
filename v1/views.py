@@ -13,7 +13,10 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import ContentSerializer
 from django.utils import timezone
 from django.contrib.auth import login, get_backends
-from PIL import Image
+from PIL import Image, ImageOps
+from django.core.files.base import ContentFile
+import io
+
 
 
 # Create your views here.
@@ -76,7 +79,6 @@ def register(request):
 def snap(request):
     user = request.user
     quiz = get_quiz()
-    today = timezone.now().date()
     existing_content = Content.objects.filter(user=user, quiz_content = quiz).first()
 
     if existing_content:
@@ -90,25 +92,32 @@ def snap(request):
             content.user = user
             content.quiz_content = quiz
             try:
-                img = Image.open(content.pic) 
-                max_size = (200, 200)
+                img = Image.open(content.pic)
+                
+                max_size = (500, 500)
                 img.thumbnail(max_size, Image.LANCZOS)
-                img.save(content.pic.path) 
+
+                img_io = io.BytesIO()
+                img.save(img_io, format=img.format)  # Mantiene el formato original (PNG, JPEG, etc.)
+                img_content = ContentFile(img_io.getvalue(), name=content.pic.name)
+
+                # Sobrescribe el archivo original
+                content.pic.save(content.pic.name, img_content, save=False)
+
                 content.save()
                 return redirect('home')
+
             except ValueError as e:
                 form.add_error('pic', 'Por favor, sube una imagen válida.')
             except Exception as e:
                 form.add_error(None, 'Ocurrió un error al procesar la imagen. Intenta nuevamente.')
-    
     else:
         form = ContentForm()
 
-
     return render(request, 'snap.html', {
-        'quiz':quiz,
-        'form':form,
-        'existing_content':existing_content
+        'quiz': quiz,
+        'form': form,
+        'existing_content': existing_content
     })
 
 @login_required()
