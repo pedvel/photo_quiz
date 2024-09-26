@@ -43,6 +43,53 @@ modeToggle.addEventListener('click', toggleDarkMode);
 // Initialize theme on page load
 document.addEventListener('DOMContentLoaded', loadTheme);
 
+
+
+
+// Identify is device is Desktop by detecting mouse movement
+let isDesktop = false;
+
+document.addEventListener('mousemove', function () {
+    if (!isDesktop) {
+        isDesktop = true;
+    }
+});
+
+// Only allow buttons to be touched (ontouchstart in HTML)
+function registerLink(event) {
+    event.preventDefault(); // Prevent default link and eventListener behavior
+    window.location.href = registerUrl;
+}
+
+function loginLink(event) {
+    event.preventDefault();
+    window.location.href = loginUrl;
+}
+
+// Button click event
+document.querySelectorAll('.landingText_buttons a').forEach(button => {
+    button.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (isDesktop) {
+            // Show the modal
+            document.getElementById('mobileModal').style.display = 'flex';
+        }
+    });
+});
+
+// Close modal
+document.querySelector('.close').addEventListener('click', function () {
+    document.getElementById('mobileModal').style.display = 'none';
+});
+
+// Close modal when clicking outside of it
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('mobileModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
 //"Go to top" button
 window.addEventListener('scroll', function () {
     const scrollToTopButton = document.getElementById('scrollToTop');
