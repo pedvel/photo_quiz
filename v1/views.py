@@ -13,13 +13,32 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import ContentSerializer
 from django.utils import timezone
 from django.contrib.auth import login, get_backends
-from PIL import Image, ImageOps
+from PIL import Image, ExifTags
 from django.core.files.base import ContentFile
 import io
+import base64
 
 
 
 # Create your views here.
+def correct_image_orientation(img):
+    try:
+        # Get Exif orientation data
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = img._getexif()
+        if exif is not None and orientation in exif:
+            orientation_value = exif[orientation]
+            if orientation_value == 3:  # 180 degrees
+                img = img.rotate(180, expand=True)
+            elif orientation_value == 6:  # 90 degrees clockwise
+                img = img.rotate(270, expand=True)
+            elif orientation_value == 8:  # 90 degrees counter-clockwise
+                img = img.rotate(90, expand=True)
+    except Exception as e:
+        print(f"Error correcting image orientation: {e}")
+    return img
 
 class CustomLoginView(LoginView):
     template_name='login.html'
@@ -99,19 +118,23 @@ def snap(request):
             content.user = user
             content.quiz_content = quiz
             try:
-                img = Image.open(content.pic)
-                
-                max_size = (500, 500)
-                img.thumbnail(max_size, Image.LANCZOS)
+                ogimg = Image.open(content.pic)
+                ogimg = correct_image_orientation(ogimg)
+
+                ogwidth, ogheight = ogimg.size
+                newsize = (int((ogwidth / ogheight) * 800), 800)
+                img = ogimg.resize(newsize)
+
 
                 img_io = io.BytesIO()
-                img.save(img_io, format=img.format)  # Mantiene el formato original (PNG, JPEG, etc.)
+                img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
+                img.save(img_io, format=img_format)
+                img_io.seek(0)  # Move the cursor to the beginning of the BytesIO object
+
                 img_content = ContentFile(img_io.getvalue(), name=content.pic.name)
+                content.pic.save(content.pic.name, img_content, save=False)  # Save the image to the model
 
-                # Sobrescribe el archivo original
-                content.pic.save(content.pic.name, img_content, save=False)
-
-                content.save()
+                content.save()  # Finally save the content object
                 return redirect('home')
 
             except ValueError as e:
