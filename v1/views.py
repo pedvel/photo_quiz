@@ -1,6 +1,7 @@
 from typing import Required
 from django.conf import settings
 from django.shortcuts import redirect, render
+from httpx import get
 from .utils import completed_quizzes, get_quiz
 from .forms import UserForm, ContentForm
 from .models import User, Content
@@ -12,14 +13,24 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import ContentSerializer
 from django.utils import timezone
 from django.contrib.auth import login, get_backends
-from PIL import Image
+from PIL import Image, ImageOps
+from django.core.files.base import ContentFile
+import io
+
 
 
 # Create your views here.
 
 class CustomLoginView(LoginView):
     template_name='login.html'
-    #redirect_authenticated_user = True
+    
+    def get(self, request, *args, **kwargs):
+        # Verifica si el usuario ya está autenticado
+        if request.user.is_authenticated:
+            # Redirige a 'home' si el usuario está autenticado
+            return redirect('home')  # Cambia 'home' por la URL a la que quieras redirigir
+
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         user = self.request.user
@@ -75,7 +86,6 @@ def register(request):
 def snap(request):
     user = request.user
     quiz = get_quiz()
-    today = timezone.now().date()
     existing_content = Content.objects.filter(user=user, quiz_content = quiz).first()
 
     if existing_content:
@@ -89,41 +99,49 @@ def snap(request):
             content.user = user
             content.quiz_content = quiz
             try:
-                img = Image.open(content.pic) 
-                max_size = (200, 200)
+                img = Image.open(content.pic)
+                
+                max_size = (500, 500)
                 img.thumbnail(max_size, Image.LANCZOS)
-                img.save(content.pic.path) 
+
+                img_io = io.BytesIO()
+                img.save(img_io, format=img.format)  # Mantiene el formato original (PNG, JPEG, etc.)
+                img_content = ContentFile(img_io.getvalue(), name=content.pic.name)
+
+                # Sobrescribe el archivo original
+                content.pic.save(content.pic.name, img_content, save=False)
+
                 content.save()
                 return redirect('home')
+
             except ValueError as e:
                 form.add_error('pic', 'Por favor, sube una imagen válida.')
             except Exception as e:
                 form.add_error(None, 'Ocurrió un error al procesar la imagen. Intenta nuevamente.')
-    
     else:
         form = ContentForm()
 
-
     return render(request, 'snap.html', {
-        'quiz':quiz,
-        'form':form,
-        'existing_content':existing_content
+        'quiz': quiz,
+        'form': form,
+        'existing_content': existing_content
     })
 
 @login_required()
 def home(request):
 
-    user = request.user
-    #COMPLETED QUIZZES LIST FOR USER
-    quizzes = completed_quizzes(user)
+    quiz = get_quiz()
     pics = []
 
-    for quiz in quizzes:     
-        images = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).values_list('pic', flat=True)
-        pics.extend([f"{settings.MEDIA_URL}{pic}" for pic in images])
-   
+    # Obtener pic y name
+    content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('pic', 'user__name')
+
+    # Crear una lista de tuplas
+    pics = [(f"{settings.MEDIA_URL}{item['pic']}", item['user__name']) for item in content_items]
+
     return render(request, 'home.html', {
-        'pics':pics
+        'pics': pics,
+        'quiz': quiz
     })
 
 @login_required()
