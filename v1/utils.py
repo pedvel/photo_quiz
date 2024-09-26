@@ -1,8 +1,8 @@
 
 from datetime import timezone, datetime
 import csv
-from multiprocessing import Value
-from .models import User, Content
+from .models import Content
+from PIL import ExifTags
 
 
 def get_quiz():
@@ -24,5 +24,6 @@ def completed_quizzes(user):
     return quizzes
     
             
-    
+
+   
 

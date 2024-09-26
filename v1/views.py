@@ -1,8 +1,6 @@
-from typing import Required
 from django.conf import settings
 from django.shortcuts import redirect, render
-from httpx import get
-from .utils import completed_quizzes, get_quiz
+from .utils import get_quiz, correct_image_orientation
 from .forms import UserForm, ContentForm
 from .models import User, Content
 from django.contrib.auth.views import LoginView
@@ -25,10 +23,9 @@ class CustomLoginView(LoginView):
     template_name='login.html'
     
     def get(self, request, *args, **kwargs):
-        # Verifica si el usuario ya está autenticado
+        
         if request.user.is_authenticated:
-            # Redirige a 'home' si el usuario está autenticado
-            return redirect('home')  # Cambia 'home' por la URL a la que quieras redirigir
+            return redirect('home')
 
         return super().get(request, *args, **kwargs)
 
@@ -104,9 +101,11 @@ def snap(request):
                 max_size = (500, 500)
                 img.thumbnail(max_size, Image.LANCZOS)
 
+
                 img_io = io.BytesIO()
-                img.save(img_io, format=img.format)  # Mantiene el formato original (PNG, JPEG, etc.)
+                img.save(img_io, format=img.format) 
                 img_content = ContentFile(img_io.getvalue(), name=content.pic.name)
+
 
                 # Sobrescribe el archivo original
                 content.pic.save(content.pic.name, img_content, save=False)
