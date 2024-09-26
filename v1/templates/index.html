@@ -31,8 +31,22 @@
                         <h2>Hack your daily routine with fresh photo themes every day. See what others capture, and ignite your imagination.</h2>
                     </div>
                     <div class="landingText_buttons">
-                        <a href="{% url 'register' %}" class="buttonprimary1">Sign Up for Free</a>
-                        <a href="{% url 'login' %}" class="buttonsecondary">Log In</a>
+                        <a class="buttonprimary1" ontouchstart="registerLink(event)">Sign Up for Free</a>
+                        <a class="buttonsecondary" ontouchstart="loginLink(event)">Log In</a>
+                        
+                        <div id="mobileModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <div style="position: relative; top: -16px;">
+                                    <p>This app is designed for <strong>mobile use</strong>.</p>
+                                    <p>For the best experience, please access it on your phone.</p>
+                                    <div id="qrCodeContainer">
+                                        <img src="../../static/img/landing/qr.jpg" alt="QR Code" />
+                                    </div>
+                                    <h2><strong>Scan to open on your phone!</strong></h2>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="landingImage">

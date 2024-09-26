@@ -132,6 +132,7 @@ body.dark-mode .highlightSection {
     color: var(--white);
     font-weight: 700;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 .buttonprimary1:hover {
@@ -155,6 +156,7 @@ body.dark-mode .buttonprimary1:hover {
     color: var(--yellow);
     font-weight: 400;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 .buttonsecondary:hover {
@@ -266,10 +268,62 @@ body.dark-mode .buttonsecondary:hover {
 .landingImage {
     width: fit-content;
 }
+
 .landingImage img {
     height: 350px;
     width: auto;
     border-radius: 8px;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: var(--shadow); /* Black w/ opacity */
+}
+.modal-content {
+    background-color: var(--purple);
+    color: var(--white);
+    margin: 10% auto; /* Centered */
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+body.dark-mode .modal-content {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+.modal-content img {
+    border-radius: 8px;
+}
+
+.close {
+    color: var(--white);
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    right: -146px;
+    top: -17px;
+}
+
+.close:hover,
+.close:focus {
+    color: var(--black);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#qrCodeContainer {
+    margin: 10px 0px;
 }
 
 /*Features*/
@@ -537,6 +591,7 @@ body.dark-mode .formContainer input:focus {
     border: none;
     transition: background-color 0.3s ease;
     width: -webkit-fill-available;
+    cursor: pointer;
 }
 
 .loginButton {
