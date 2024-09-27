@@ -91,7 +91,7 @@ if (window.DeviceOrientationEvent) {
     window.addEventListener('deviceorientation', checkDeviceOrientation);
 } else {
     // Fallback if not supported
-    isDesktop = true; // Assume desktop if not supported
+    isDesktop = false; // Assume desktop if not supported
     document.getElementById('message2').innerText = 'Device orientation is not supported on your device.';
 }
 
