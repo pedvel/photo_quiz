@@ -45,47 +45,59 @@ document.addEventListener('DOMContentLoaded', loadTheme);
 
 
 
-
-// Identify is device is Desktop by detecting mouse movement
 let isDesktop = false;
 
-// Function to update the message
-function updateMessage() {
-    const messageElement = document.getElementById('message');
-    messageElement.innerHTML = isDesktop ? "isDesktop" : "isNotDesktop";
-}
-
-// Initially set the message to "isNotDesktop"
-updateMessage();
-
-document.addEventListener('mousemove', function () {
-    if (!isDesktop) {
-        isDesktop = true;
-        updateMessage();
+// Function to check device orientation
+function checkDeviceOrientation(event) {
+    if (event.alpha !== null || event.beta !== null || event.gamma !== null) {
+        isDesktop = false; // Mobile device
+        document.getElementById('message2').innerText = "Display is Mobile";
+    } else {
+        isDesktop = true; // Desktop device
+        document.getElementById('message2').innerText = "Display is Desktop";
     }
-});
-
-// Only allow buttons to be touched (ontouchstart in HTML)
-function registerLink(event) {
-    event.preventDefault(); // Prevent default link and eventListener behavior
-    window.location.href = registerUrl;
+    // Update link behavior based on isDesktop
+    updateLinkBehavior();
 }
 
-function loginLink(event) {
-    event.preventDefault();
-    window.location.href = loginUrl;
-}
+// Function to update link behavior
+function updateLinkBehavior() {
+    const registerLink = document.getElementById('registerLink');
+    const loginLink = document.getElementById('loginLink');
 
-// Button click event
-document.querySelectorAll('.landingText_buttons a').forEach(button => {
-    button.addEventListener('click', function (event) {
-        event.preventDefault();
-        if (isDesktop) {
-            // Show the modal
+    if (isDesktop) {
+        // For Desktop: Show modal
+        registerLink.onclick = function (event) {
+            event.preventDefault(); // Prevent default link behavior
             document.getElementById('mobileModal').style.display = 'flex';
-        }
-    });
-});
+        };
+        loginLink.onclick = function (event) {
+            event.preventDefault();
+            document.getElementById('mobileModal').style.display = 'flex';
+        };
+    } else {
+        // For Mobile: Navigate to pages
+        registerLink.onclick = function () {
+            window.location.href = registerUrl; // Redirect to register page
+        };
+        loginLink.onclick = function () {
+            window.location.href = loginUrl; // Redirect to login page
+        };
+    }
+}
+
+// Check if DeviceOrientationEvent is supported
+if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', checkDeviceOrientation);
+} else {
+    // Fallback if not supported
+    isDesktop = true; // Assume desktop if not supported
+    document.getElementById('message2').innerText = 'Device orientation is not supported on your device.';
+}
+
+// Initial check for isDesktop
+updateLinkBehavior();
+
 
 // Close modal
 document.querySelector('.close').addEventListener('click', function () {
@@ -120,6 +132,3 @@ document.getElementById('scrollToTop').addEventListener('click', function (event
     event.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-
-
-
