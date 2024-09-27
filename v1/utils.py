@@ -51,8 +51,9 @@ def redirection_check(request):
         if existing_content(user):
             return redirect('home')
         else:
-            return redirect('snap') 
-    return None    
+            return redirect('snap')
+    return None 
+       
         
 
 

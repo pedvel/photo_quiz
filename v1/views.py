@@ -69,13 +69,16 @@ def register(request):
 
 
 #SIGUENTE PASO ES CREAR EL MODEL Y SU RESPECTIVO FORM PARA ALMACENAR LAS FOTOS Y GUARDARLAS.
-@login_required()
+#@login_required()
 def snap(request):
-    user = request.user
-    quiz = get_quiz()
-    if existing_content(user):
-        return render(request, 'home.html')
-    
+    user=request.user
+    if request.user.is_authenticated:
+        if existing_content(user):
+            return redirect('home')
+    else:
+        return redirect('index')
+
+    quiz = get_quiz()    
 
     if request.method =='POST':
         form = ContentForm(request.POST, request.FILES)
@@ -114,16 +117,19 @@ def snap(request):
     return render(request, 'snap.html', {
         'quiz': quiz,
         'form': form,
-        'existing_content': existing_content
+        'existing_content': existing_content    #VER SI ESTO SE ESTÁ UTILIZANDO EN EL FROMT
     })
 
-#@login_required()
+
 def home(request):
-    user = request.user
-    if not user.is_authenticated:
+    user=request.user
+    if request.user.is_authenticated:
+        if not existing_content(user):
+            return redirect('snap')
+    else:
         return redirect('index')
+    
     quiz = get_quiz()
-    pics = []
 
     # Obtener pic y name
     content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('pic', 'user__name')
