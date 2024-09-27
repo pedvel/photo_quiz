@@ -1,85 +1,54 @@
-from typing import Required
 from django.conf import settings
 from django.shortcuts import redirect, render
-from httpx import get
-from .utils import completed_quizzes, get_quiz
+from .utils import get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
 from .models import User, Content
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from .serializers import ContentSerializer
-from django.utils import timezone
 from django.contrib.auth import login, get_backends
-from PIL import Image, ExifTags
+from PIL import Image
 from django.core.files.base import ContentFile
 import io
-import base64
 
 
 
 # Create your views here.
-def correct_image_orientation(img):
-    try:
-        # Get Exif orientation data
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation] == 'Orientation':
-                break
-        exif = img._getexif()
-        if exif is not None and orientation in exif:
-            orientation_value = exif[orientation]
-            if orientation_value == 3:  # 180 degrees
-                img = img.rotate(180, expand=True)
-            elif orientation_value == 6:  # 90 degrees clockwise
-                img = img.rotate(270, expand=True)
-            elif orientation_value == 8:  # 90 degrees counter-clockwise
-                img = img.rotate(90, expand=True)
-    except Exception as e:
-        print(f"Error correcting image orientation: {e}")
-    return img
-
 class CustomLoginView(LoginView):
     template_name='login.html'
     
     def get(self, request, *args, **kwargs):
-        # Verifica si el usuario ya está autenticado
-        if request.user.is_authenticated:
-            # Redirige a 'home' si el usuario está autenticado
-            return redirect('home')  # Cambia 'home' por la URL a la que quieras redirigir
-
+        
+        #CHECK IF USER LOGGED-IN, AND IF 
+        redirection = redirection_check(request)
+        if redirection:
+            return redirection
+            
         return super().get(request, *args, **kwargs)
-
+    
+    #ESTA FUNCIONA, PERO SE PUEDE USAR REDIRECTION_CHECK, VER SI TIENE SENTIDO AQUÍ CHEQUEAR SI HAY USUARIO LOGUEADO AL SER LA SUCCES_URL
     def get_success_url(self):
         user = self.request.user
-        today = timezone.now().date()
-
-        # Verifica si el usuario ya tiene contenido para el día actual
-        existing_content = Content.objects.filter(user=user, created_at__date=today).exists()
-
-        if existing_content:
-            # Redirige a 'home' si ya hay contenido
+        #CHECK IF USER ALREADY COMPLETED DAY'S THEME
+        if existing_content(user):
             return reverse_lazy('home')
         else:
-            # Redirige a 'dashboard' si no hay contenido
             return reverse_lazy('snap')
-
-class ContentUploadView(generics.CreateAPIView):
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # Asignar el usuario autenticado al contenido
-        serializer.save(user=self.request.user)
 
 
 def index(request):
+
+    redirection = redirection_check(request)
+    if redirection:
+        return redirection
+
     return render(request, 'index.html')
 
 def register(request):
     form = UserForm()
+    redirection = redirection_check(request)
+    if redirection:
+        return redirection
 
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -87,7 +56,7 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            backend = get_backends()[0]  # Selecciona el primer backend// ESTO LO TENGO QUE REVER PORQUE DEJE UNO SOLO.
+            backend = get_backends()[0]
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
             login(request, user)
             return redirect('snap')
@@ -105,9 +74,7 @@ def register(request):
 def snap(request):
     user = request.user
     quiz = get_quiz()
-    existing_content = Content.objects.filter(user=user, quiz_content = quiz).first()
-
-    if existing_content:
+    if existing_content(user):
         return render(request, 'home.html')
     
 
@@ -124,6 +91,7 @@ def snap(request):
                 ogwidth, ogheight = ogimg.size
                 newsize = (int((ogwidth / ogheight) * 800), 800)
                 img = ogimg.resize(newsize)
+
 
 
                 img_io = io.BytesIO()
