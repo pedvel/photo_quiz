@@ -37,7 +37,6 @@ class CustomLoginView(LoginView):
 
 
 def index(request):
-
     redirection = redirection_check(request)
     if redirection:
         return redirection
@@ -118,9 +117,11 @@ def snap(request):
         'existing_content': existing_content
     })
 
-@login_required()
+#@login_required()
 def home(request):
-
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
     quiz = get_quiz()
     pics = []
 
