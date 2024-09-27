@@ -49,9 +49,19 @@ document.addEventListener('DOMContentLoaded', loadTheme);
 // Identify is device is Desktop by detecting mouse movement
 let isDesktop = false;
 
+// Function to update the message
+function updateMessage() {
+    const messageElement = document.getElementById('message');
+    messageElement.innerHTML = isDesktop ? "isDesktop" : "isNotDesktop";
+}
+
+// Initially set the message to "isNotDesktop"
+updateMessage();
+
 document.addEventListener('mousemove', function () {
     if (!isDesktop) {
         isDesktop = true;
+        updateMessage();
     }
 });
 
