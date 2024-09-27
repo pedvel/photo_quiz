@@ -26,13 +26,16 @@
             <h1>Create an Account</h1>
             <form action="" method="post">
                 {% csrf_token %}
+                {{form.non_field_errors}}
                 <div>
                     <label for="{{ form.email.id_for_label }}">Email</label>
                     {{ form.email }}
+                    {{form.email.errors}}
                 </div>
                 <div>
                     <label for="{{ form.name.id_for_label }}">Username</label>
                     {{ form.name }}
+                    {{form.name.errors}}
                 </div>
                 <div>
                     <label for="{{ form.password.id_for_label }}">Password</label>

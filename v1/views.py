@@ -59,8 +59,8 @@ def register(request):
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
             login(request, user)
             return redirect('snap')
-        else:
-            form = UserForm()
+    else:
+        form = UserForm()
 
     return render(request, 'register.html', {
         'form':form
