@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 # Asegúrate de definir el SITE_ID (esto es necesario para django-allauth)
-SITE_ID = 1
+#SITE_ID = 1
 
 # Configuración de autenticación
 AUTHENTICATION_BACKENDS = (
