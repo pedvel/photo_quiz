@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from .utils import get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
-from .models import User, Content
+from .models import Content
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -19,14 +19,13 @@ class CustomLoginView(LoginView):
     
     def get(self, request, *args, **kwargs):
         
-        #CHECK IF USER LOGGED-IN, AND IF 
+        #CHECK IF USER LOGGED-IN, AND IF COMPLETED DAY'S THEME
         redirection = redirection_check(request)
         if redirection:
             return redirection
             
         return super().get(request, *args, **kwargs)
     
-    #ESTA FUNCIONA, PERO SE PUEDE USAR REDIRECTION_CHECK, VER SI TIENE SENTIDO AQUÍ CHEQUEAR SI HAY USUARIO LOGUEADO AL SER LA SUCCES_URL
     def get_success_url(self):
         user = self.request.user
         #CHECK IF USER ALREADY COMPLETED DAY'S THEME
@@ -67,9 +66,6 @@ def register(request):
     })
 
 
-
-#SIGUENTE PASO ES CREAR EL MODEL Y SU RESPECTIVO FORM PARA ALMACENAR LAS FOTOS Y GUARDARLAS.
-#@login_required()
 def snap(request):
     user=request.user
     if request.user.is_authenticated:

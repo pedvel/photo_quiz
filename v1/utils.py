@@ -4,8 +4,7 @@ import csv
 from django.shortcuts import redirect
 from .models import Content
 from PIL import ExifTags
-
-
+import re
 
 def get_quiz():
     #DAY NUMBER SINCE NEWYEAR.
@@ -45,23 +44,27 @@ def existing_content(user):
     check_completion = Content.objects.filter(user=user, quiz_content=get_quiz()).exists()
     return check_completion
 
-def redirection_check(request):    
+def redirection_check(request):    #ONLY FOR VIEWS WHERE LOGIN ISN'T REQUIRED
     user = request.user
     if user.is_authenticated:
         if existing_content(user):
             return redirect('home')
         else:
             return redirect('snap')
-    return None 
-       
-        
-
+    return None       
 
 def completed_quizzes(user):
     quizzes = Content.objects.filter(user=user).values_list('quiz_content', flat=True)
     return quizzes
     
             
+def email_check(email):
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+    if re.match(regex, email):
+        return True
+    else:
+        return False
+
 
    
 
