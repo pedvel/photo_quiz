@@ -2,7 +2,6 @@ from attr import fields
 from django import forms
 from matplotlib import widgets
 from matplotlib.rcsetup import ValidateInStrings
-from pydantic import ValidationError
 from .models import Content, User
 
 class UserForm(forms.ModelForm):

@@ -69,9 +69,11 @@ def register(request):
 
 
 #SIGUENTE PASO ES CREAR EL MODEL Y SU RESPECTIVO FORM PARA ALMACENAR LAS FOTOS Y GUARDARLAS.
-@login_required()
+#@login_required()
 def snap(request):
     user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
     quiz = get_quiz()
     if existing_content(user):
         return render(request, 'home.html')
