@@ -66,6 +66,19 @@ def register(request):
     })
 
 
+<<<<<<< HEAD
+
+#SIGUENTE PASO ES CREAR EL MODEL Y SU RESPECTIVO FORM PARA ALMACENAR LAS FOTOS Y GUARDARLAS.
+#@login_required()
+def snap(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
+    quiz = get_quiz()
+    if existing_content(user):
+        return render(request, 'home.html')
+    
+=======
 def snap(request):
     user=request.user
     if request.user.is_authenticated:
@@ -75,6 +88,7 @@ def snap(request):
         return redirect('index')
 
     quiz = get_quiz()    
+>>>>>>> bf3fc634671b9ebafb3aa547cb786b09f30799d0
 
     if request.method =='POST':
         form = ContentForm(request.POST, request.FILES)
