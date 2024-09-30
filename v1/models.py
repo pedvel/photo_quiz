@@ -23,12 +23,12 @@ class CustomUserManager(UserManager):
         return user
     
     def create_user(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('Is staff', False)
+        extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
     
     def create_superuser(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('Is staff', True)
+        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self._create_user(email, password, **extra_fields)
 
@@ -61,7 +61,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.name or self.email.split('@')[0]
     
 class Content(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contents')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contents')
     pic = models.ImageField(upload_to='uploads/', blank=True, null=True)
     quiz_content = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,5 +71,5 @@ class Content(models.Model):
         verbose_name_plural = 'Contents'
 
     def __str__(self):
-        return f'Content created bu {self.user.email} for quiz {self.quiz_id}'
+        return f'Content created bu {self.user} for quiz {self.quiz_content}'
     

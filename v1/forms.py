@@ -1,5 +1,4 @@
 from django import forms
-from matplotlib.rcsetup import ValidateInStrings
 from .models import Content, User
 from .utils import email_check
 
