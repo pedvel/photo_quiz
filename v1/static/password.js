@@ -27,10 +27,10 @@ let isDesktop = false;
 function checkDeviceOrientation(event) {
     if (event.alpha !== null || event.beta !== null || event.gamma !== null) {
         isDesktop = false; // Mobile device
-        document.getElementById('isDesktop').innerText = isDesktop;
+
     } else {
         isDesktop = true; // Desktop device
-        document.getElementById('isDesktop').innerText = isDesktop;
+
         // Redirect to index.html if desktop
         window.location.href = indexUrl;
     }
@@ -42,5 +42,5 @@ if (window.DeviceOrientationEvent) {
 } else {
     // Fallback if not supported
     isDesktop = false; // Assume mobile if not supported
-    document.getElementById('isDesktop').innerText = isDesktop;
+
 }

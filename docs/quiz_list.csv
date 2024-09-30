@@ -1,366 +1,366 @@
 day;quiz
-1;quiz1
-2;quiz2
-3;quiz3
-4;quiz4
-5;quiz5
-6;quiz6
-7;quiz7
-8;quiz8
-9;quiz9
-10;quiz10
-11;quiz11
-12;quiz12
-13;quiz13
-14;quiz14
-15;quiz15
-16;quiz16
-17;quiz17
-18;quiz18
-19;quiz19
-20;quiz20
-21;quiz21
-22;quiz22
-23;quiz23
-24;quiz24
-25;quiz25
-26;quiz26
-27;quiz27
-28;quiz28
-29;quiz29
-30;quiz30
-31;quiz31
-32;quiz32
-33;quiz33
-34;quiz34
-35;quiz35
-36;quiz36
-37;quiz37
-38;quiz38
-39;quiz39
-40;quiz40
-41;quiz41
-42;quiz42
-43;quiz43
-44;quiz44
-45;quiz45
-46;quiz46
-47;quiz47
-48;quiz48
-49;quiz49
-50;quiz50
-51;quiz51
-52;quiz52
-53;quiz53
-54;quiz54
-55;quiz55
-56;quiz56
-57;quiz57
-58;quiz58
-59;quiz59
-60;quiz60
-61;quiz61
-62;quiz62
-63;quiz63
-64;quiz64
-65;quiz65
-66;quiz66
-67;quiz67
-68;quiz68
-69;quiz69
-70;quiz70
-71;quiz71
-72;quiz72
-73;quiz73
-74;quiz74
-75;quiz75
-76;quiz76
-77;quiz77
-78;quiz78
-79;quiz79
-80;quiz80
-81;quiz81
-82;quiz82
-83;quiz83
-84;quiz84
-85;quiz85
-86;quiz86
-87;quiz87
-88;quiz88
-89;quiz89
-90;quiz90
-91;quiz91
-92;quiz92
-93;quiz93
-94;quiz94
-95;quiz95
-96;quiz96
-97;quiz97
-98;quiz98
-99;quiz99
-100;quiz100
-101;quiz101
-102;quiz102
-103;quiz103
-104;quiz104
-105;quiz105
-106;quiz106
-107;quiz107
-108;quiz108
-109;quiz109
-110;quiz110
-111;quiz111
-112;quiz112
-113;quiz113
-114;quiz114
-115;quiz115
-116;quiz116
-117;quiz117
-118;quiz118
-119;quiz119
-120;quiz120
-121;quiz121
-122;quiz122
-123;quiz123
-124;quiz124
-125;quiz125
-126;quiz126
-127;quiz127
-128;quiz128
-129;quiz129
-130;quiz130
-131;quiz131
-132;quiz132
-133;quiz133
-134;quiz134
-135;quiz135
-136;quiz136
-137;quiz137
-138;quiz138
-139;quiz139
-140;quiz140
-141;quiz141
-142;quiz142
-143;quiz143
-144;quiz144
-145;quiz145
-146;quiz146
-147;quiz147
-148;quiz148
-149;quiz149
-150;quiz150
-151;quiz151
-152;quiz152
-153;quiz153
-154;quiz154
-155;quiz155
-156;quiz156
-157;quiz157
-158;quiz158
-159;quiz159
-160;quiz160
-161;quiz161
-162;quiz162
-163;quiz163
-164;quiz164
-165;quiz165
-166;quiz166
-167;quiz167
-168;quiz168
-169;quiz169
-170;quiz170
-171;quiz171
-172;quiz172
-173;quiz173
-174;quiz174
-175;quiz175
-176;quiz176
-177;quiz177
-178;quiz178
-179;quiz179
-180;quiz180
-181;quiz181
-182;quiz182
-183;quiz183
-184;quiz184
-185;quiz185
-186;quiz186
-187;quiz187
-188;quiz188
-189;quiz189
-190;quiz190
-191;quiz191
-192;quiz192
-193;quiz193
-194;quiz194
-195;quiz195
-196;quiz196
-197;quiz197
-198;quiz198
-199;quiz199
-200;quiz200
-201;quiz201
-202;quiz202
-203;quiz203
-204;quiz204
-205;quiz205
-206;quiz206
-207;quiz207
-208;quiz208
-209;quiz209
-210;quiz210
-211;quiz211
-212;quiz212
-213;quiz213
-214;quiz214
-215;quiz215
-216;quiz216
-217;quiz217
-218;quiz218
-219;quiz219
-220;quiz220
-221;quiz221
-222;quiz222
-223;quiz223
-224;quiz224
-225;quiz225
-226;quiz226
-227;quiz227
-228;quiz228
-229;quiz229
-230;quiz230
-231;quiz231
-232;quiz232
-233;quiz233
-234;quiz234
-235;quiz235
-236;quiz236
-237;quiz237
-238;quiz238
-239;quiz239
-240;quiz240
-241;quiz241
-242;quiz242
-243;quiz243
-244;quiz244
-245;quiz245
-246;quiz246
-247;quiz247
-248;quiz248
-249;quiz249
-250;quiz250
-251;quiz251
-252;quiz252
-253;quiz253
-254;quiz254
-255;quiz255
-256;quiz256
-257;quiz257
-258;quiz258
-259;quiz259
-260;quiz260
-261;quiz261
-262;quiz262
-263;quiz263
-264;quiz264
-265;quiz265
-266;quiz266
-267;quiz267
-268;quiz268
-269;quiz269
-270;quiz270
-271;quiz271
-272;quiz272
-273;quiz273
-274;quiz274
-275;quiz275
-276;quiz276
-277;quiz277
-278;quiz278
-279;quiz279
-280;quiz280
-281;quiz281
-282;quiz282
-283;quiz283
-284;quiz284
-285;quiz285
-286;quiz286
-287;quiz287
-288;quiz288
-289;quiz289
-290;quiz290
-291;quiz291
-292;quiz292
-293;quiz293
-294;quiz294
-295;quiz295
-296;quiz296
-297;quiz297
-298;quiz298
-299;quiz299
-300;quiz300
-301;quiz301
-302;quiz302
-303;quiz303
-304;quiz304
-305;quiz305
-306;quiz306
-307;quiz307
-308;quiz308
-309;quiz309
-310;quiz310
-311;quiz311
-312;quiz312
-313;quiz313
-314;quiz314
-315;quiz315
-316;quiz316
-317;quiz317
-318;quiz318
-319;quiz319
-320;quiz320
-321;quiz321
-322;quiz322
-323;quiz323
-324;quiz324
-325;quiz325
-326;quiz326
-327;quiz327
-328;quiz328
-329;quiz329
-330;quiz330
-331;quiz331
-332;quiz332
-333;quiz333
-334;quiz334
-335;quiz335
-336;quiz336
-337;quiz337
-338;quiz338
-339;quiz339
-340;quiz340
-341;quiz341
-342;quiz342
-343;quiz343
-344;quiz344
-345;quiz345
-346;quiz346
-347;quiz347
-348;quiz348
-349;quiz349
-350;quiz350
-351;quiz351
-352;quiz352
-353;quiz353
-354;quiz354
-355;quiz355
-356;quiz356
-357;quiz357
-358;quiz358
-359;quiz359
-360;quiz360
-361;quiz361
-362;quiz362
-363;quiz363
-364;quiz364
-365;quiz365
+1;New Beginnings
+2;Odd one out
+3;Light and shadow
+4;Yellow
+5;Grass up close
+6;Fork
+7;Distant
+8;Street food
+9;Fallen leaves
+10;Marble
+11;Hot
+12;A bird
+13;Busy streets
+14;Fruit
+15;Happiness
+16;Your country's colors
+17;Crazy
+18;Craft
+19;A street musician
+20;The sun through leaves
+21;Fertility
+22;Spiderweb
+23;Your fridge interior
+24;Public transportation
+25;Roots
+26;Cozy spaces
+27;Reflections
+28;Connections
+29;Velvet
+30;Jump
+31;Earth tones
+32;Under construction
+33;Stains
+34;Fashion
+35;A corner store
+36;Energy
+37;Disgust
+38;Orange
+39;A rusty bicycle
+40;Safe
+41;A fountain
+42;Perfectly aligned
+43;Noise
+44;Wood
+45;Love
+46;Abandoned
+47;Twin
+48;Tension
+49;Knowledge
+50;A hand gesture
+51;Light leaks
+52;Overlapping
+53;Traffic lights
+54;Gathering
+55;A tree's texture
+56;A decorative object
+57;Daily routine
+58;A crack in the sidewalk
+59;Risk
+60;People walking
+61;Something vintage
+62;Weakness
+63;Tangled
+64;Greed
+65;Wrath
+66;Envy
+67;Lust
+68;Pride
+69;Gluttony
+70;Sloth 
+71;Urban landscapes
+72;With flash
+73;Majestic
+74;A palmtree
+75;A quiet library corner
+76;Green
+77;A light fixture
+78;Shadows on pavement
+79;Close-up
+80;Shame
+81;Only mine
+82;Out of the box
+83;Hands
+84;Sidewalk tiles
+85;Clock
+86;Guess my city
+87;Steam
+88;Alone
+89;A place you call home
+90;A street lamp
+91;Your nearest park
+92;An old store
+93;Color explosion
+94;Strength
+95;Square
+96;Waiting
+97;Eyes
+98;Guilty pleasure
+99;Exit
+100;UFO
+101;Rust
+102;Street life
+103;Gold
+104;A reflection in a puddle
+105;Darkness
+106;Urban nature
+107;Heights
+108;Knot
+109;Glass
+110;Chill out
+111;An old building detail
+112;Curious
+113;Passion
+114;Local wildlife
+115;Circles
+116;Leaves
+117;Your walls
+118;Harmony
+119;Money
+120;A sculpture in a park
+121;Work
+122;Something crooked
+123;Faith
+124;Match
+125;Lines
+126;Quiet moments
+127;Symmetry
+128;Broken
+129;Nature
+130;Radiant
+131;An abandoned shoe
+132;Past times
+133;A ritual
+134;Struggle
+135;Contrasts
+136;A reflection in a window
+137;A cat lounging in the sun
+138;Balance
+139;Triangles
+140;Pure
+141;An old car
+142;Inspiring
+143;A local street vendor
+144;Negative space
+145;Trees
+146;Sadness
+147;A handmade craft project
+148;A colorful mural
+149;Willpower
+150;Peace
+151;A vintage postcard
+152;Sunglasses
+153;A feather
+154;Opposites
+155;Focus
+156;Education
+157;Self-portrait
+158;Graffiti
+159;TBD
+160;TBD
+161;TBD
+162;TBD
+163;TBD
+164;TBD
+165;TBD
+166;TBD
+167;TBD
+168;TBD
+169;TBD
+170;TBD
+171;TBD
+172;Solstice
+173;TBD
+174;TBD
+175;TBD
+176;TBD
+177;TBD
+178;TBD
+179;TBD
+180;TBD
+181;TBD
+182;TBD
+183;TBD
+184;TBD
+185;TBD
+186;TBD
+187;TBD
+188;TBD
+189;TBD
+190;TBD
+191;TBD
+192;TBD
+193;TBD
+194;TBD
+195;TBD
+196;TBD
+197;TBD
+198;TBD
+199;TBD
+200;TBD
+201;Friends
+202;TBD
+203;TBD
+204;TBD
+205;TBD
+206;TBD
+207;TBD
+208;TBD
+209;TBD
+210;TBD
+211;TBD
+212;TBD
+213;TBD
+214;TBD
+215;TBD
+216;TBD
+217;TBD
+218;TBD
+219;TBD
+220;TBD
+221;TBD
+222;TBD
+223;TBD
+224;TBD
+225;TBD
+226;TBD
+227;TBD
+228;TBD
+229;TBD
+230;TBD
+231;TBD
+232;TBD
+233;TBD
+234;TBD
+235;TBD
+236;TBD
+237;TBD
+238;TBD
+239;TBD
+240;TBD
+241;TBD
+242;TBD
+243;TBD
+244;TBD
+245;TBD
+246;TBD
+247;TBD
+248;TBD
+249;TBD
+250;TBD
+251;TBD
+252;TBD
+253;TBD
+254;TBD
+255;TBD
+256;TBD
+257;TBD
+258;TBD
+259;TBD
+260;TBD
+261;TBD
+262;TBD
+263;TBD
+264;Equinox
+265;TBD
+266;TBD
+267;TBD
+268;TBD
+269;TBD
+270;TBD
+271;TBD
+272;TBD
+273;Patterns
+274;A tree’s shadow
+275;A street sign
+276;Spoon
+277;Your bedside table
+278;Blue
+279;Moving cars
+280;Colorful door
+281;Paper
+282;Simple pleasure
+283;A foreign flag
+284;Minimalism
+285;Your reflection
+286;Unfinished
+287;Water
+288;Something sweet
+289;Power
+290;Silhouettes
+291;Urban jungle
+292;Unusual angles
+293;Your sky
+294;A door handle
+295;Bubbles
+296;Vintage tech
+297;Growth
+298;Skin
+299;A black cat
+300;Guilt
+301;Curves
+302;Fire
+303;A bottle
+304;Something That Scares You
+305;Screens
+306;Death
+307;Numbers
+308;Street style
+309;Red
+310;A clock tower
+311;Furry friend
+312;Slow
+313;Flowers
+314;Windows
+315;Food
+316;The texture of a wall
+317;Sidewalk plants
+318;Books
+319;Inside your bag
+320;Intense
+321;A garden gnome
+322;Mistery
+323;Leather
+324;Together
+325;Your kitchen
+326;Clouds
+327;Cool
+328;A mailbox
+329;Steps
+330;Shining
+331;Favorite color
+332;Thankful about
+333;Keys
+334;Best view
+335;Wires and cables
+336;Speed
+337;Appearances
+338;Brickwork
+339;Branches
+340;A grocery cart
+341;Motion
+342;A corner of your home
+343;Rule of thirds
+344;A lonely window
+345;Wrinkles on fabric
+346;Plants
+347;Play
+348;Local landmark
+349;Horns
+350;Fluffy
+351;Infinity
+352;Tools
+353;Wet
+354;Zebra crossing
+355;Stacked objects
+356;A window view
+357;Concrete
+358;A cat sleeping in a window
+359;Christmas
+360;Distortion
+361;Messy hair
+362;Wheels
+363;Shout
+364;Your shadow
+365;Endings
