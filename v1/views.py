@@ -113,7 +113,6 @@ def snap(request):
     return render(request, 'snap.html', {
         'quiz': quiz,
         'form': form,
-        'existing_content': existing_content    #VER SI ESTO SE ESTÁ UTILIZANDO EN EL FROMT
     })
 
 
