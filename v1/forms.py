@@ -1,8 +1,8 @@
-from attr import fields
 from django import forms
-from matplotlib import widgets
 from matplotlib.rcsetup import ValidateInStrings
 from .models import Content, User
+from .utils import email_check
+
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -16,10 +16,14 @@ class UserForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Email already registered')
-        return email
-
+        if email_check(email):
+            if User.objects.filter(email=email).exists():
+                return forms.ValidationError('email is already registered')
+            else:
+                return email
+        else:
+            return forms.ValidationError('Please, enter a valid email adress')
+        
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if User.objects.filter(name=name).exists():
