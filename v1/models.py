@@ -61,7 +61,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.name or self.email.split('@')[0]
     
 class Content(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contents')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contents')
     pic = models.ImageField(upload_to='uploads/', blank=True, null=True)
     quiz_content = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
