@@ -1,13 +1,7 @@
-from hashlib import blake2b
-from re import T
-from tabnanny import verbose
 from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from photo_quiz import settings
-from PIL import Image
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 # Create your models here.
 class CustomUserManager(UserManager):
