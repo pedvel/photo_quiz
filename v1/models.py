@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from photo_quiz import settings
 
+
 # Create your models here.
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -53,7 +54,9 @@ class User(AbstractBaseUser,PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
-    
+
+
+#FIX ISSUE WHEN DELETING USER // ADD LOGIC TO DELETE IMAGES
 class Content(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contents')
     pic = models.ImageField(upload_to='uploads/', blank=True, null=True)

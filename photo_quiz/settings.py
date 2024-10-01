@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+
 # Configuración de autenticación
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
