@@ -43,20 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-# Asegúrate de definir el SITE_ID (esto es necesario para django-allauth)
-#SITE_ID = 1
 
 # Configuración de autenticación
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # Mantiene el backend local
-    #'allauth.account.auth_backends.AuthenticationBackend',  # Agrega allauth
+    'django.contrib.auth.backends.ModelBackend',
 )
 
-# Configuración de allauth
-#ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Si ya estás usando el email como identificador
-#ACCOUNT_EMAIL_REQUIRED = True
-#ACCOUNT_USERNAME_REQUIRED = False
-#LOGIN_REDIRECT_URL = 'dashboard' 
+
 LOGOUT_REDIRECT_URL = 'index'
 
 AUTH_USER_MODEL = 'v1.User'
