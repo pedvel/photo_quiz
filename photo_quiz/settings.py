@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-3#-ekrugf2-sc0w)_+#l2%le9x@#n8@ne53*cf5dqbbv_6lh)k
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '*'
+    '*',
+    'pixly.pythonanywhere.com'
 ]
 
 
