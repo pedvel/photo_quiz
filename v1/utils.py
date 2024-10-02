@@ -11,14 +11,11 @@ def get_quiz():
     today = datetime.now(timezone.utc).timetuple().tm_yday
 
     #OPEN AND READ QUIZ_DICT
-    try:
-        with open('./docs/quiz_list.csv', 'r') as file:
-            reader = csv.DictReader(file, delimiter=';')
-            for row in reader:
-                if int(row['day']) == today:
-                    return row['quiz']
-    except FileNotFoundError:
-        print("File not found")
+    with open('photo_quiz/docs/quiz_list.csv', 'r') as file:
+        reader = csv.DictReader(file, delimiter=';')
+        rows = list(reader)  # Convert to a list
+
+        return rows[today-1]['quiz']
 
 
 def correct_image_orientation(img):
