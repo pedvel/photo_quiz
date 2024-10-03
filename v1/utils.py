@@ -1,4 +1,3 @@
-
 from datetime import timezone, datetime
 import csv
 from django.shortcuts import redirect
