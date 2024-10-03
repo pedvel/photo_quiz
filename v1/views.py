@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import redirect, render
-from .utils import get_quiz, existing_content, redirection_check, correct_image_orientation
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
 from .models import Content
 from django.contrib.auth.views import LoginView
@@ -137,9 +137,21 @@ def home(request):
         'quiz': quiz
     })
 
-@login_required()
+
 def explore(request):
-    return render(request, 'explore.html')
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
+    themes = completed_quizzes(user)
+    content = Content.objects.none()
+    for theme in themes:
+        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).select_related('users').order_by('-created_at').values('pic','quiz_content','user__name')
+    
+    pics = [(f"{settings.MEDIA_URL}{item['pic']}",item['quiz_content'], item['user__name']) for item in content]
+
+    return render(request, 'explore.html', {
+        'pics':pics
+    })
 
 @login_required()
 def profile(request):

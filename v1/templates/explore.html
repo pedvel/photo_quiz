@@ -37,4 +37,32 @@
     {% csrf_token %}
     <button type="submit">Logout</button>
 </form>
+
+<main class="mainPhoto">
+
+    {% for pic, user, quiz_content in pics %}
+    <div class="photoContainer">
+        <div>
+            <p>{{user}} // {{quiz_content}} </p>
+            <p>...</p>
+        </div>
+        <div class="photo">
+            <img src="{{pic}}">
+            <input type="checkbox" id="{{pic}}" class="bookmark-toggle">
+            <label for="{{pic}}" class="bookmark-icon"></label>
+        </div>
+    </div>
+    {% endfor %}
+    <div id="popup" class="popup">Save function coming soon</div>
+
+    <div class="homeEnd">
+        <i class="fa-regular fa-circle-check"></i>
+        <div>
+            <h3>You are all caught up</h3>
+            <h4>You've seen all new posts</h4>
+        </div>    
+    </div>
+</main>
+
+
 {% endblock %}
