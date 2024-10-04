@@ -36,7 +36,7 @@
                 {% endfor %}
             </div>
             {% if pics|length == 0 %}
-                <div class="mainPhoto noExplore">
+                <div class="noExplore">
                     <div>
                         <h3 class="highlightText2">No themes to explore yet!</h3>
                         <p>Either you haven't participated or others haven't joined the ones you did.</p>
@@ -52,7 +52,6 @@
     </footer>
 </div>
 <script src="../static/js.js"></script>
-<script src="../static/explore.js"></script>
 
 <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}

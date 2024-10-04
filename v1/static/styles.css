@@ -987,7 +987,7 @@ body.dark-mode .highlightText2 {
 
 .sticky {
     position: sticky;
-    top: 112px; 
+    top: 112px;
     background-color: var(--white); 
     z-index: 1; 
 }
@@ -1022,9 +1022,12 @@ body.dark-mode .sticky {
 }
 
 .noExplore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 0 60px;
-    overflow-x: hidden; 
     gap: 30px;
+    height: 60vh;
 }
 
 .noExplore div {
