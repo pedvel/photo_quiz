@@ -21,8 +21,34 @@
             
         </nav>
     </header>
-    <main class="mainPhoto">
+    <main class="mainPhoto explore">
             <h1>Explore</h1>
+
+
+            <div>
+                {% for quiz_content, images in pics %}
+                    <div class="themeContainer">
+                        <h2>{{ quiz_content }}</h2>
+                        <div class="image-grid">
+                            {% for pic in images %}
+                                <img src="{{ pic }}" class="image">
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            {% if pics|length == 0 %}
+                <p>No pictures available.</p>
+            {% endif %}
+            
+            
+            
+            
+            
+            
+            
+            
 
     </main>
     <footer>
@@ -32,37 +58,11 @@
     </footer>
 </div>
 <script src="../static/js.js"></script>
+<script src="../static/explore.js"></script>
 
 <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Logout</button>
 </form>
-
-<main class="mainPhoto">
-
-    {% for pic, user, quiz_content in pics %}
-    <div class="photoContainer">
-        <div>
-            <p>{{user}} // {{quiz_content}} </p>
-            <p>...</p>
-        </div>
-        <div class="photo">
-            <img src="{{pic}}">
-            <input type="checkbox" id="{{pic}}" class="bookmark-toggle">
-            <label for="{{pic}}" class="bookmark-icon"></label>
-        </div>
-    </div>
-    {% endfor %}
-    <div id="popup" class="popup">Save function coming soon</div>
-
-    <div class="homeEnd">
-        <i class="fa-regular fa-circle-check"></i>
-        <div>
-            <h3>You are all caught up</h3>
-            <h4>You've seen all new posts</h4>
-        </div>    
-    </div>
-</main>
-
 
 {% endblock %}
