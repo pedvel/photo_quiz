@@ -820,6 +820,7 @@ body.dark-mode .active {
     background-color: var(--white);
     transition: background-color 0.3s ease;
     max-width: 450px;
+    z-index: 2;
 }
 
 body.dark-mode .headerApp {
@@ -963,6 +964,60 @@ body.dark-mode .homeEnd h3 {
 
 body.dark-mode .highlightText2 {
     color: var(--purple);
+}
+
+/*Explore*/
+.explore {
+    padding-bottom: 45px;
+}
+
+.explore h1 {
+    z-index: 2;
+}
+
+.explore h2 {
+    width: 100%;
+    max-width: 440px;
+    text-align: left;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    transition: top 0.3s; 
+}
+
+.sticky {
+    position: sticky;
+    top: 112px; 
+    background-color: var(--white); 
+    z-index: 1; 
+}
+
+body.dark-mode .sticky {
+    background-color: var(--black);
+}
+
+.themeContainer {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100vw;
+    max-width: 450px;
+}
+
+.image-grid div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    width: 100%;
+    aspect-ratio: 1; 
+    object-fit: cover; 
 }
 
 /*Media Queries*/

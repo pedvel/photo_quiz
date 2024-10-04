@@ -10,6 +10,7 @@ from django.contrib.auth import login, get_backends
 from PIL import Image
 from django.core.files.base import ContentFile
 import io
+from collections import defaultdict
 
 
 
@@ -153,8 +154,16 @@ def explore(request):
 
     #CREATE A LIST OF TUPLES WITH PICS OF ALL USERS WITH QUIZ_CONTENT IN THEMES
     for theme in themes:
-        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).select_related('users').order_by('-created_at').values('pic','quiz_content','user__name')    
-    pics = [(f"{settings.MEDIA_URL}{item['pic']}",item['quiz_content'], item['user__name']) for item in content]
+        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).select_related('users').order_by('-created_at').values('pic','quiz_content')
+
+    # Grouping pics by quiz_content
+    grouped_pics = defaultdict(list)
+    for item in content:
+        pic_url = f"{settings.MEDIA_URL}{item['pic']}"
+        grouped_pics[item['quiz_content']].append(pic_url)
+
+    # Convert the dictionary to a list of tuples for easier iteration in the template
+    pics = list(grouped_pics.items())
 
     return render(request, 'explore.html', {
         'pics':pics
