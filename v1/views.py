@@ -11,6 +11,8 @@ from PIL import Image
 from django.core.files.base import ContentFile
 import io
 from collections import defaultdict
+from django.core.mail import send_mail
+from photo_quiz.settings import EMAIL_HOST_USER
 
 
 
@@ -57,7 +59,15 @@ def register(request):
             user.save()
             backend = get_backends()[0]
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
+            send_mail(
+                f'{user.name}, welcome to Pixly',               # Asunto del correo
+                f'Este es el cuerpo del mensaje para {user.name}.',  # Cuerpo del mensaje
+                EMAIL_HOST_USER,             # Remitente
+                [user.email],        # Destinatario(s)
+                fail_silently=False,
+            )
             login(request, user)
+            
             return redirect('snap')
     else:
         form = UserForm()

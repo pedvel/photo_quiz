@@ -44,6 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'pixly.team@gmail.com'
+EMAIL_HOST_PASSWORD = 'whgh jqgv lonr uxra'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # Configuración de autenticación
 AUTHENTICATION_BACKENDS = (
