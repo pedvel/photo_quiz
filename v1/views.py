@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import redirect, render
-from .utils import get_quiz, existing_content, redirection_check, correct_image_orientation
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
 from .models import Content
 from django.contrib.auth.views import LoginView
@@ -28,7 +28,7 @@ class CustomLoginView(LoginView):
     
     def get_success_url(self):
         user = self.request.user
-        #CHECK IF USER ALREADY COMPLETED DAY'S THEME
+        #CHECK IF USER ALREADY COMPLETED DAY'S THEME AND REDIRECT ACCORDINGLY
         if existing_content(user):
             return reverse_lazy('home')
         else:
@@ -117,6 +117,8 @@ def snap(request):
 
 
 def home(request):
+
+    #REDIRECT IF USER NOT LOGGED IN AND CHECK IF DAY'S THEME IS COMPLETED
     user=request.user
     if request.user.is_authenticated:
         if not existing_content(user):
@@ -126,10 +128,10 @@ def home(request):
     
     quiz = get_quiz()
 
-    # Obtener pic y name
+    #OBTAIN PIC AND USER
     content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('pic', 'user__name')
 
-    # Crear una lista de tuplas
+    #CREATE A LIST OF TUPLES WITH PICS AND USERS FOR THE DAY'S THEME
     pics = [(f"{settings.MEDIA_URL}{item['pic']}", item['user__name']) for item in content_items]
 
     return render(request, 'home.html', {
@@ -137,9 +139,26 @@ def home(request):
         'quiz': quiz
     })
 
-@login_required()
+
 def explore(request):
-    return render(request, 'explore.html')
+    #REDIRECT TO INDEX IF USER IS NOT LOGGED IN
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('index')
+    
+    #THEME LIST WHERE USER PARTICIPATED IN
+    themes = completed_quizzes(user)
+    #EMPTY QUERYSET
+    content = Content.objects.none()
+
+    #CREATE A LIST OF TUPLES WITH PICS OF ALL USERS WITH QUIZ_CONTENT IN THEMES
+    for theme in themes:
+        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).select_related('users').order_by('-created_at').values('pic','quiz_content','user__name')    
+    pics = [(f"{settings.MEDIA_URL}{item['pic']}",item['quiz_content'], item['user__name']) for item in content]
+
+    return render(request, 'explore.html', {
+        'pics':pics
+    })
 
 @login_required()
 def profile(request):
