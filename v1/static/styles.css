@@ -969,6 +969,7 @@ body.dark-mode .highlightText2 {
 /*Explore*/
 .explore {
     padding-bottom: 45px;
+    overflow-x: hidden; 
 }
 
 .explore h1 {
@@ -1018,6 +1019,18 @@ body.dark-mode .sticky {
     width: 100%;
     aspect-ratio: 1; 
     object-fit: cover; 
+}
+
+.noExplore {
+    padding: 0 60px;
+    overflow-x: hidden; 
+    gap: 30px;
+}
+
+.noExplore div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 /*Media Queries*/

@@ -7,7 +7,7 @@
     <div class="bodyApp">
         <header class="headerApp">
             <nav>
-                <a href="">
+                <a href="{% url 'home' %}">
                     <img>
                 </a>
                 <div>
@@ -38,7 +38,7 @@
         </main>
         <footer>
             <div><a href="{% url 'snap' %}" class="fa-solid fa-house active"></a></div>
-            <div><a class="fa-solid fa-compass"></a></div>
+            <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
             <div><a class="fa-solid fa-user"></a></div>
         </footer>
     </div>

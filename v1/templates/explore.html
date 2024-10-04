@@ -7,7 +7,7 @@
 <div class="bodyApp">
     <header class="headerApp">
         <nav>
-            <a href="../index.html">
+            <a href="{% url 'home' %}">
                 <img>
             </a>
             <div>
@@ -21,10 +21,8 @@
             
         </nav>
     </header>
-    <main class="mainPhoto explore">
+    <main class="mainPhoto">
             <h1>Explore</h1>
-
-
             <div>
                 {% for quiz_content, images in pics %}
                     <div class="themeContainer">
@@ -37,23 +35,19 @@
                     </div>
                 {% endfor %}
             </div>
-            
             {% if pics|length == 0 %}
-                <p>No pictures available.</p>
+                <div class="mainPhoto noExplore">
+                    <div>
+                        <h3 class="highlightText2">No themes to explore yet!</h3>
+                        <p>Either you haven't participated or others haven't joined the ones you did.</p>
+                    </div>
+                    <h2 class="highlightText">Stay tuned—soon you'll be able to join older themes and catch up!</h2>
+                </div>
             {% endif %}
-            
-            
-            
-            
-            
-            
-            
-            
-
     </main>
     <footer>
-        <div><a href="./snap.html" class="fa-solid fa-house"></a></div>
-        <div><a class="fa-solid fa-compass active"></a></div>
+        <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
+        <div><a href="{% url 'explore' %}" class="fa-solid fa-compass active"></a></div>
         <div><a class="fa-solid fa-user"></a></div>
     </footer>
 </div>
