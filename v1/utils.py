@@ -10,7 +10,7 @@ def get_quiz():
     today = datetime.now(timezone.utc).timetuple().tm_yday
 
     #OPEN AND READ QUIZ_DICT
-    with open('./docs/quiz_list.csv', 'r') as file:
+    with open('photo_quiz/docs/quiz_list.csv', 'r') as file:
         reader = csv.DictReader(file, delimiter=';')
         rows = list(reader)  # Convert to a list
 
