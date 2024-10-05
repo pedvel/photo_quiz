@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
-from .models import Content
+from .models import Content, UserSettings
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -59,6 +59,19 @@ def register(request):
             user.save()
             backend = get_backends()[0]
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
+            suscribed = request.POST.get('suscribe', False)
+            user_settings = UserSettings.objects.create(
+                user = user,
+                suscribed = bool(suscribed)
+            )            
+            user_settings.save()
+
+            if user_settings.suscribed:
+                file_path = 'suscribed_emails.txt'
+                if user.email:
+                    with open(file_path, 'a') as f:
+                        f.write(f'{user.email}\n')
+
             send_mail(
                 f'{user.name}, welcome to Pixly',               # Asunto del correo
                 f'Este es el cuerpo del mensaje para {user.name}.',  # Cuerpo del mensaje
