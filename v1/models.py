@@ -69,4 +69,22 @@ class Content(models.Model):
 
     def __str__(self):
         return f'Content created bu {self.user} for quiz {self.quiz_content}'
-    
+
+
+class UserSettings(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_settings')
+    is_private = models.BooleanField(default=False)
+    dark_mode = models.BooleanField(default=True)   
+    preferred_language = models.CharField(default='eng', max_length=20)
+
+
+class Follow(models.Model):
+    follower=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
+    followed=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers')
+
+    class Meta:
+        unique_together=('follower','followed')
+
+    def __str__(self):
+        return f'{self.follower} follows {self.followed}'
+
