@@ -76,6 +76,7 @@ class UserSettings(models.Model):
     is_private = models.BooleanField(default=False)
     dark_mode = models.BooleanField(default=True)   
     preferred_language = models.CharField(default='eng', max_length=20)
+    suscribed=models.BooleanField(default=False)
 
 
 class Follow(models.Model):
