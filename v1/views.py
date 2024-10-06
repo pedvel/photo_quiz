@@ -1,8 +1,9 @@
 from django.conf import settings
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
-from .models import Content, UserSettings
+from .models import Content, UserSettings, Favorites
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -153,16 +154,37 @@ def home(request):
     quiz = get_quiz()
 
     #OBTAIN PIC AND USER
-    content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('pic', 'user__name')
+    content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('id','pic', 'user__name')
 
     #CREATE A LIST OF TUPLES WITH PICS AND USERS FOR THE DAY'S THEME
-    pics = [(f"{settings.MEDIA_URL}{item['pic']}", item['user__name']) for item in content_items]
+    pics = [(item['id'], f"{settings.MEDIA_URL}{item['pic']}", item['user__name']) for item in content_items]
 
     return render(request, 'home.html', {
         'pics': pics,
         'quiz': quiz
     })
 
+@login_required()
+def toggle_favorites(request):
+    if request.method == 'GET':
+        image_id = request.GET.get('image_id')
+        user=request.user
+        print(f"Received image_id: {image_id}, user: {user}")
+
+        try:
+            content_instance=Content.objects.get(id=image_id)
+            favorite, created = Favorites.objects.get_or_create(
+                user=user,
+                image = content_instance
+            )
+            if not created:
+                favorite.delete()
+                return JsonResponse({'status':'removed'})
+            else:
+                return JsonResponse({'status':'added'})
+        except Content.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Content not found'}, status=404)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 def explore(request):
     #REDIRECT TO INDEX IF USER IS NOT LOGGED IN

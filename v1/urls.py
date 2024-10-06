@@ -13,5 +13,6 @@ urlpatterns = [
     path('home/', home, name='home'),
     path('explore/', views.explore, name='explore'),
     path('profile/', views.profile, name='profile'),
-    path('notifications/', views.notifications, name='notifications')
+    path('notifications/', views.notifications, name='notifications'),
+    path('toggle_favorites/', views.toggle_favorites, name='toggle_favorite'),
 ]
