@@ -829,7 +829,7 @@ body.dark-mode .headerApp {
 }
 .mainPhoto {
     top: 120px;
-    position: absolute;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -983,6 +983,7 @@ body.dark-mode .highlightText2 {
     padding-left: 10px;
     padding-bottom: 5px;
     transition: top 0.3s; 
+    position: relative;
 }
 
 .sticky {
@@ -999,6 +1000,7 @@ body.dark-mode .sticky {
 .themeContainer {
     margin-bottom: 20px;
     width: 100%;
+    position: relative;
 }
 
 .image-grid {
@@ -1034,6 +1036,13 @@ body.dark-mode .sticky {
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.noExplore h2 {
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    padding: 0;
 }
 
 /*Media Queries*/
