@@ -59,7 +59,7 @@ def register(request):
             user.save()
             backend = get_backends()[0]
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
-            suscribed = request.POST.get('suscribe', False)
+            suscribed = request.POST.get('subscribe', False)
             user_settings = UserSettings.objects.create(
                 user = user,
                 suscribed = bool(suscribed)
@@ -67,7 +67,7 @@ def register(request):
             user_settings.save()
 
             if user_settings.suscribed:
-                file_path = 'suscribed_emails.txt'
+                file_path = 'subscribed_emails.txt'
                 if user.email:
                     with open(file_path, 'a') as f:
                         f.write(f'{user.email}\n')
