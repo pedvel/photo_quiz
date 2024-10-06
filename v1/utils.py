@@ -55,7 +55,7 @@ def completed_quizzes(user):
     
             
 def email_check(email):
-    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+    regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     if re.match(regex, email):
         return True
     else:
