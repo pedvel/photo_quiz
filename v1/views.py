@@ -2,7 +2,7 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation
 from .forms import UserForm, ContentForm
-from .models import Content
+from .models import Content, UserSettings
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -11,6 +11,8 @@ from PIL import Image
 from django.core.files.base import ContentFile
 import io
 from collections import defaultdict
+from django.core.mail import send_mail
+from photo_quiz.settings import EMAIL_HOST_USER
 
 
 
@@ -57,7 +59,28 @@ def register(request):
             user.save()
             backend = get_backends()[0]
             user.backend = f'{backend.__module__}.{backend.__class__.__name__}'
+            suscribed = request.POST.get('subscribe', False)
+            user_settings = UserSettings.objects.create(
+                user = user,
+                suscribed = bool(suscribed)
+            )            
+            user_settings.save()
+
+            if user_settings.suscribed:
+                file_path = 'subscribed_emails.txt'
+                if user.email:
+                    with open(file_path, 'a') as f:
+                        f.write(f'{user.email}\n')
+
+            send_mail(
+                f'{user.name}, welcome to Pixly',               # Asunto del correo
+                f'Este es el cuerpo del mensaje para {user.name}.',  # Cuerpo del mensaje
+                EMAIL_HOST_USER,             # Remitente
+                [user.email],        # Destinatario(s)
+                fail_silently=False,
+            )
             login(request, user)
+            
             return redirect('snap')
     else:
         form = UserForm()
@@ -154,7 +177,7 @@ def explore(request):
 
     #CREATE A LIST OF TUPLES WITH PICS OF ALL USERS WITH QUIZ_CONTENT IN THEMES
     for theme in themes:
-        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).select_related('users').order_by('-created_at').values('pic','quiz_content')
+        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).order_by('-created_at').values('pic','quiz_content')[:6]
 
     # Grouping pics by quiz_content
     grouped_pics = defaultdict(list)
