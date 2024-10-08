@@ -1,3 +1,4 @@
+from telnetlib import STATUS
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -213,6 +214,17 @@ def explore(request):
     return render(request, 'explore.html', {
         'pics':pics
     })
+
+def load_more(request):
+    if request.is_ajax():
+        count = int(request.GET.get('offset', '0'))
+        theme = request.GET.get('theme')
+        images = Content.objects.filter(quiz_content=theme).order_by('-created_at').values('pic', flat=True)[count:count +6]
+        images_list = [(f'{settings.MEDIA}{item['pic']}') for item in images]
+        return JsonResponse(images_list) #VER POR QUÉ PODRÍAIR SAFE=FALSE
+    return JsonResponse({'error':'Invalid request'}, status=400)
+
+
 
 @login_required()
 def profile(request):
