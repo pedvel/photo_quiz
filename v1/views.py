@@ -213,6 +213,7 @@ def explore(request):
         'pics':pics
     })
 
+#POSSIBILITY OF INCLUDING 'USER' TO REUSE THE SAME VIEW IN EXPLORE/LIST
 def load_more(request):
     if request.is_ajax():
         count = int(request.GET.get('offset', '0'))
