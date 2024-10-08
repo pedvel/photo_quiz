@@ -23,13 +23,24 @@
     </header>
     <main class="mainPhoto explore">
             <h1>Explore</h1>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
             <div>
                 {% for quiz_content, images in pics %}
                     <div class="themeContainer">
                         <h2>{{ quiz_content }}</h2>
                         <div class="image-grid">
                             {% for pic in images %}
+                                {% if not forloop.last %}
                                 <img src="{{ pic }}" class="image">
+                                {% else %}
+                                <div class="more">
+                                    <img src="{{ pic }}" class="image">
+                                    <a class="highlightText2"><i class="fa-solid fa-circle-plus"></i></a>
+                                </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </div>
@@ -52,11 +63,5 @@
     </footer>
 </div>
 <script src="../static/js.js"></script>
-
-
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
 
 {% endblock %}

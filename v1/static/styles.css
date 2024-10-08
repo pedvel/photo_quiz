@@ -1010,17 +1010,36 @@ body.dark-mode .sticky {
     max-width: 450px;
 }
 
-.image-grid div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.more {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.more img {
+    opacity: 0.25;
+}
+
+.more a {
+    font-size: 3rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
 }
 
 .image {
     width: 100%;
     aspect-ratio: 1; 
-    object-fit: cover; 
+    object-fit: cover;
+    display: block; 
+}
+
+.exploreMore {
+    position: absolute; 
+    bottom: 35px; 
+    right: 27px;
 }
 
 .noExplore {
