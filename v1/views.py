@@ -170,7 +170,6 @@ def toggle_favorites(request):
     if request.method == 'GET':
         image_id = request.GET.get('image_id')
         user=request.user
-        print(f"Received image_id: {image_id}, user: {user}")
 
         try:
             content_instance=Content.objects.get(id=image_id)
@@ -223,7 +222,6 @@ def load_more(request):
         images_list = [(f'{settings.MEDIA}{item['pic']}') for item in images]
         return JsonResponse(images_list) #VER POR QUÉ PODRÍAIR SAFE=FALSE
     return JsonResponse({'error':'Invalid request'}, status=400)
-
 
 
 @login_required()
