@@ -89,3 +89,7 @@ class Follow(models.Model):
     def __str__(self):
         return f'{self.follower} follows {self.followed}'
 
+class Favorites(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
+    image = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='image')
+
