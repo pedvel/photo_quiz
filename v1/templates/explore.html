@@ -28,7 +28,7 @@
                 <button type="submit">Logout</button>
             </form>
             <div>
-                {% for quiz_content, images in pics %}
+                {% for quiz_content, images in pics.items %}
                     <div class="themeContainer">
                         <h2>{{ quiz_content }}</h2>
                         <div class="image-grid">
