@@ -215,7 +215,7 @@ def explore(request):
 
 #POSSIBILITY OF INCLUDING 'USER' TO REUSE THE SAME VIEW IN EXPLORE/LIST
 def load_more(request):
-    if request.is_ajax():
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         count = int(request.GET.get('offset', '0'))
         theme = request.GET.get('theme')
         images = Content.objects.filter(quiz_content=theme).order_by('-created_at').values('pic', flat=True)[count:count +6]
