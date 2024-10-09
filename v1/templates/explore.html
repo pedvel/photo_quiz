@@ -33,13 +33,13 @@
                         <h2>{{ quiz_content }}</h2>
                         <div class="image-grid">
                             {% for pic in images %}
-                                {% if not forloop.last %}
-                                <img src="{{ pic }}" class="image">
-                                {% else %}
+                                {% if forloop.counter == 6 %}
                                 <div class="more">
                                     <img src="{{ pic }}" class="image">
-                                    <a class="highlightText2"><i class="fa-solid fa-circle-plus"></i></a>
+                                    <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6"><i class="fa-solid fa-circle-plus"></i></a>
                                 </div>
+                                {% else %}
+                                <img src="{{ pic }}" class="image">
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -63,5 +63,69 @@
     </footer>
 </div>
 <script src="../static/js.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreButtons = document.querySelectorAll('#loadMore');
+
+    loadMoreButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const theme = this.getAttribute('data-theme');
+            const offset = parseInt(this.getAttribute('data-offset'), 10);
+            const that = this; // Reference to the clicked button
+
+            console.log('Load More clicked for theme:', theme);
+            console.log('Current offset:', offset);
+
+            fetch(`{% url 'load_more' %}?theme=${encodeURIComponent(theme)}&offset=${offset}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data received:', data);
+                if (Array.isArray(data) && data.length > 0) {
+                    const imageGrid = that.closest('.image-grid');
+                    data.forEach(imgUrl => {
+                        const img = document.createElement('img');
+                        img.src = imgUrl;
+                        img.className = 'image';
+                        imageGrid.appendChild(img);
+                    });
+                    // Update the offset for the next request
+                    that.setAttribute('data-offset', offset + 6);
+                    console.log('New offset set to:', offset + 6);
+
+                    // Apply the CSS changes after data is loaded
+                    const moreImage = imageGrid.querySelector('.more img');
+                    if (moreImage) {
+                        moreImage.style.opacity = '1'; // Change opacity to 1
+                    }
+
+                    that.style.display = 'none'; // Hide the load more button
+                } else {
+                    // Optionally, hide the load more button if no more images
+                    console.log('No more images to load.');
+                    that.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading more images:', error);
+            });
+        });
+    });
+});
+
+
+</script>
+
 
 {% endblock %}

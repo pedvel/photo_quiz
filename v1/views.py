@@ -1,3 +1,4 @@
+from ast import IfExp
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -193,32 +194,34 @@ def explore(request):
     
     #THEME LIST WHERE USER PARTICIPATED IN
     themes = completed_quizzes(user)
-    #EMPTY QUERYSET
-    content = Content.objects.none()
+    
+    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by('quiz_content', '-created_at').values('pic', 'quiz_content')
 
-    #CREATE A LIST OF TUPLES WITH PICS OF ALL USERS WITH QUIZ_CONTENT IN THEMES
-    for theme in themes:
-        content |= Content.objects.filter(quiz_content=theme).exclude(pic__isnull=True).order_by('-created_at').values('pic','quiz_content')[:6]
+    grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
+    theme_count = defaultdict(int) #Initialize dict where 'key':'0'
 
-    # Grouping pics by quiz_content
-    grouped_pics = defaultdict(list)
     for item in content:
-        pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-        grouped_pics[item['quiz_content']].append(pic_url)
+        theme = item['quiz_content']
+        if theme_count[theme] < 6:
+            pic_url = f"{settings.MEDIA_URL}{item['pic']}"
+            grouped_pics[theme].append(pic_url)
+            theme_count[theme] += 1
 
-    # Convert the dictionary to a list of tuples for easier iteration in the template
-    pics = list(grouped_pics.items())
+    grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
 
     return render(request, 'explore.html', {
-        'pics':pics
+        'pics':grouped_pics
     })
 
+
+#POSSIBILITY OF INCLUDING 'USER' TO REUSE THE SAME VIEW IN EXPLORE/LIST
+#REVISAR ERROR 500
 def load_more(request):
-    if request.is_ajax():
-        count = int(request.GET.get('offset', '0'))
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        count = int(request.GET.get('offset', '6'))
         theme = request.GET.get('theme')
         images = Content.objects.filter(quiz_content=theme).order_by('-created_at').values('pic', flat=True)[count:count +6]
-        images_list = [(f'{settings.MEDIA}{item['pic']}') for item in images]
+        images_list = [(f"{settings.MEDIA_URL}{item['pic']}") for item in images]
         return JsonResponse(images_list) #VER POR QUÉ PODRÍAIR SAFE=FALSE
     return JsonResponse({'error':'Invalid request'}, status=400)
 
