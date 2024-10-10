@@ -194,3 +194,65 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const themeContainers = document.querySelectorAll('.themeContainer');
+
+    themeContainers.forEach(container => {
+        const images = container.querySelectorAll('.image');
+
+        images.forEach(image => {
+            image.addEventListener('click', function () {
+                // Get the current theme container and its contents
+                const themeContainer = this.closest('.themeContainer');
+                const quizContent = themeContainer.querySelector('h2').innerText;
+
+                // Track the clicked image source (so we can focus on it later)
+                const clickedImageSrc = this.src;
+
+                // Get the images in this container (current theme)
+                const imageGrid = themeContainer.querySelector('.image-grid');
+                const allImages = imageGrid.querySelectorAll('.image');
+
+                // Prepare the new layout HTML structure for the clicked themeContainer
+                let newLayoutHTML = '';
+                allImages.forEach((img, index) => {
+                    newLayoutHTML += `
+                        <div class="photoContainer">
+                            <div>
+                                <p>User ${index + 1}</p>
+                                <p>...</p>
+                            </div>
+                            <div class="photo">
+                                <img src="${img.src}">
+                                <input type="checkbox" id="checkbox-${index}" class="bookmark-toggle" onchange="toggleFavorite(${index})">
+                                <label for="checkbox-${index}" class="bookmark-icon"></label>
+                            </div>
+                        </div>`;
+                });
+
+                // Replace the current grid view with the new layout in this themeContainer
+                themeContainer.innerHTML = `
+                    <h2>${quizContent}</h2>
+                    ${newLayoutHTML}`;
+
+                // Scroll the page to the clicked image in the new layout
+                const newImages = themeContainer.querySelectorAll('.photo img');
+                newImages.forEach(newImg => {
+                    if (newImg.src === clickedImageSrc) {
+                        newImg.scrollIntoView({
+                            behavior: 'smooth', // Smooth scrolling
+                            block: 'center',    // Center the image in the viewport
+                        });
+                    }
+                });
+            });
+        });
+    });
+
+    // Function to handle bookmarking (example function)
+    window.toggleFavorite = function (id) {
+        console.log(`Toggling favorite for image ${id}`);
+        // Add your toggle logic here (AJAX, localStorage, etc.)
+    };
+});
