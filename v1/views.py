@@ -1,8 +1,8 @@
-from ast import IfExp
+
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation, get_favorites
 from .forms import UserForm, ContentForm
 from .models import Content, UserSettings, Favorites
 from django.contrib.auth.views import LoginView
@@ -153,6 +153,7 @@ def home(request):
         return redirect('index')
     
     quiz = get_quiz()
+    favorites = get_favorites(user)
 
     #OBTAIN PIC AND USER
     content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('id','pic', 'user__name')
@@ -162,7 +163,8 @@ def home(request):
 
     return render(request, 'home.html', {
         'pics': pics,
-        'quiz': quiz
+        'quiz': quiz,
+        'favorites':favorites
     })
 
 @login_required()
