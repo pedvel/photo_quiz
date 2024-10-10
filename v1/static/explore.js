@@ -1,25 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     const loadMoreButtons = document.querySelectorAll('#loadMore');
+    let currentThemeContainer = null;  // Variable to track the active themeContainer
 
     loadMoreButtons.forEach(button => {
         button.addEventListener('click', function (event) {
             event.preventDefault();
 
             const moreDiv = this.closest('.more');
-            const imgInMoreDiv = moreDiv.querySelector('img'); // Get the image in the same div
+            const imgInMoreDiv = moreDiv.querySelector('img');
 
-            // Restore opacity to the image in the more div
             if (imgInMoreDiv) {
                 imgInMoreDiv.style.opacity = '1';
             }
 
-            // Hide the original loadMore button
             this.style.display = 'none';
 
             const theme = this.getAttribute('data-theme');
             const offset = parseInt(this.getAttribute('data-offset'), 10);
             const url = this.getAttribute('data-url');
-            const that = this; // Reference to the clicked button
+            const that = this;
 
             fetch(`${url}?theme=${encodeURIComponent(theme)}&offset=${offset}`, {
                 method: 'GET',
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Data received:', data);
                     if (Array.isArray(data) && data.length > 0) {
                         const imageGrid = that.closest('.image-grid');
                         let imgCount = 0;
@@ -43,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             imgCount++;
                             const imgUrl = imageData.pic_url;
 
-                            // Check if this is the 6th image
                             if (imgCount === 6) {
                                 const moreDiv = document.createElement('div');
                                 moreDiv.className = 'more';
@@ -51,53 +48,46 @@ document.addEventListener('DOMContentLoaded', function () {
                                 const img = document.createElement('img');
                                 img.src = imgUrl;
                                 img.className = 'image';
-                                img.style.opacity = '0.25'; // Set opacity to 0.25 for the 6th image
+                                img.style.opacity = '0.25';
                                 moreDiv.appendChild(img);
 
                                 const loadMoreLink = document.createElement('a');
                                 loadMoreLink.className = 'highlightText2';
                                 loadMoreLink.setAttribute('data-theme', theme);
-                                loadMoreLink.setAttribute('data-offset', offset + 6); // Increment offset
+                                loadMoreLink.setAttribute('data-offset', offset + 6);
                                 loadMoreLink.setAttribute('data-url', url);
                                 loadMoreLink.innerHTML = '<i class="fa-solid fa-circle-plus"></i>';
                                 moreDiv.appendChild(loadMoreLink);
 
                                 imageGrid.appendChild(moreDiv);
 
-                                // Add event listener to the new loadMore button
                                 loadMoreLink.addEventListener('click', function (event) {
                                     event.preventDefault();
                                     const newMoreDiv = this.closest('.more');
-                                    const imgInNewMoreDiv = newMoreDiv.querySelector('img'); // Get the image in the new more div
+                                    const imgInNewMoreDiv = newMoreDiv.querySelector('img');
 
-                                    // Restore opacity to the image in the new more div
                                     if (imgInNewMoreDiv) {
                                         imgInNewMoreDiv.style.opacity = '1';
                                     }
 
-                                    this.style.display = 'none'; // Hide this loadMore button
+                                    this.style.display = 'none';
                                     loadMoreButtonClick(loadMoreLink, theme, offset + 6, url);
                                 });
                             } else {
                                 const img = document.createElement('img');
                                 img.src = imgUrl;
                                 img.className = 'image';
-                                img.style.opacity = '1'; // Restore opacity for other images
+                                img.style.opacity = '1';
                                 imageGrid.appendChild(img);
                             }
                         });
 
-                        // Update the offset for the next request
                         that.setAttribute('data-offset', offset + imgCount);
-                        console.log('New offset set to:', offset + imgCount);
 
-                        // Optionally hide the button if no more images
                         if (data.length < 6) {
-                            that.style.display = 'none'; // Hide if fewer than 6 images returned
+                            that.style.display = 'none';
                         }
                     } else {
-                        // Hide the button if no more images
-                        console.log('No more images to load.');
                         that.style.display = 'none';
                     }
                 })
@@ -107,9 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Function to handle loading more images
     function loadMoreButtonClick(button, theme, offset, url) {
-        button.style.display = 'none'; // Hide this button
+        button.style.display = 'none';
 
         fetch(`${url}?theme=${encodeURIComponent(theme)}&offset=${offset}`, {
             method: 'GET',
@@ -124,15 +113,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                console.log('Data received:', data);
                 if (Array.isArray(data) && data.length > 0) {
                     const imageGrid = button.closest('.image-grid');
                     let imgCount = 0;
 
-                    data.forEach((imgUrl, index) => {
+                    data.forEach((imageData, index) => {
                         imgCount++;
+                        const imgUrl = imageData.pic_url;
 
-                        // Check if this is the 6th image
                         if (imgCount === 6) {
                             const moreDiv = document.createElement('div');
                             moreDiv.className = 'more';
@@ -140,53 +128,46 @@ document.addEventListener('DOMContentLoaded', function () {
                             const img = document.createElement('img');
                             img.src = imgUrl;
                             img.className = 'image';
-                            img.style.opacity = '0.25'; // Set opacity to 0.25 for the 6th image
+                            img.style.opacity = '0.25';
                             moreDiv.appendChild(img);
 
                             const loadMoreLink = document.createElement('a');
                             loadMoreLink.className = 'highlightText2';
                             loadMoreLink.setAttribute('data-theme', theme);
-                            loadMoreLink.setAttribute('data-offset', offset + 6); // Increment offset
+                            loadMoreLink.setAttribute('data-offset', offset + 6);
                             loadMoreLink.setAttribute('data-url', url);
                             loadMoreLink.innerHTML = '<i class="fa-solid fa-circle-plus"></i>';
                             moreDiv.appendChild(loadMoreLink);
 
                             imageGrid.appendChild(moreDiv);
 
-                            // Add event listener to the new loadMore button
                             loadMoreLink.addEventListener('click', function (event) {
                                 event.preventDefault();
                                 const newMoreDiv = this.closest('.more');
-                                const imgInNewMoreDiv = newMoreDiv.querySelector('img'); // Get the image in the new more div
+                                const imgInNewMoreDiv = newMoreDiv.querySelector('img');
 
-                                // Restore opacity to the image in the new more div
                                 if (imgInNewMoreDiv) {
                                     imgInNewMoreDiv.style.opacity = '1';
                                 }
 
-                                this.style.display = 'none'; // Hide this loadMore button
+                                this.style.display = 'none';
                                 loadMoreButtonClick(loadMoreLink, theme, offset + 6, url);
                             });
                         } else {
                             const img = document.createElement('img');
                             img.src = imgUrl;
                             img.className = 'image';
-                            img.style.opacity = '1'; // Restore opacity for other images
+                            img.style.opacity = '1';
                             imageGrid.appendChild(img);
                         }
                     });
 
-                    // Update the offset for the next request
                     button.setAttribute('data-offset', offset + imgCount);
-                    console.log('New offset set to:', offset + imgCount);
 
-                    // Optionally hide the button if no more images
                     if (data.length < 6) {
-                        button.style.display = 'none'; // Hide if fewer than 6 images returned
+                        button.style.display = 'none';
                     }
                 } else {
-                    // Hide the button if no more images
-                    console.log('No more images to load.');
                     button.style.display = 'none';
                 }
             })
@@ -194,22 +175,46 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error loading more images:', error);
             });
     }
-});
 
-document.addEventListener('DOMContentLoaded', function () {
+    // Reverts the previous themeContainer back to grid view
+    function revertToGridView(container) {
+        if (!container) return;  // If there's no active container, do nothing
+
+        // Fetch quizContent and images from the container
+        const quizContent = container.querySelector('h2').innerText;
+        const allImages = container.querySelectorAll('.photo img');
+
+        // Build grid layout HTML
+        let gridLayoutHTML = `
+            <h2>${quizContent}</h2>
+            <div class="image-grid">`;
+
+        allImages.forEach((img, index) => {
+            gridLayoutHTML += `<img src="${img.src}" class="image">`;
+        });
+
+        gridLayoutHTML += `</div>`;
+
+        container.innerHTML = gridLayoutHTML;  // Restore the grid layout
+    }
+
+    // Function to handle image click and update the layout
     const themeContainers = document.querySelectorAll('.themeContainer');
-
     themeContainers.forEach(container => {
         const images = container.querySelectorAll('.image');
 
         images.forEach(image => {
             image.addEventListener('click', function () {
-                // Get the current theme container and its contents
                 const themeContainer = this.closest('.themeContainer');
                 const quizContent = themeContainer.querySelector('h2').innerText;
-
-                // Track the clicked image source (so we can focus on it later)
                 const clickedImageSrc = this.src;
+
+                // Revert the previously expanded container to grid view, if any
+                if (currentThemeContainer && currentThemeContainer !== themeContainer) {
+                    revertToGridView(currentThemeContainer);
+                }
+
+                currentThemeContainer = themeContainer;  // Set the new active container
 
                 // Get the images in this container (current theme)
                 const imageGrid = themeContainer.querySelector('.image-grid');
@@ -242,8 +247,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 newImages.forEach(newImg => {
                     if (newImg.src === clickedImageSrc) {
                         newImg.scrollIntoView({
-                            behavior: 'smooth', // Smooth scrolling
-                            block: 'center',    // Center the image in the viewport
+                            behavior: 'smooth',
+                            block: 'center',
                         });
                     }
                 });
@@ -251,9 +256,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Function to handle bookmarking (example function)
+    // Dummy function for handling bookmarks
     window.toggleFavorite = function (id) {
         console.log(`Toggling favorite for image ${id}`);
-        // Add your toggle logic here (AJAX, localStorage, etc.)
     };
 });
