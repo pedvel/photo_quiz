@@ -195,7 +195,7 @@ def explore(request):
     #THEME LIST WHERE USER PARTICIPATED IN
     themes = completed_quizzes(user)
     
-    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by('quiz_content', '-created_at').values('pic', 'quiz_content')
+    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by('quiz_content', '-created_at').select_related('user').values('pic', 'quiz_content', 'user__name')
 
     grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
@@ -204,7 +204,8 @@ def explore(request):
         theme = item['quiz_content']
         if theme_count[theme] < 6:
             pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-            grouped_pics[theme].append(pic_url)
+            username = item['user__name']
+            grouped_pics[theme].append((pic_url, username))
             theme_count[theme] += 1
 
     grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
@@ -215,13 +216,12 @@ def explore(request):
 
 
 #POSSIBILITY OF INCLUDING 'USER' TO REUSE THE SAME VIEW IN EXPLORE/LIST
-#REVISAR ERROR 500
 def load_more(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         count = int(request.GET.get('offset', 6))
         theme = request.GET.get('theme')
-        images = Content.objects.filter(quiz_content=theme).order_by('-created_at').values('pic')[count:count +6]
-        images_list = [(f"{settings.MEDIA_URL}{item['pic']}") for item in images]
+        images = Content.objects.filter(quiz_content=theme).order_by('-created_at').select_related('user').values('pic', 'user__name')[count:count +6]
+        images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'user_name': item['user__name']} for item in images] #RENAME, IT IS NOT A LIST 
         return JsonResponse(images_list, safe=False)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
