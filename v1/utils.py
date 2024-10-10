@@ -1,7 +1,7 @@
 from datetime import timezone, datetime
 import csv
 from django.shortcuts import redirect
-from .models import Content
+from .models import Content, Favorites
 from PIL import ExifTags
 import re
 
@@ -62,5 +62,8 @@ def email_check(email):
         return False
 
 
+def get_favorites(user):
+    favorites = Favorites.objects.filter(user=user).order_by('-id').values_list('image_id', flat=True)
+    return list(favorites)
    
 
