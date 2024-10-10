@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         const imageGrid = that.closest('.image-grid');
                         let imgCount = 0;
 
-                        data.forEach((imgUrl, index) => {
+                        data.forEach((imageData, index) => {
                             imgCount++;
+                            const imgUrl = imageData.pic_url;
 
                             // Check if this is the 6th image
                             if (imgCount === 6) {
