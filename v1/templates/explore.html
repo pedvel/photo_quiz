@@ -35,10 +35,12 @@
                             {% for pic in images %}
                                 {% if forloop.counter == 6 %}
                                 <div class="more">
+                                    <input type="hidden" value="{{ pic.1 }}">
                                     <img src="{{ pic.0 }}" class="image">
-                                    <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}"><i class="fa-solid fa-circle-plus"></i></a>
+                                    <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}" ><i class="fa-solid fa-circle-plus"></i></a>
                                 </div>
                                 {% else %}
+                                <input type="hidden" value="{{ pic.1 }}">
                                 <img src="{{ pic.0 }}" class="image">
                                 {% endif %}
                             {% endfor %}
