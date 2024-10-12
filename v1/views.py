@@ -198,7 +198,7 @@ def explore(request):
     themes = completed_quizzes(user)
     favorites = get_favorites(user)
     
-    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by('quiz_content', '-created_at').select_related('user').values('pic', 'quiz_content', 'user__name')
+    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by( '-created_at','quiz_content').select_related('user').values('pic', 'quiz_content', 'user__name')
 
     grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
