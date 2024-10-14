@@ -225,8 +225,8 @@ def load_more(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         count = int(request.GET.get('offset', 6))
         theme = request.GET.get('theme')
-        images = Content.objects.filter(quiz_content=theme).order_by('-created_at').select_related('user').values('pic', 'user__name')[count:count +6]
-        images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'user_name': item['user__name']} for item in images] #RENAME, IT IS NOT A LIST 
+        images = Content.objects.filter(quiz_content=theme).order_by('-created_at').select_related('user').values('id', 'pic', 'user__name')[count:count +6]
+        images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'id':item['id'], 'user_name': item['user__name']} for item in images] #RENAME, IT IS NOT A LIST 
         return JsonResponse(images_list, safe=False)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
