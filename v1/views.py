@@ -198,7 +198,7 @@ def explore(request):
     themes = completed_quizzes(user)
     favorites = get_favorites(user)
     
-    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by( '-created_at','quiz_content').select_related('user').values('pic', 'quiz_content', 'user__name')
+    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
 
     grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
@@ -208,7 +208,8 @@ def explore(request):
         if theme_count[theme] < 6:
             pic_url = f"{settings.MEDIA_URL}{item['pic']}"
             username = item['user__name']
-            grouped_pics[theme].append((pic_url, username))
+            id=item['id']
+            grouped_pics[theme].append((id, pic_url, username))
             theme_count[theme] += 1
 
     grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
