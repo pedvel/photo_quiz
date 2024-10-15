@@ -34,9 +34,10 @@
             <div id="divider-wrapper">
                 <span class="divider">Or</span>
             </div>
-            <a class="greyButton">Continue with Google</a>
+            <a class="greyButton" href="#" onclick="showPopup()">Continue with Google</a>
             <p>Don't have an account? <a href="{% url 'register' %}" class="highlightText">Create one</a></p>
         </div>
+        <div class="popup" id="popup"></div>
     </main>
     <script src="../../static/password.js"></script>
 </div>

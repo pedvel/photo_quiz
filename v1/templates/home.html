@@ -23,7 +23,6 @@
     </header>
     <main class="mainPhoto">
             <h1>{{ quiz }}</h1>
-
             {% for id, pic, user in pics %}
             <div class="photoContainer">
                 <div>
@@ -32,46 +31,15 @@
                 </div>
                 <div class="photo">
                     <img src="{{pic}}">
-                    <input type="checkbox" id="checkbox-{{id}}" class="bookmark-toggle" onchange="toggleFavorite({{id}})">
-                    <label for="checkbox-{{id}}" class="bookmark-icon"></label>
+                    <input type="checkbox" id="checkbox-{{id}}" class="bookmark-toggle" 
+                           onchange="bookmark({{id}})"
+                           {% if id in favorites %}checked{% endif %}>
+                    <label for="checkbox-{{id}}" class="bookmark-icon {% if id in favorites %}bookmarked{% endif %}"></label>
                 </div>
             </div>
             {% endfor %}
-            <script>
-                async function toggleFavorite(image_id) {
-                    const checkbox = document.getElementById(`checkbox-${image_id}`);
-                    
-                    try {
-                        // Usamos fetch para enviar la solicitud GET con el image_id
-                        const response = await fetch("{% url 'toggle_favorite' %}?image_id=" + image_id, {
-                            method: 'GET',
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-                        
-                        if (!response.ok) {
-                            throw new Error('Error en la solicitud');
-                        }
-                        
-                        const data = await response.json();
-                        
-                        if (data.status === 'added') {
-                            // Opcional: muestra algún feedback al usuario de que se agregó a favoritos
-                            console.log('Agregado a favoritos');
-                        } else if (data.status === 'removed') {
-                            // Opcional: muestra algún feedback de que se eliminó de favoritos
-                            console.log('Eliminado de favoritos');
-                        } else {
-                            console.error('Error: ', data.message);
-                        }
-    
-                    } catch (error) {
-                        console.error('Error en el proceso de favoritos:', error);
-                    }
-                }
-            </script>
-            <div id="popup" class="popup">Save function coming soon</div>
+            
+            <div id="popup" class="popup"></div>
 
             <div class="homeEnd">
                 <i class="fa-regular fa-circle-check"></i>

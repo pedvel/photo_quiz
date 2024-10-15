@@ -35,19 +35,20 @@
                             {% for pic in images %}
                                 {% if forloop.counter == 6 %}
                                 <div class="more">
-                                    <input type="hidden" value="{{ pic.1 }}">
-                                    <img src="{{ pic.0 }}" class="image">
+                                    <input type="hidden" value="{{ pic.2 }}">
+                                    <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
                                     <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}" ><i class="fa-solid fa-circle-plus"></i></a>
                                 </div>
                                 {% else %}
-                                <input type="hidden" value="{{ pic.1 }}">
-                                <img src="{{ pic.0 }}" class="image">
+                                <input type="hidden" value="{{ pic.2 }}">
+                                <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
                                 {% endif %}
                             {% endfor %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
+            <div id="popup" class="popup"></div>
             {% if pics|length == 0 %}
                 <div class="noExplore">
                     <div>
@@ -65,7 +66,13 @@
     </footer>
 </div>
 <script src="../static/js.js"></script>
+<script>
+    const favorites = {{ favorites|safe }}; // Assuming favorites is a list of IDs
+</script>
+<script src="../static/bookmark.js"></script>
 <script src="../static/explore.js"></script>
+
+
 
 
 {% endblock %}

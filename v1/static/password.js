@@ -43,3 +43,16 @@ if (window.DeviceOrientationEvent) {
     isDesktop = false; // Assume mobile if not supported
 
 }
+
+// Function to show the pop-up
+function showPopup() {
+    const popup = document.getElementById('popup');
+    popup.textContent = 'Google authentication coming soon'; // Set the text content dynamically
+    popup.style.display = 'block';
+
+    // Automatically hide the pop-up after 3 seconds (3000 ms)
+    setTimeout(() => {
+        popup.style.display = 'none';
+    }, 3000);
+}
+

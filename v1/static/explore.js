@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 if (Array.isArray(data) && data.length > 0) {
                     const container = button.closest('.expanded-view') || button.closest('.image-grid');
 
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         imgCount++;
                         const imgUrl = imageData.pic_url;
                         const username = imageData.user_name;
+                        const imgId = imageData.id;
 
                         if (imgCount === 6) {
                             // Check if the container is an image grid or expanded view
@@ -83,8 +85,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                            data-url="${url}">
                                             <i class="fa-solid fa-circle-plus"></i>
                                         </a>
-                                        <input type="checkbox" id="checkbox-more" class="bookmark-toggle" onchange="toggleFavorite('more')">
-                                        <label for="checkbox-more" class="bookmark-icon"></label>
+                                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
                                     </div>
                                 </div>`;
                                 container.insertAdjacentHTML('beforeend', newMoreHTML);
@@ -92,9 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else {
                             // Append based on the container type
                             if (container.classList.contains('expanded-view')) {
-                                appendExpandedImage(container, username, imgUrl);
+                                appendExpandedImage(container, username, imgUrl, imgId);
                             } else {
-                                appendImage(container, username, imgUrl, true);
+                                appendImage(container, username, imgUrl, true, imgId);
                             }
                         }
                     });
@@ -144,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Appends new images to grid view
-    function appendImage(container, username, imgUrl, visible) {
+    function appendImage(container, username, imgUrl, visible, imgId) {
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
         hiddenInput.value = username;
@@ -152,13 +154,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const img = document.createElement('img');
         img.src = imgUrl;
+        img.id = imgId;
         img.className = 'image';
         img.style.opacity = visible ? '1' : '0.25'; // Set opacity based on visibility
         container.appendChild(img);
     }
 
     // Appends an image with additional user information (username) to an expanded view.
-    function appendExpandedImage(container, username, imgUrl) {
+    function appendExpandedImage(container, username, imgUrl, imgId) {
         const photoContainer = document.createElement('div');
         photoContainer.className = 'photoContainer';
 
@@ -174,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const img = document.createElement('img');
         img.src = imgUrl;
+        img.id = imgId;
         img.className = 'image';
         img.style.opacity = '1';
         photoDiv.appendChild(img);
@@ -183,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
         checkbox.type = 'checkbox';
         checkbox.className = 'bookmark-toggle';
         checkbox.onchange = function () {
-            toggleFavorite(username);
+            bookmark(imgId);
         };
         const label = document.createElement('label');
         label.className = 'bookmark-icon';
@@ -236,6 +240,8 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let index = 0; index < imagesToShow; index++) {
             const img = allImages[index];
             const username = usernameInputs[index].value;
+            const imgId = img.id;
+
             newLayoutHTML += `
                 <div class="photoContainer">
                     <div>
@@ -244,8 +250,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     <div class="photo">
                         <img src="${img.src}">
-                        <input type="checkbox" id="checkbox-${index}" class="bookmark-toggle" onchange="toggleFavorite(${index})">
-                        <label for="checkbox-${index}" class="bookmark-icon"></label>
+                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
                     </div>
                 </div>`;
         }
@@ -263,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const lastMoreImage = lastMoreDiv.querySelector('img');
                 const lastUsernameInput = lastMoreDiv.querySelector('input[type="hidden"]');
                 const loadMoreLink = lastMoreDiv.querySelector('a#loadMore');
+                const imgId = lastMoreImage.id;
 
                 let newMoreHTML = `
                     <div class="more photoContainer">
@@ -278,8 +285,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                data-url="${loadMoreLink.getAttribute('data-url')}">
                                 <i class="fa-solid fa-circle-plus"></i>
                             </a>
-                            <input type="checkbox" id="checkbox-more" class="bookmark-toggle" onchange="toggleFavorite('more')">
-                            <label for="checkbox-more" class="bookmark-icon"></label>
+                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
                         </div>
                     </div>`;
 
@@ -315,9 +322,4 @@ document.addEventListener('DOMContentLoaded', function () {
         originalGridState = null; // Clear the saved original state
         fullThemeContainer = null;
     }
-
-    // Dummy function for handling bookmarks
-    window.toggleFavorite = function (id) {
-        console.log(`Toggling favorite for image ${id}`);
-    };
 });

@@ -49,16 +49,17 @@
                 </div>
                 <div id="suscribeCheckbox">
                     <input type="checkbox" id="subscribe" name="subscribe">
-                    <label for="subscribe">Subscribe</label>
+                    <label for="subscribe">Subscribe for updates</label>
                 </div>
                 <button type="submit" class="buttonprimary2">Create</button>
             </form>
             <div id="divider-wrapper">
                 <span class="divider">Or</span>
             </div>
-            <a class="greyButton">Continue with Google</a>
+            <a class="greyButton" href="#" onclick="showPopup()">Continue with Google</a>
             <p>Already have an account? <a href="{% url 'login' %}" class="highlightText">Log In</a></p>
         </div>
+        <div class="popup" id="popup"></div>
     </main>
     <script src="../../static/password.js"></script>
 </div>

@@ -34,7 +34,10 @@
                 {% csrf_token %}
                 <input id="cameraInput" name="pic" type="file" accept="image/*" capture="environment" required onchange="this.form.submit();"/>
                 <label for="cameraInput" class="shutter-button"></label>
-            </form>  
+            </form> 
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+              </div> 
         </main>
         <footer>
             <div><a href="{% url 'snap' %}" class="fa-solid fa-house active"></a></div>
