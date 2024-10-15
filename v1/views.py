@@ -75,8 +75,16 @@ def register(request):
                         f.write(f'{user.email}\n')
 
             send_mail(
-                f'{user.name}, welcome to Pixly',               # Asunto del correo
-                f'Este es el cuerpo del mensaje para {user.name}.',  # Cuerpo del mensaje
+                f'Welcome to Pixly, {user.name}!',               # Asunto del correo
+                f'''Hi there,
+
+Thank you for joining Pixly! We're thrilled to have you with us as we embark on this exciting journey. Your support means the world to us!
+
+If you have any questions or feedback, please don't hesitate to reach out. We're here to help!
+
+Cheers,
+The Pixly Team
+''',  # Cuerpo del mensaje
                 EMAIL_HOST_USER,             # Remitente
                 [user.email],        # Destinatario(s)
                 fail_silently=False,

@@ -4,18 +4,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Use event delegation for handling "Load More" button clicks
     document.body.addEventListener('click', function (event) {
-        const loadMoreLink = event.target.closest('#loadMore');
+        const loadMoreButton = event.target.closest('#loadMore');
 
         // Check if the clicked element is a "Load More" button
-        if (loadMoreLink) {
+        if (loadMoreButton) {
             event.preventDefault();
-            handleLoadMore(loadMoreLink);
+            loadMore(loadMoreButton);
         }
     });
 
-    function handleLoadMore(loadMoreLink) {
+    function loadMore(loadMoreButton) {
         // Finds the closest .more container and changes the img opacity
-        const moreDiv = loadMoreLink.closest('.more');
+        const moreDiv = loadMoreButton.closest('.more');
         const imgInMoreDiv = moreDiv.querySelector('img');
 
         if (imgInMoreDiv) {
@@ -23,20 +23,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Hide "more" button
-        loadMoreLink.style.display = 'none';
+        loadMoreButton.style.display = 'none';
 
-        // Retrieves necessary data attributes
-        const theme = loadMoreLink.getAttribute('data-theme');
-        const offset = parseInt(loadMoreLink.getAttribute('data-offset'), 10);
-        const url = loadMoreLink.getAttribute('data-url');
+        // Retrieves necessary data attributes for data fetch
+        const theme = loadMoreButton.getAttribute('data-theme');
+        const offset = parseInt(loadMoreButton.getAttribute('data-offset'), 10);
+        const dataUrl = loadMoreButton.getAttribute('data-url');
 
-        loadMoreButtonClick(loadMoreLink, theme, offset, url);
+        dataFetch(loadMoreButton, theme, offset, dataUrl);
     }
 
-    function loadMoreButtonClick(button, theme, offset, url) {
-        button.style.display = 'none';
-
-        fetch(`${url}?theme=${encodeURIComponent(theme)}&offset=${offset}`, {
+    function dataFetch(button, theme, offset, dataUrl) {
+        fetch(`${dataUrl}?theme=${encodeURIComponent(theme)}&offset=${offset}`, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -65,38 +63,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         const username = imageData.user_name;
                         const imgId = imageData.id;
 
+                        // If sixth image
                         if (imgCount === 6) {
                             // Check if the container is an image grid or expanded view
                             if (container.classList.contains('image-grid')) {
-                                createMoreDiv(container, theme, offset, url, username, imgUrl);
+                                loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl);
                             } else {
-                                // Create a new structure like in the showExpandedView function
-                                const newMoreHTML = `
-                                <div class="more photoContainer">
-                                    <div>
-                                        <p>${username}</p>
-                                        <p>...</p>
-                                    </div>
-                                    <div class="photo">
-                                        <img src="${imgUrl}">
-                                        <a id="loadMore" class="highlightText2"
-                                           data-theme="${theme}"
-                                           data-offset="${offset + 6}"
-                                           data-url="${url}">
-                                            <i class="fa-solid fa-circle-plus"></i>
-                                        </a>
-                                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
-                                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
-                                    </div>
-                                </div>`;
-                                container.insertAdjacentHTML('beforeend', newMoreHTML);
+                                loadSixthPhotoToExpandedLayout(container, username, imgUrl, imgId, theme, offset, dataUrl);
                             }
                         } else {
                             // Append based on the container type
-                            if (container.classList.contains('expanded-view')) {
-                                appendExpandedImage(container, username, imgUrl, imgId);
+                            if (container.classList.contains('image-grid')) {
+                                appendGridImage(container, username, imgUrl, imgId);
                             } else {
-                                appendImage(container, username, imgUrl, true, imgId);
+                                appendExpandedImage(container, username, imgUrl, imgId);
                             }
                         }
                     });
@@ -115,10 +95,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-
-    // Dynamically creates a new .more div to hold additional content when the "Load More" button is clicked
-    // For grid view?
-    function createMoreDiv(container, theme, offset, url, username, imgUrl) {
+    // LOAD MORE - GRID VIEW
+    // Sixth photo
+    function loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl) {
         const moreDiv = document.createElement('div');
         moreDiv.className = 'more';
 
@@ -128,25 +107,26 @@ document.addEventListener('DOMContentLoaded', function () {
         moreDiv.appendChild(hiddenInput);
 
         const img = document.createElement('img');
+        img.id = imgId;
         img.src = imgUrl;
         img.className = 'image';
         img.style.opacity = '0.25';
         moreDiv.appendChild(img);
 
-        const loadMoreLink = document.createElement('a');
-        loadMoreLink.id = 'loadMore';
-        loadMoreLink.className = 'highlightText2';
-        loadMoreLink.setAttribute('data-theme', theme);
-        loadMoreLink.setAttribute('data-offset', offset + 6);
-        loadMoreLink.setAttribute('data-url', url);
-        loadMoreLink.innerHTML = '<i class="fa-solid fa-circle-plus"></i>';
-        moreDiv.appendChild(loadMoreLink);
+        const loadMoreButton = document.createElement('a');
+        loadMoreButton.id = 'loadMore';
+        loadMoreButton.className = 'highlightText2';
+        loadMoreButton.setAttribute('data-theme', theme);
+        loadMoreButton.setAttribute('data-offset', offset + 6);
+        loadMoreButton.setAttribute('data-url', dataUrl);
+        loadMoreButton.innerHTML = '<i class="fa-solid fa-circle-plus"></i>';
+        moreDiv.appendChild(loadMoreButton);
 
         container.appendChild(moreDiv);
     }
 
-    // Appends new images to grid view
-    function appendImage(container, username, imgUrl, visible, imgId) {
+    // Remaining photos
+    function appendGridImage(container, username, imgUrl, imgId) {
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
         hiddenInput.value = username;
@@ -156,46 +136,49 @@ document.addEventListener('DOMContentLoaded', function () {
         img.src = imgUrl;
         img.id = imgId;
         img.className = 'image';
-        img.style.opacity = visible ? '1' : '0.25'; // Set opacity based on visibility
         container.appendChild(img);
     }
 
-    // Appends an image with additional user information (username) to an expanded view.
+    // LOAD MORE - EXPANDED
+    // Sixth photo
+    function loadSixthPhotoToExpandedLayout(container, username, imgUrl, imgId, theme, offset, dataUrl) {
+        const sixthPhotoExpandedLayoutHTML = `
+        <div class="more photoContainer">
+            <div>
+                <p>${username}</p>
+                <p>...</p>
+            </div>
+            <div class="photo">
+                <img src="${imgUrl}">
+                <a id="loadMore" class="highlightText2"
+                   data-theme="${theme}"
+                   data-offset="${offset + 6}"
+                   data-url="${dataUrl}">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </a>
+                <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
+            </div>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', sixthPhotoExpandedLayoutHTML);
+    }
+
+    // Remaining photos
     function appendExpandedImage(container, username, imgUrl, imgId) {
-        const photoContainer = document.createElement('div');
-        photoContainer.className = 'photoContainer';
+        let newLayoutHTML = `
+                <div class="photoContainer">
+                    <div>
+                        <p>${username}</p>
+                        <p>...</p>
+                    </div>
+                    <div class="photo">
+                        <img src="${imgUrl}">
+                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
+                    </div>
+                </div>`;
 
-        const userInfo = document.createElement('div');
-        userInfo.innerHTML = `
-            <p>${username}</p>
-            <p>...</p>
-        `;
-        photoContainer.appendChild(userInfo);
-
-        const photoDiv = document.createElement('div');
-        photoDiv.className = 'photo';
-
-        const img = document.createElement('img');
-        img.src = imgUrl;
-        img.id = imgId;
-        img.className = 'image';
-        img.style.opacity = '1';
-        photoDiv.appendChild(img);
-
-        // Add a checkbox and label for bookmarking (similar to newLayoutHTML in showExpandedView)
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'bookmark-toggle';
-        checkbox.onchange = function () {
-            bookmark(imgId);
-        };
-        const label = document.createElement('label');
-        label.className = 'bookmark-icon';
-        photoDiv.appendChild(checkbox);
-        photoDiv.appendChild(label);
-
-        photoContainer.appendChild(photoDiv);
-        container.appendChild(photoContainer);
+        container.insertAdjacentHTML('beforeend', newLayoutHTML);
     }
 
 
@@ -268,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (lastMoreDiv) {
                 const lastMoreImage = lastMoreDiv.querySelector('img');
                 const lastUsernameInput = lastMoreDiv.querySelector('input[type="hidden"]');
-                const loadMoreLink = lastMoreDiv.querySelector('a#loadMore');
+                const loadMoreButton = lastMoreDiv.querySelector('#loadMore');
                 const imgId = lastMoreImage.id;
 
                 let newMoreHTML = `
@@ -280,9 +263,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="photo">
                             <img src="${lastMoreImage.src}">
                             <a id="loadMore" class="highlightText2"
-                               data-theme="${loadMoreLink.getAttribute('data-theme')}"
-                               data-offset="${loadMoreLink.getAttribute('data-offset')}"
-                               data-url="${loadMoreLink.getAttribute('data-url')}">
+                               data-theme="${loadMoreButton.getAttribute('data-theme')}"
+                               data-offset="${loadMoreButton.getAttribute('data-offset')}"
+                               data-url="${loadMoreButton.getAttribute('data-url')}">
                                 <i class="fa-solid fa-circle-plus"></i>
                             </a>
                         <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
