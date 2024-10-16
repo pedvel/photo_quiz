@@ -10,6 +10,7 @@
             <a href="{% url 'home' %}">
                 <img>
             </a>
+            <h1>Explore</h1>
             <div>
                 <i class="fa-regular fa-lightbulb"></i>
                 <div class="toggle-switch">
@@ -22,11 +23,6 @@
         </nav>
     </header>
     <main class="mainPhoto explore">
-            <h1>Explore</h1>
-            <form method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
             <div>
                 {% for quiz_content, images in pics.items %}
                     <div class="themeContainer">
@@ -62,7 +58,7 @@
     <footer>
         <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass active"></a></div>
-        <div><a class="fa-solid fa-user"></a></div>
+        <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
     </footer>
 </div>
 <script src="../static/js.js"></script>

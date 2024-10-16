@@ -865,7 +865,7 @@ body.dark-mode .headerApp {
     transition: background-color 0.3s ease;
 }
 .mainPhoto {
-    top: 120px;
+    top: 75px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1051,10 +1051,11 @@ body.dark-mode .sticky {
     position: relative;
     display: inline-block;
     text-align: center;
+    overflow: hidden;
 }
 
 .more img {
-    opacity: 0.25;
+    filter: blur(8px);
 }
 
 .more a {
