@@ -3,5 +3,44 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
-<h2>Profile</h2>
+
+<div class="bodyApp">
+    <header class="headerApp">
+        <nav>
+            <a href="{% url 'home' %}">
+                <img>
+            </a>
+            <h1>Profile</h1>
+            <div>
+                <i class="fa-regular fa-lightbulb"></i>
+                <div class="toggle-switch">
+                    <input class="toggle-input" id="toggle" type="checkbox">
+                    <label class="toggle-label" for="toggle" id="toggle2"></label>
+                </div>
+                <i class="fa-regular fa-moon"></i>
+            </div>
+            
+        </nav>
+    </header>
+    <main class="mainPhoto">
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <div class="noExplore">
+            <div>
+                <h3 class="highlightText2">Under construction</h3>
+                <p>Thank you for your support!</p>
+            </div>
+            <h2 class="highlightText">Stay tuned—soon you'll be able to access you profile, saved photos, and more!</h2>
+        </div>
+    </main>
+    <footer>
+        <div><a href="{% url 'home' %}" class="fa-solid fa-house active"></a></div>
+        <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
+        <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
+    </footer>
+</div>
+<script src="../static/js.js"></script>
+<script src="../static/bookmark.js"></script>
 {% endblock %}

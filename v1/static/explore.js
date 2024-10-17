@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const imgInMoreDiv = moreDiv.querySelector('img');
 
         if (imgInMoreDiv) {
-            imgInMoreDiv.style.opacity = '1';
+            imgInMoreDiv.style.filter = 'blur(0)';
         }
 
         // Hide "more" button
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
         img.id = imgId;
         img.src = imgUrl;
         img.className = 'image';
-        img.style.opacity = '0.25';
+        img.style.filter = 'blur(8px)';
         moreDiv.appendChild(img);
 
         const loadMoreButton = document.createElement('a');
