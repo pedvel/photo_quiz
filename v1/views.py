@@ -1,4 +1,6 @@
 
+from email.policy import default
+from itertools import count
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -123,9 +125,6 @@ def snap(request):
                 ogwidth, ogheight = ogimg.size
                 newsize = (int((ogwidth / ogheight) * 800), 800)
                 img = ogimg.resize(newsize)
-
-
-
                 img_io = io.BytesIO()
                 img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
                 img.save(img_io, format=img_format)
@@ -204,7 +203,7 @@ def explore(request):
     
     #THEME LIST WHERE USER PARTICIPATED IN
     themes = completed_quizzes(user)
-    favorites = get_favorites(user)
+    favorites = get_favorites(user) 
     
     content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
 
@@ -220,11 +219,31 @@ def explore(request):
             grouped_pics[theme].append((id, pic_url, username))
             theme_count[theme] += 1
 
-    grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
+    additional_pics = defaultdict(list)
+    non_participated_count = defaultdict(int)
 
+    if len(themes) < 5:
+        themes_needed = 5 -len(themes)
+        non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=count('pic')).order_by('-pic_count')
+
+        top_themes = [item['quiz_content'] for item in non_participated_themes[:themes_needed]]
+        content_non_participated = Content.objects.filter(quiz_content__in=top_themes).order_by('-created_at', 'quiz_content').values('pic', 'quiz_content')
+
+        for item in content_non_participated:
+            theme = item['quiz_content']
+            if non_participated_count[theme] < 3:
+                pic_url = f'{settings.MEDIA_URL}{item['pic']}'
+                additional_pics[theme].append(pic_url)
+                non_participated_count[theme] += 1
+
+
+    grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
+    additional_pics = {theme:tuple(pics) for theme, pics in additional_pics.items()}
+    
     return render(request, 'explore.html', {
         'pics':grouped_pics,
-        'favorites':favorites
+        'favorites':favorites,
+        'additional_pics': additional_pics
     })
 
 
