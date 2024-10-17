@@ -1,6 +1,4 @@
 
-from email.policy import default
-from itertools import count
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -17,6 +15,7 @@ import io
 from collections import defaultdict
 from django.core.mail import send_mail
 from photo_quiz.settings import EMAIL_HOST_USER
+from django.db.models import Count
 
 
 
@@ -224,7 +223,7 @@ def explore(request):
 
     if len(themes) < 5:
         themes_needed = 5 -len(themes)
-        non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=count('pic')).order_by('-pic_count')
+        non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
 
         top_themes = [item['quiz_content'] for item in non_participated_themes[:themes_needed]]
         content_non_participated = Content.objects.filter(quiz_content__in=top_themes).order_by('-created_at', 'quiz_content').values('pic', 'quiz_content')
