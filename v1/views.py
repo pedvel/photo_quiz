@@ -9,9 +9,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth import login, get_backends
-from PIL import Image
-from django.core.files.base import ContentFile
-import io
 from collections import defaultdict
 from django.core.mail import send_mail
 from photo_quiz.settings import EMAIL_HOST_USER
@@ -237,6 +234,24 @@ def load_more(request):
         images = Content.objects.filter(quiz_content=theme).order_by('-created_at').select_related('user').values('id', 'pic', 'user__name')[count:count +6]
         images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'id':item['id'], 'user_name': item['user__name']} for item in images] #RENAME, IT IS NOT A LIST 
         return JsonResponse(images_list, safe=False)
+    return JsonResponse({'error':'Invalid request'}, status=400)
+
+def save_from_explore(request):
+    if request.method == 'POST':
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({'error':'Unauthorized'}, status=401)
+        image_file = request.FILES.get('image')
+        theme = request.POST.get('theme')
+        if not image_file:
+            return JsonResponse({'error':'No image provided'}, status=400)
+        
+        content = Content(user=user, quiz_content=theme)
+        saved, error = save_image(content, image_file)
+        if saved:
+            return JsonResponse({'message':'Image succesfully saved'}, status=200)
+        else:
+            return JsonResponse({'error':error}, status=400)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
 
