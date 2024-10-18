@@ -2,8 +2,10 @@ from datetime import timezone, datetime
 import csv
 from django.shortcuts import redirect
 from .models import Content, Favorites
-from PIL import ExifTags
+from PIL import ExifTags, Image
 import re
+import io
+from django.core.files.base import ContentFile
 
 def get_quiz():
     #DAY NUMBER SINCE NEWYEAR.
@@ -66,4 +68,27 @@ def get_favorites(user):
     favorites = Favorites.objects.filter(user=user).order_by('-id').values_list('image_id', flat=True)
     return list(favorites)
    
+
+def save_image(content, image_field):
+    try:
+        ogimg = Image.open(image_field)
+        ogimg = correct_image_orientation(ogimg)
+
+        ogwidth, ogheight = ogimg.size
+        newsize = (int((ogwidth / ogheight) * 800), 800)
+        img = ogimg.resize(newsize)
+        img_io = io.BytesIO()
+        img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
+        img.save(img_io, format=img_format)
+        img_io.seek(0)  # Move the cursor to the beginning of the BytesIO object
+
+        img_content = ContentFile(img_io.getvalue(), name=image_field.name)
+        content.pic.save(content.pic.name, img_content, save=False)  # Save the image to the model
+
+        content.save()  # Finally save the content object
+        return True,  None
+    except ValueError as e:
+        return False, 'invalid image format'
+    except Exception as e:
+        return False, 'Error processing the image'
 

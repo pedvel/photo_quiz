@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation, get_favorites
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation, get_favorites, save_image
 from .forms import UserForm, ContentForm
 from .models import Content, UserSettings, Favorites
 from django.contrib.auth.views import LoginView
@@ -117,28 +117,11 @@ def snap(request):
             content = form.save(commit=False)
             content.user = user
             content.quiz_content = quiz
-            try:
-                ogimg = Image.open(content.pic)
-                ogimg = correct_image_orientation(ogimg)
-
-                ogwidth, ogheight = ogimg.size
-                newsize = (int((ogwidth / ogheight) * 800), 800)
-                img = ogimg.resize(newsize)
-                img_io = io.BytesIO()
-                img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
-                img.save(img_io, format=img_format)
-                img_io.seek(0)  # Move the cursor to the beginning of the BytesIO object
-
-                img_content = ContentFile(img_io.getvalue(), name=content.pic.name)
-                content.pic.save(content.pic.name, img_content, save=False)  # Save the image to the model
-
-                content.save()  # Finally save the content object
+            saved, error = save_image(content, content.pic)
+            if saved:
                 return redirect('home')
-
-            except ValueError as e:
-                form.add_error('pic', 'Por favor, sube una imagen válida.')
-            except Exception as e:
-                form.add_error(None, 'Ocurrió un error al procesar la imagen. Intenta nuevamente.')
+            else:
+                form.add_error('pic', error)            
     else:
         form = ContentForm()
 
