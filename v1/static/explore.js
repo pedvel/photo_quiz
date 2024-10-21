@@ -196,12 +196,18 @@ document.addEventListener('DOMContentLoaded', function () {
             // Save the current theme container and its original grid state
             fullThemeContainer = themeContainer;
             if (!originalGridState) {
-                originalGridState = themeContainer.querySelector('.image-grid').cloneNode(true);
+                const grid = themeContainer.querySelector('.image-grid');
+                if (grid && !grid.classList.contains('blur')) {
+                    originalGridState = grid.cloneNode(true);
+                }
             }
 
             // Hide the original grid and display the expanded view
-            themeContainer.querySelector('.image-grid').style.display = 'none';
-            showExpandedView(themeContainer, image.src);
+            const imageGrid = themeContainer.querySelector('.image-grid');
+            if (imageGrid && !imageGrid.classList.contains('blur')) {
+                imageGrid.style.display = 'none';
+                showExpandedView(themeContainer, image.src);
+            }
         }
     });
 
@@ -300,7 +306,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const imageGrid = fullThemeContainer.querySelector('.image-grid');
-        imageGrid.style.display = '';
+        if (imageGrid && !imageGrid.classList.contains('blur')) {
+            imageGrid.style.display = '';
+        }
 
         originalGridState = null; // Clear the saved original state
         fullThemeContainer = null;
