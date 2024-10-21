@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation, get_favorites, save_image
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, get_favorites, save_image
 from .forms import UserForm, ContentForm
 from .models import Content, UserSettings, Favorites
 from django.contrib.auth.views import LoginView
@@ -215,7 +215,6 @@ def explore(request):
                 additional_pics[theme].append(pic_url)
                 non_participated_count[theme] += 1
 
-
     grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
     additional_pics = {theme:tuple(pics) for theme, pics in additional_pics.items()}
     
@@ -226,7 +225,7 @@ def explore(request):
     })
 
 
-#POSSIBILITY OF INCLUDING 'USER' TO REUSE THE SAME VIEW IN EXPLORE/LIST
+
 def load_more(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         count = int(request.GET.get('offset', 6))
