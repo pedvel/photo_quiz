@@ -240,17 +240,18 @@ def save_from_explore(request):
         user = request.user
         if not user.is_authenticated:
             return JsonResponse({'error':'Unauthorized'}, status=401)
-        image_file = request.FILES.get('image')
-        theme = request.POST.get('theme')
-        if not image_file:
-            return JsonResponse({'error':'No image provided'}, status=400)
+        form = ContentForm(request.POST, request.FILES)
+        if form.is_valid:
+            content = form.save(commit=False)
+            content.user = user
+            theme = request.POST.get('theme')
+            content.quiz_content = theme
+            saved, error = save_image(content, content.pic)
+            if saved:
+                return JsonResponse({'message':'Image succesfully saved'}, status=200)
+            else:
+                return JsonResponse({'error':error}, status=400) 
         
-        content = Content(user=user, quiz_content=theme)
-        saved, error = save_image(content, image_file)
-        if saved:
-            return JsonResponse({'message':'Image succesfully saved'}, status=200)
-        else:
-            return JsonResponse({'error':error}, status=400)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
 
