@@ -3,6 +3,11 @@ document.getElementById('upload').addEventListener('change', function () {
     const form = document.getElementById('photoForm');
     const formData = new FormData(form);
 
+    const formPopUp = document.getElementById('explorePopup');
+    if (formPopUp) {
+        formPopUp.remove();
+    }
+
     // Show the loading indicator and add "processing" class
     document.getElementById("loading").style.display = "block"; // Show loading indicator
     document.body.classList.add("processing");
