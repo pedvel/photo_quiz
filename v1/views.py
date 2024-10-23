@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, correct_image_orientation, get_favorites, save_image
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, get_favorites, save_image
 from .forms import UserForm, ContentForm
 from .models import Content, UserSettings, Favorites
 from django.contrib.auth.views import LoginView
@@ -215,7 +215,6 @@ def explore(request):
                 additional_pics[theme].append(pic_url)
                 non_participated_count[theme] += 1
 
-
     grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
     additional_pics = {theme:tuple(pics) for theme, pics in additional_pics.items()}
     
@@ -226,7 +225,7 @@ def explore(request):
     })
 
 
-#POSSIBILITY OF INCLUDING 'USER' TO REUSE THE SAME VIEW IN EXPLORE/LIST
+
 def load_more(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         count = int(request.GET.get('offset', 6))
@@ -241,17 +240,18 @@ def save_from_explore(request):
         user = request.user
         if not user.is_authenticated:
             return JsonResponse({'error':'Unauthorized'}, status=401)
-        image_file = request.FILES.get('image')
-        theme = request.POST.get('theme')
-        if not image_file:
-            return JsonResponse({'error':'No image provided'}, status=400)
+        form = ContentForm(request.POST, request.FILES)
+        if form.is_valid:
+            content = form.save(commit=False)
+            content.user = user
+            theme = request.POST.get('theme')
+            content.quiz_content = theme
+            saved, error = save_image(content, content.pic)
+            if saved:
+                return JsonResponse({'message':'Image succesfully saved'}, status=200)
+            else:
+                return JsonResponse({'error':error}, status=400) 
         
-        content = Content(user=user, quiz_content=theme)
-        saved, error = save_image(content, image_file)
-        if saved:
-            return JsonResponse({'message':'Image succesfully saved'}, status=200)
-        else:
-            return JsonResponse({'error':error}, status=400)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
 
