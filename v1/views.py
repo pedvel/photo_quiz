@@ -169,7 +169,8 @@ def explore(request):
     themes = completed_quizzes(user)
     favorites = get_favorites(user) 
     
-    content = Content.objects.filter(quiz_content__in=themes, pic__isnull=False).order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
+    #SELECT ALL IMAGES
+    content = Content.objects.filter().order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
 
     grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
@@ -185,11 +186,15 @@ def explore(request):
 
     additional_pics = defaultdict(list)
     non_participated_count = defaultdict(int)
+    non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
+    non_participated_list=[]
+    for item in non_participated_themes:
+        theme = item['quiz_content']
+        non_participated_list.append(theme)
+
 
     if len(themes) < 5:
         themes_needed = 5 -len(themes)
-        non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
-
         top_themes = [item['quiz_content'] for item in non_participated_themes[:themes_needed]]
         content_non_participated = Content.objects.filter(quiz_content__in=top_themes).order_by('-created_at', 'quiz_content').values('pic', 'quiz_content')
 
@@ -206,7 +211,8 @@ def explore(request):
     return render(request, 'explore.html', {
         'pics':grouped_pics,
         'favorites':favorites,
-        'additional_pics': additional_pics
+        'additional_pics': additional_pics,
+        'non_participated_list':non_participated_list
     })
 
 
