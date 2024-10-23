@@ -221,7 +221,7 @@ def explore(request):
         'favorites':favorites,
         'additional_pics': additional_pics,
         'non_participated_list':non_participated_list,
-        'participated_themes':themes
+        'participated_themes':len(themes)
     })
 
 
