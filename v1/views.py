@@ -176,6 +176,7 @@ def explore(request):
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
     additional_pics = defaultdict(list)
     non_participated_count = defaultdict(int)
+    
     non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
     non_participated_list=[]
     for item in non_participated_themes:
@@ -199,8 +200,6 @@ def explore(request):
                 grouped_pics[theme].append((id, pic_url, username))
                 theme_count[theme] += 1
 
-    
-
 
     if len(themes) < 5:
         themes_needed = 5 -len(themes)
@@ -221,7 +220,8 @@ def explore(request):
         'pics':grouped_pics,
         'favorites':favorites,
         'additional_pics': additional_pics,
-        'non_participated_list':non_participated_list
+        'non_participated_list':non_participated_list,
+        'participated_themes':themes
     })
 
 
@@ -234,6 +234,7 @@ def load_more(request):
         images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'id':item['id'], 'user_name': item['user__name']} for item in images] #RENAME, IT IS NOT A LIST 
         return JsonResponse(images_list, safe=False)
     return JsonResponse({'error':'Invalid request'}, status=400)
+
 
 def upload(request):
     if request.method == 'POST':
