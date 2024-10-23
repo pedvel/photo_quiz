@@ -174,8 +174,6 @@ def explore(request):
 
     grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
-    additional_pics = defaultdict(list)
-    non_participated_count = defaultdict(int)
     
     non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
     non_participated_list=[]
@@ -200,28 +198,12 @@ def explore(request):
                 grouped_pics[theme].append((id, pic_url, username))
                 theme_count[theme] += 1
 
-
-    if len(themes) < 5:
-        themes_needed = 5 -len(themes)
-        top_themes = [item['quiz_content'] for item in non_participated_themes[:themes_needed]]
-        content_non_participated = Content.objects.filter(quiz_content__in=top_themes).order_by('-created_at', 'quiz_content').values('pic', 'quiz_content')
-
-        for item in content_non_participated:
-            theme = item['quiz_content']
-            if non_participated_count[theme] < 3:
-                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-                additional_pics[theme].append(pic_url)
-                non_participated_count[theme] += 1
-
     grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
-    additional_pics = {theme:tuple(pics) for theme, pics in additional_pics.items()}
     
     return render(request, 'explore.html', {
         'pics':grouped_pics,
         'favorites':favorites,
-        'additional_pics': additional_pics,
-        'non_participated_list':non_participated_list,
-        'participated_themes':len(themes)
+        'non_participated_list':non_participated_list
     })
 
 
@@ -258,7 +240,11 @@ def upload(request):
 
 @login_required()
 def profile(request):
-    return render(request, 'profile.html')
+    user = request.user
+
+    return render(request, 'profile.html', {
+        'username': user.name
+    })
 
 @login_required()
 def notifications(request):
