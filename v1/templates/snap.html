@@ -30,10 +30,10 @@
                 <p>You haven't taken today's theme photo.</p>
                 <p>Snap below!</p>
             </div>
-            <form id="uploadForm" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input id="cameraInput" name="pic" type="file" accept="image/*" capture="environment" required onchange="this.form.submit();"/>
-                <label for="cameraInput" class="shutter-button"></label>
+            <form id="photoForm" enctype="multipart/form-data">
+                <input id="upload" name="pic" type="file" accept="image/*" capture="environment" required/>
+                <input name="theme" type="hidden" value="{{quiz}}">
+                <label for="upload" class="shutter-button"></label>
             </form> 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
