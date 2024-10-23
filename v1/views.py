@@ -174,23 +174,31 @@ def explore(request):
 
     grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
     theme_count = defaultdict(int) #Initialize dict where 'key':'0'
-
-    for item in content:
-        theme = item['quiz_content']
-        if theme_count[theme] < 6:
-            pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-            username = item['user__name']
-            id=item['id']
-            grouped_pics[theme].append((id, pic_url, username))
-            theme_count[theme] += 1
-
     additional_pics = defaultdict(list)
     non_participated_count = defaultdict(int)
+    
     non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
     non_participated_list=[]
     for item in non_participated_themes:
         theme = item['quiz_content']
         non_participated_list.append(theme)
+
+    for item in content:
+        theme = item['quiz_content']
+        if theme in themes:
+            if theme_count[theme] < 6:
+                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
+                username = item['user__name']
+                id=item['id']
+                grouped_pics[theme].append((id, pic_url, username))
+                theme_count[theme] += 1
+        else:
+            if theme_count[theme] < 3:
+                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
+                username = item['user__name']
+                id=item['id']
+                grouped_pics[theme].append((id, pic_url, username))
+                theme_count[theme] += 1
 
 
     if len(themes) < 5:
@@ -201,7 +209,7 @@ def explore(request):
         for item in content_non_participated:
             theme = item['quiz_content']
             if non_participated_count[theme] < 3:
-                pic_url = f'{settings.MEDIA_URL}{item['pic']}'
+                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
                 additional_pics[theme].append(pic_url)
                 non_participated_count[theme] += 1
 
@@ -212,7 +220,8 @@ def explore(request):
         'pics':grouped_pics,
         'favorites':favorites,
         'additional_pics': additional_pics,
-        'non_participated_list':non_participated_list
+        'non_participated_list':non_participated_list,
+        'participated_themes':themes
     })
 
 
@@ -225,6 +234,7 @@ def load_more(request):
         images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'id':item['id'], 'user_name': item['user__name']} for item in images] #RENAME, IT IS NOT A LIST 
         return JsonResponse(images_list, safe=False)
     return JsonResponse({'error':'Invalid request'}, status=400)
+
 
 def upload(request):
     if request.method == 'POST':
