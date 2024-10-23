@@ -21,62 +21,62 @@
             </div>
             
         </nav>
-        {{non_participated_list}}
     </header>
     <main class="mainPhoto explore">
         <div>
             {% for quiz_content, images in pics.items %}
-                <div class="themeContainer">
-                    <h2>{{ quiz_content }}</h2>
-                    <div class="image-grid">
-                        {% for pic in images %}
-                            {% if forloop.counter == 6 %}
-                            <div class="more">
+                {% if quiz_content not in non_participated_list %}
+                    <div class="themeContainer">
+                        <h2>{{ quiz_content }}</h2>
+                        <div class="image-grid">
+                            {% for pic in images %}
+                                {% if forloop.counter == 6 %}
+                                <div class="more">
+                                    <input type="hidden" value="{{ pic.2 }}">
+                                    <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
+                                    <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}" ><i class="fa-solid fa-circle-plus"></i></a>
+                                </div>
+                                {% else %}
                                 <input type="hidden" value="{{ pic.2 }}">
                                 <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
-                                <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}" ><i class="fa-solid fa-circle-plus"></i></a>
-                            </div>
-                            {% else %}
-                            <input type="hidden" value="{{ pic.2 }}">
-                            <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
-                            {% endif %}
-                        {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endif %}
 
-            {% if pics|length < 5 %}
-                {% for quiz_content, images in additional_pics.items reversed %}
+                {% if quiz_content in non_participated_list %}
                     <div class="themeContainer">
                         <h2>{{ quiz_content }}</h2>
                         <div class="image-grid blur">
                             {% for pic in images %}
-                                <img src="{{ pic }}" class="image">
+                                <img src="{{ pic.1 }}" class="image">
                             {% endfor %}
                             <i onclick="snapTheme('{{ quiz_content }}')" class="fa-solid fa-eye highlightText2"></i>
                         </div>
                     </div>
-                {% endfor %}
-                <div id="explorePopup" class="explorePopup">
-                    <div class="explorePopup_text">
-                        <div>
-                            <p>To view the photos in</p>
-                            <h1 class="highlightText">[Placeholder]</h1>
-                            <h2>please snap a photo to participate</h2>
-                        </div>
-                        <!-- Hidden form -->
-                        <form id="photoForm" enctype="multipart/form-data">
-                            <input id="upload" name="pic" type="file" accept="image/*" capture="environment" required/>
-                            <input name="theme" type="hidden" value="">
-                            <label for="upload" class="shutter-button"></label>
-                        </form>  
-                    </div>
+                {% endif %}
+            {% endfor %}
+
+        <div id="explorePopup" class="explorePopup">
+            <div class="explorePopup_text">
+                <div>
+                    <p>To view the photos in</p>
+                    <h1 class="highlightText">[Placeholder]</h1>
+                    <h2>please snap a photo to participate</h2>
                 </div>
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                </div> 
-                <script src="../static/upload.js"></script>
-            {% endif %}
+                <!-- Hidden form -->
+                <form id="photoForm" enctype="multipart/form-data">
+                    <input id="upload" name="pic" type="file" accept="image/*" capture="environment" required/>
+                    <input name="theme" type="hidden" value="">
+                    <label for="upload" class="shutter-button"></label>
+                </form>  
+            </div>
+        </div>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div> 
+        <script src="../static/upload.js"></script>
         </div>
         <div id="popup" class="popup"></div>
     </main>
