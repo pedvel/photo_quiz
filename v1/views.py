@@ -210,7 +210,7 @@ def explore(request):
         for item in content_non_participated:
             theme = item['quiz_content']
             if non_participated_count[theme] < 3:
-                pic_url = f'{settings.MEDIA_URL}{item['pic']}'
+                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
                 additional_pics[theme].append(pic_url)
                 non_participated_count[theme] += 1
 
