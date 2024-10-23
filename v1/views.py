@@ -106,25 +106,10 @@ def snap(request):
     else:
         return redirect('index')
 
-    quiz = get_quiz()    
-
-    if request.method =='POST':
-        form = ContentForm(request.POST, request.FILES)
-        if form.is_valid():
-            content = form.save(commit=False)
-            content.user = user
-            content.quiz_content = quiz
-            saved, error = save_image(content, content.pic)
-            if saved:
-                return redirect('home')
-            else:
-                form.add_error('pic', error)            
-    else:
-        form = ContentForm()
+    quiz = get_quiz()       
 
     return render(request, 'snap.html', {
         'quiz': quiz,
-        'form': form,
     })
 
 
@@ -235,7 +220,7 @@ def load_more(request):
         return JsonResponse(images_list, safe=False)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
-def save_from_explore(request):
+def upload(request):
     if request.method == 'POST':
         user = request.user
         if not user.is_authenticated:
