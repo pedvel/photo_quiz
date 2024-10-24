@@ -8,7 +8,7 @@
         <header class="headerApp">
             <nav>
                 <a href="{% url 'home' %}">
-                    <img>
+                    <img src="../../static/img/logo.png">
                 </a>
                 <div>
                     <i class="fa-regular fa-lightbulb"></i>
@@ -48,10 +48,4 @@
     <script src="../static/js.js"></script>
     <script src="../static/upload.js"></script>
 </div>
-
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="logout">Logout</button>
-</form>
-
 {% endblock %}

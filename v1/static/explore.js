@@ -202,11 +202,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // Hide the original grid and display the expanded view
+            // Hide the original grid and display the expanded view + "Back" feature
             const imageGrid = themeContainer.querySelector('.image-grid');
+            const logoBackContainer = document.getElementById('logoBackContainer');
             if (imageGrid && !imageGrid.classList.contains('blur')) {
                 imageGrid.style.display = 'none';
+                scrollPosition = window.scrollY;
                 showExpandedView(themeContainer, image.src);
+                logoBackContainer.innerHTML = '<i id="iconBack" class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>';
+
+                // Get the newly added icon element
+                const iconBack = document.getElementById('iconBack');
+
+                // Add an event listener to the icon
+                iconBack.addEventListener('click', function (event) {
+                    // Refreshes page and scrolls to original position
+                    event.preventDefault();
+                    window.location.reload();
+                    window.scrollTo(0, parseInt(scrollPosition, 10));
+                });
             }
         }
     });

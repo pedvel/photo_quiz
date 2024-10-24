@@ -69,7 +69,7 @@ nav div {
 nav img {
     height: 40px;
     width: 40px;
-    background-color: var(--darkgrey);
+    border-radius: 100px;
 }
 
 main {
@@ -283,10 +283,10 @@ body.dark-mode .buttonsecondary:hover {
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    width: 100%; 
+    height: 100%; 
     overflow: auto; /* Enable scroll if needed */
-    background-color: var(--shadow); /* Black w/ opacity */
+    background-color: var(--shadow); 
 }
 .modal-content {
     background-color: var(--purple);
@@ -376,7 +376,7 @@ body.dark-mode .divider2 .modeGallery {
     flex-wrap: wrap;
   }
   
-  /* Create four equal columns that sits next to each other */
+  /* Create four equal columns that sit next to each other */
   .column {
     flex: 25%;
     max-width: 25%;
@@ -418,8 +418,6 @@ body.dark-mode .divider2 .modeGallery {
   body.dark-mode .card__content p {
     color: var(--white);
   }
-
-  
 
   /* Responsive layout - makes a two column-layout instead of four columns */
   @media screen and (max-width: 800px) {
@@ -792,20 +790,30 @@ body.processing {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0f0f0f;
+    background: var(--white);
     z-index: 9999;
     backdrop-filter: blur(5px);
     align-content: center;
     text-align: -webkit-center;
   }
+
+  body.dark-mode .loading {
+    background: var(--black);
+  }
   
   .spinner {
-    border: 8px solid rgba(215, 210, 210, 0.1);
-    border-left: 8px solid white;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
     animation: spin 1s linear infinite;
+    background-image: url('./img/yellow-spinner.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+
+  body.dark-mode .spinner {
+    background-image: url('./img/purple-spinner.png'); 
   }
   
   @keyframes spin {
@@ -813,7 +821,7 @@ body.processing {
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+      transform: rotate(-360deg);
     }
   }
 
@@ -938,7 +946,7 @@ body.dark-mode .bookmark-icon {
 
 .bookmark-toggle:checked + .bookmark-icon::before {
     content: "\f02e"; 
-    font-weight: 900; /* Solid weight */
+    font-weight: 900; 
 }
 
 .popup {
@@ -1021,6 +1029,12 @@ body.dark-mode .highlightText2 {
     padding-bottom: 5px;
     transition: top 0.3s; 
     position: relative;
+    font-weight: 600;
+    color: var(--purple);
+}
+
+body.dark-mode .explore h2 {
+    color: var(--yellow);
 }
 
 .sticky {
@@ -1138,6 +1152,7 @@ body.dark-mode .sticky {
     margin: 0 !important;
     padding: 0 !important;
 }
+
 body.dark-mode .explorePopup_text {
     background-color: var(--black);
     color: var(--white);

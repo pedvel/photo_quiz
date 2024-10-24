@@ -8,9 +8,9 @@
     <header class="headerApp">
         <nav>
             <a href="{% url 'home' %}">
-                <img>
+                <img src="../../static/img/logo.png">
             </a>
-            <h1>Profile</h1>
+            <h1>{{ username }}</h1>
             <div>
                 <i class="fa-regular fa-lightbulb"></i>
                 <div class="toggle-switch">
@@ -29,7 +29,6 @@
         </form>
         <div class="noExplore">
             <div>
-                {{username}}
                 <h3 class="highlightText2">Under construction</h3>
                 <p>Thank you for your support!</p>
             </div>
