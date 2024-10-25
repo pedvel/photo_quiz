@@ -241,9 +241,21 @@ def upload(request):
 @login_required()
 def profile(request):
     user = request.user
+    theme = get_quiz()
+    photos = Content.objects.filter(user=user).order_by('-created_at').values('pic', 'quiz_content', 'id')
+    for item in photos:
+        item['pic'] = f"{settings.MEDIA_URL}{item['pic']}"
+
+    bkm_others = Favorites.objects.filter(image__in=(photo['id'] for photo in photos)).select_related('content').values_list('image__id', flat=True)
+
+    total_bkm = len(bkm_others) 
 
     return render(request, 'profile.html', {
-        'username': user.name
+        'username': user.name,
+        'theme':theme,
+        'photos':photos,
+        'bkm_others':bkm_others,
+        'total_bkm': total_bkm
     })
 
 @login_required()
