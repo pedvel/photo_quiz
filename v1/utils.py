@@ -2,7 +2,9 @@ from datetime import timezone, datetime
 import csv
 from django.shortcuts import redirect
 from .models import Content, Favorites
-from PIL import ExifTags, Image
+from PIL import ExifTags, Image, features
+import pillow_avif
+import pillow_heif
 import re
 import io
 from django.core.files.base import ContentFile
@@ -75,10 +77,15 @@ def save_image(content, image_field):
         ogimg = correct_image_orientation(ogimg)
 
         ogwidth, ogheight = ogimg.size
-        newsize = (int((ogwidth / ogheight) * 800), 800)
+        newsize = (int((ogwidth / ogheight) * 450), 450)
         img = ogimg.resize(newsize)
         img_io = io.BytesIO()
-        img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
+
+        if features.check('avif'):
+            img_format = 'AVIF'
+        else:
+            img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
+    
         img.save(img_io, format=img_format)
         img_io.seek(0)  # Move the cursor to the beginning of the BytesIO object
 
