@@ -81,11 +81,9 @@ def save_image(content, image_field):
         img_io = io.BytesIO()
 
         # Force save as AVIF if available
-        img_format = 'AVIF' if 'AVIF' in Image.SAVE else 'JPEG' 
-        img.save(img_io, format=img_format)  # Save in AVIF format
-
+        img.save(img_io, format='AVIF', quality=50, reduction=2)  # AVIF-specific options
         img_io.seek(0)
-
+        
         # Prepare the file for saving with .avif extension
         img_content = ContentFile(img_io.getvalue(), name=image_field.name.rsplit('.', 1)[0] + '.avif')
 
