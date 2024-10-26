@@ -1013,7 +1013,7 @@ body.dark-mode .highlightText2 {
 
 /*Explore*/
 .explore {
-    padding-bottom: 45px;
+    padding-bottom: 70px;
     overflow-x: hidden; 
 }
 
@@ -1170,26 +1170,28 @@ body.dark-mode .explorePopup_text h2 {
 }
 
 /*PROFILE*/
-.noExplore {
+.userHeader {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 60px;
-    gap: 30px;
-    height: 60vh;
-}
-
-.noExplore div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.noExplore h2 {
     width: 100%;
-    max-width: 440px;
-    text-align: center;
-    padding: 0;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.userHeader p {
+    color: var(--darkgrey);
+    line-height: 1;
+}
+
+.photoOfTheDay img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.popupprofile {
+    top: 30% !important;
 }
 
 /*Media Queries*/
