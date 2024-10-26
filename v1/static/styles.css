@@ -1140,6 +1140,12 @@ body.dark-mode .sticky {
     border: 2px solid var(--purple);
 }
 
+body.dark-mode .explorePopup_text {
+    background-color: var(--black);
+    color: var(--white);
+    border: 2px solid var(--yellow);
+}
+
 .explorePopup .explorePopup_text h1 {
     top: auto;
     position: relative;
@@ -1151,12 +1157,12 @@ body.dark-mode .sticky {
     text-align: -webkit-center !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-weight: 400;
+    color: var(--black) !important;
 }
 
-body.dark-mode .explorePopup_text {
-    background-color: var(--black);
-    color: var(--white);
-    border: 2px solid var(--yellow);
+body.dark-mode .explorePopup_text h2 {
+    color: var(--white) !important;
 }
 
 .explorePopup input {

@@ -74,9 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else {
                             // Append based on the container type
                             if (container.classList.contains('image-grid')) {
-                                appendGridImage(container, username, imgUrl, imgId);
+                                appendGridImage(container, username, imgUrl, imgId, theme);
                             } else {
-                                appendExpandedImage(container, username, imgUrl, imgId);
+                                appendExpandedImage(container, username, imgUrl, imgId, theme);
                             }
                         }
                     });
@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
         img.src = imgUrl;
         img.className = 'image';
         img.style.filter = 'blur(8px)';
+        img.alt = theme;
         moreDiv.appendChild(img);
 
         const loadMoreButton = document.createElement('a');
@@ -126,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Remaining photos
-    function appendGridImage(container, username, imgUrl, imgId) {
+    function appendGridImage(container, username, imgUrl, imgId, theme) {
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
         hiddenInput.value = username;
@@ -136,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
         img.src = imgUrl;
         img.id = imgId;
         img.className = 'image';
+        img.alt = username + " " + theme;
         container.appendChild(img);
     }
 
@@ -164,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Remaining photos
-    function appendExpandedImage(container, username, imgUrl, imgId) {
+    function appendExpandedImage(container, username, imgUrl, imgId, theme) {
         let newLayoutHTML = `
                 <div class="photoContainer">
                     <div>
@@ -172,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p>...</p>
                     </div>
                     <div class="photo">
-                        <img src="${imgUrl}">
+                        <img src="${imgUrl}" alt="${username} ${theme}">
                         <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
                         <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
                     </div>
@@ -230,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const allImages = themeContainer.querySelectorAll('.image');
         const usernameInputs = themeContainer.querySelectorAll('input[type="hidden"]');
         const originalMoreDivs = themeContainer.querySelectorAll('.more');
+        const theme = themeContainer.querySelector('h2').textContent;
 
         let newLayoutHTML = `<div class="expanded-view">`;
 
@@ -252,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p>...</p>
                     </div>
                     <div class="photo">
-                        <img src="${img.src}">
+                        <img src="${img.src}" alt="${username} ${theme}">
                         <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
                         <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
                     </div>
@@ -273,6 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const lastUsernameInput = lastMoreDiv.querySelector('input[type="hidden"]');
                 const loadMoreButton = lastMoreDiv.querySelector('#loadMore');
                 const imgId = lastMoreImage.id;
+                const theme = themeContainer.querySelector('h2').textContent;
 
                 let newMoreHTML = `
                     <div class="more photoContainer">
@@ -281,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <p>...</p>
                         </div>
                         <div class="photo">
-                            <img src="${lastMoreImage.src}">
+                            <img src="${lastMoreImage.src}" alt=${lastUsernameInput.value} ${theme}>
                             <a id="loadMore" class="highlightText2"
                                data-theme="${loadMoreButton.getAttribute('data-theme')}"
                                data-offset="${loadMoreButton.getAttribute('data-offset')}"

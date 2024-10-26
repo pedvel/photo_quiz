@@ -8,7 +8,7 @@
     <header class="headerApp">
         <nav>
             <a href="{% url 'home' %}">
-                <img src="../../static/img/logo.png">
+                <img src="../../static/img/logo.png" alt="Pixly logo">
             </a>
             <h1>{{ quiz }}</h1>
             <div>
@@ -31,7 +31,7 @@
                     <p>...</p>
                 </div>
                 <div class="photo">
-                    <img src="{{pic}}">
+                    <img src="{{pic}}" alt="{{ user }} {{ quiz }}">
                     <input type="checkbox" id="checkbox-{{id}}" class="bookmark-toggle" 
                            onchange="bookmark({{id}})"
                            {% if id in favorites %}checked{% endif %}>
