@@ -73,29 +73,34 @@ def get_favorites(user):
 
 def save_image(content, image_field):
     try:
+        # Open the image and resize it
         ogimg = Image.open(image_field)
-        ogimg = correct_image_orientation(ogimg)
-
         ogwidth, ogheight = ogimg.size
         newsize = (int((ogwidth / ogheight) * 450), 450)
         img = ogimg.resize(newsize)
         img_io = io.BytesIO()
 
-        if features.check('avif'):
-            img_format = 'AVIF'
-        else:
-            img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
-    
-        img.save(img_io, format=img_format)
-        img_io.seek(0)  # Move the cursor to the beginning of the BytesIO object
+        # Force save as AVIF if available
+        img_format = 'AVIF' if 'AVIF' in Image.SAVE else 'JPEG' 
+        img.save(img_io, format=img_format)  # Save in AVIF format
 
-        img_content = ContentFile(img_io.getvalue(), name=image_field.name)
-        content.pic.save(content.pic.name, img_content, save=False)  # Save the image to the model
+        img_io.seek(0)
 
-        content.save()  # Finally save the content object
-        return True,  None
-    except ValueError as e:
+        # Prepare the file for saving with .avif extension
+        img_content = ContentFile(img_io.getvalue(), name=image_field.name.rsplit('.', 1)[0] + '.avif')
+
+        # Delete any existing pic field to avoid cached formats
+        if content.pic:
+            content.pic.delete(save=False)
+        
+        # Save the image to the content model with .avif extension
+        content.pic.save(img_content.name, img_content, save=False)
+
+        # Save the content model instance
+        content.save()
+        return True, None
+
+    except ValueError:
         return False, 'invalid image format'
     except Exception as e:
-        return False, 'Error processing the image'
-
+        return False, f'Error processing the image: {str(e)}'

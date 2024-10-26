@@ -43,4 +43,12 @@ class ContentForm (forms.ModelForm):
     class Meta:
         model = Content
         fields = ['pic']
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if instance.pic and 'avif' not in instance.pic.name:
+            instance.pic.name = instance.pic.name.rsplit('.', 1)[0] + '.avif'
+        if commit:
+            instance.save()
+        return instance
         
