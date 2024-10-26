@@ -8,7 +8,7 @@
     <header class="headerApp">
         <nav>
             <a href="{% url 'home' %}">
-                <img src="../../static/img/logo.png">
+                <img src="../../static/img/logo.png" alt="Pixly logo">
             </a>
             <h1>{{ username }}</h1>
             <div>
@@ -22,33 +22,51 @@
             
         </nav>
     </header>
-    <main class="mainPhoto">
+    <main class="mainPhoto explore">
+        <div class="userHeader">
+            <div>
+                <a id="followers" class="buttonsecondary">Followers</a>
+                <a id="following" class="buttonsecondary">Following</a>
+            </div>
+            <div id="bmkOthers">
+                <p>{{total_bkm}}</p>
+                <p>saves</p>
+                <!--<p>List of content id of saved user photos: {{bkm_others}}</p>-->
+            </div>
+        </div>
+        <div id="popup" class="popup popupprofile"></div>
+
+        {% for item in photos %}
+            {% if item.quiz_content == theme %}
+                <div class="photoOfTheDay">
+                    <!--<p>Theme of the day: {{theme}}</p>-->
+                    <img src="{{ item.pic }}" alt="{{ item.theme }}">
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        
+        <div class="image-grid">
+            {% for item in photos %}
+                {% if item.quiz_content != theme %}
+                    <img src="{{ item.pic }}" class="image" alt="{{ item.theme }}">
+                {% endif %}
+            {% endfor %}
+        </div>
+        
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form>
-        <div class="noExplore">
-            <div>
-               
-                
-                <h3 class="highlightText2">Under construction</h3>
-                <p>Thank you for your support!</p>
-            </div>
-            <h2 class="highlightText">Stay tuned—soon you'll be able to access you profile, saved photos, and more!</h2>
 
-            
-            
-            
-            <!--<h3>{{theme}}</h3>
-            {{total_bkm}}
-            {{bkm_others}} // List of content id of saved user photos
+        <!--<div>
             {% for item in photos %}
             {{item.quiz_content}}
             <img src="{{item.pic}}" alt="{{item.theme}}" width="450px">                     
-            {% endfor %}-->
-        
-        </div>
+            {% endfor %}
+        </div>-->
     </main>
+    
     <footer>
         <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
@@ -56,5 +74,5 @@
     </footer>
 </div>
 <script src="../static/js.js"></script>
-<script src="../static/bookmark.js"></script>
+<script src="../static/profile.js"></script>
 {% endblock %}

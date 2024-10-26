@@ -1013,7 +1013,7 @@ body.dark-mode .highlightText2 {
 
 /*Explore*/
 .explore {
-    padding-bottom: 45px;
+    padding-bottom: 70px;
     overflow-x: hidden; 
 }
 
@@ -1140,6 +1140,12 @@ body.dark-mode .sticky {
     border: 2px solid var(--purple);
 }
 
+body.dark-mode .explorePopup_text {
+    background-color: var(--black);
+    color: var(--white);
+    border: 2px solid var(--yellow);
+}
+
 .explorePopup .explorePopup_text h1 {
     top: auto;
     position: relative;
@@ -1151,12 +1157,12 @@ body.dark-mode .sticky {
     text-align: -webkit-center !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-weight: 400;
+    color: var(--black) !important;
 }
 
-body.dark-mode .explorePopup_text {
-    background-color: var(--black);
-    color: var(--white);
-    border: 2px solid var(--yellow);
+body.dark-mode .explorePopup_text h2 {
+    color: var(--white) !important;
 }
 
 .explorePopup input {
@@ -1164,26 +1170,28 @@ body.dark-mode .explorePopup_text {
 }
 
 /*PROFILE*/
-.noExplore {
+.userHeader {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 60px;
-    gap: 30px;
-    height: 60vh;
-}
-
-.noExplore div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.noExplore h2 {
     width: 100%;
-    max-width: 440px;
-    text-align: center;
-    padding: 0;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.userHeader p {
+    color: var(--darkgrey);
+    line-height: 1;
+}
+
+.photoOfTheDay img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.popupprofile {
+    top: 30% !important;
 }
 
 /*Media Queries*/

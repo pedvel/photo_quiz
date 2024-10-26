@@ -8,7 +8,7 @@
     <header class="headerApp">
         <nav>
             <a id="logoBackContainer" href="{% url 'home' %}">
-                <img id="logoBack" src="../../static/img/logo.png">
+                <img id="logoBack" src="../../static/img/logo.png" alt="Pixly logo">
             </a>
             <h1>Explore</h1>
             <div>
@@ -33,12 +33,12 @@
                                 {% if forloop.counter == 6 %}
                                 <div class="more">
                                     <input type="hidden" value="{{ pic.2 }}">
-                                    <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
+                                    <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image" alt="{{ pic.2 }} {{ quiz_content }}">
                                     <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}" ><i class="fa-solid fa-circle-plus"></i></a>
                                 </div>
                                 {% else %}
                                 <input type="hidden" value="{{ pic.2 }}">
-                                <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image">
+                                <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image" alt="{{ pic.2 }} {{ quiz_content }}">
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -50,7 +50,7 @@
                         <h2>{{ quiz_content }}</h2>
                         <div class="image-grid blur">
                             {% for pic in images %}
-                                <img src="{{ pic.1 }}" class="image">
+                                <img src="{{ pic.1 }}" class="image" alt="{{ quiz_content }}">
                             {% endfor %}
                             <i onclick="snapTheme('{{ quiz_content }}')" class="fa-solid fa-eye highlightText2"></i>
                         </div>
