@@ -242,6 +242,8 @@ def upload(request):
 def profile(request):
     user = request.user
     theme = get_quiz()
+    today_participation = existing_content(user)
+    
     photos = Content.objects.filter(user=user).order_by('-created_at').values('pic', 'quiz_content', 'id')
     for item in photos:
         item['pic'] = f"{settings.MEDIA_URL}{item['pic']}"
@@ -255,7 +257,8 @@ def profile(request):
         'theme':theme,
         'photos':photos,
         'bkm_others':bkm_others,
-        'total_bkm': total_bkm
+        'total_bkm': total_bkm,
+        'today_participation': today_participation
     })
 
 @login_required()

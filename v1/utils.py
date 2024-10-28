@@ -2,9 +2,8 @@ from datetime import timezone, datetime
 import csv
 from django.shortcuts import redirect
 from .models import Content, Favorites
-from PIL import ExifTags, Image, features
+from PIL import ExifTags, Image
 import pillow_avif
-import pillow_heif
 import re
 import io
 from django.core.files.base import ContentFile
@@ -20,7 +19,7 @@ def get_quiz():
 
         return rows[today-1]['quiz']
 
-
+"""
 def correct_image_orientation(img):
     try:
         # Get Exif orientation data
@@ -38,7 +37,7 @@ def correct_image_orientation(img):
                 img = img.rotate(90, expand=True)
     except Exception as e:
         print(f"Error correcting image orientation: {e}")
-    return img
+    return img"""
 
 def existing_content(user):
     check_completion = Content.objects.filter(user=user, quiz_content=get_quiz()).exists()
