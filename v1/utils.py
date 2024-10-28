@@ -3,6 +3,7 @@ import csv
 from django.shortcuts import redirect
 from .models import Content, Favorites
 from PIL import ExifTags, Image
+import pillow_avif
 import re
 import io
 from django.core.files.base import ContentFile
@@ -18,7 +19,7 @@ def get_quiz():
 
         return rows[today-1]['quiz']
 
-
+"""
 def correct_image_orientation(img):
     try:
         # Get Exif orientation data
@@ -36,7 +37,7 @@ def correct_image_orientation(img):
                 img = img.rotate(90, expand=True)
     except Exception as e:
         print(f"Error correcting image orientation: {e}")
-    return img
+    return img"""
 
 def existing_content(user):
     check_completion = Content.objects.filter(user=user, quiz_content=get_quiz()).exists()
@@ -71,24 +72,32 @@ def get_favorites(user):
 
 def save_image(content, image_field):
     try:
+        # Open the image and resize it
         ogimg = Image.open(image_field)
-        ogimg = correct_image_orientation(ogimg)
-
         ogwidth, ogheight = ogimg.size
-        newsize = (int((ogwidth / ogheight) * 800), 800)
+        newsize = (int((ogwidth / ogheight) * 450), 450)
         img = ogimg.resize(newsize)
         img_io = io.BytesIO()
-        img_format = 'PNG' if img.format == 'PNG' else 'JPEG'  # Determine format
-        img.save(img_io, format=img_format)
-        img_io.seek(0)  # Move the cursor to the beginning of the BytesIO object
 
-        img_content = ContentFile(img_io.getvalue(), name=image_field.name)
-        content.pic.save(content.pic.name, img_content, save=False)  # Save the image to the model
+        # Force save as AVIF if available
+        img.save(img_io, format='AVIF', quality=50, reduction=2)  # AVIF-specific options
+        img_io.seek(0)
+        
+        # Prepare the file for saving with .avif extension
+        img_content = ContentFile(img_io.getvalue(), name=image_field.name.rsplit('.', 1)[0] + '.avif')
 
-        content.save()  # Finally save the content object
-        return True,  None
-    except ValueError as e:
+        # Delete any existing pic field to avoid cached formats
+        if content.pic:
+            content.pic.delete(save=False)
+        
+        # Save the image to the content model with .avif extension
+        content.pic.save(img_content.name, img_content, save=False)
+
+        # Save the content model instance
+        content.save()
+        return True, None
+
+    except ValueError:
         return False, 'invalid image format'
     except Exception as e:
-        return False, 'Error processing the image'
-
+        return False, f'Error processing the image: {str(e)}'
