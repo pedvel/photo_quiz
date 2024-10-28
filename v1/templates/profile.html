@@ -36,16 +36,26 @@
         </div>
         <div id="popup" class="popup popupprofile"></div>
 
-        {% for item in photos %}
-            {% if item.quiz_content == theme %}
+        {% with theme_found=False %}
+            {% for item in photos %}
+                {% if theme in item.quiz_content %}
+                    {% with theme_found=True %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
+
+            {% if theme_found %}
                 <div class="photoOfTheDay">
-                    <!--<p>Theme of the day: {{theme}}</p>-->
                     <img src="{{ item.pic }}" alt="{{ item.theme }}">
                 </div>
+            {% else %}
+                <div class="participate">
+                    <i class="fa-solid fa-camera"></i>
+                    <h3>{{ theme }}</h3>
+                </div>
             {% endif %}
-        {% endfor %}
+        {% endwith %}
 
-        
         <div class="image-grid">
             {% for item in photos %}
                 {% if item.quiz_content != theme %}

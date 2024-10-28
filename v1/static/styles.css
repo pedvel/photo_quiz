@@ -1194,6 +1194,25 @@ body.dark-mode .explorePopup_text h2 {
     top: 30% !important;
 }
 
+.participate {
+    width: 100vw;
+    max-width: 450px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background-color: var(--yellowhover);
+}
+
+body.dark-mode .participate {
+    background-color: var(--purplehover);
+}
+
+.participate i {
+    font-size: 3rem;
+}
+
 /*Media Queries*/
 /*Tablets*/
 @media (max-width: 850px) {
