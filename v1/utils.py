@@ -19,7 +19,7 @@ def get_quiz():
 
         return rows[today-1]['quiz']
 
-"""
+
 def correct_image_orientation(img):
     try:
         # Get Exif orientation data
@@ -37,7 +37,7 @@ def correct_image_orientation(img):
                 img = img.rotate(90, expand=True)
     except Exception as e:
         print(f"Error correcting image orientation: {e}")
-    return img"""
+    return img
 
 def existing_content(user):
     check_completion = Content.objects.filter(user=user, quiz_content=get_quiz()).exists()
@@ -72,32 +72,39 @@ def get_favorites(user):
 
 def save_image(content, image_field):
     try:
-        # Open the image and resize it
+        # Open the original image
         ogimg = Image.open(image_field)
-        ogwidth, ogheight = ogimg.size
+        ogimg = correct_image_orientation(ogimg)
+        
+        # Create a new image without EXIF data
+        clean_img = Image.new(ogimg.mode, ogimg.size)
+        clean_img.paste(ogimg)
+        
+        # Resize the image
+        ogwidth, ogheight = clean_img.size
         newsize = (int((ogwidth / ogheight) * 450), 450)
-        img = ogimg.resize(newsize)
+        img = clean_img.resize(newsize)
+        
+        # Save the image as AVIF in a BytesIO buffer
         img_io = io.BytesIO()
-
-        # Force save as AVIF if available
         img.save(img_io, format='AVIF', quality=50, reduction=2)  # AVIF-specific options
         img_io.seek(0)
         
         # Prepare the file for saving with .avif extension
         img_content = ContentFile(img_io.getvalue(), name=image_field.name.rsplit('.', 1)[0] + '.avif')
-
+        
         # Delete any existing pic field to avoid cached formats
         if content.pic:
             content.pic.delete(save=False)
         
         # Save the image to the content model with .avif extension
         content.pic.save(img_content.name, img_content, save=False)
-
+        
         # Save the content model instance
         content.save()
         return True, None
 
     except ValueError:
-        return False, 'invalid image format'
+        return False, 'Invalid image format'
     except Exception as e:
         return False, f'Error processing the image: {str(e)}'
