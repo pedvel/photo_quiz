@@ -26,8 +26,26 @@
     </script>
 </head>
 <body>
-    {% block body %}{% endblock %}
-    
+    <div class="bodyApp">
+        <header class="headerApp">
+            <nav>
+                <a id="logoBackContainer" href="{% url 'home' %}">
+                    <img src="../../static/img/logo.png" alt="Pixly logo">
+                </a>
+                <h1>{% block h1 %}{% endblock %}</h1>
+                <div>
+                    <i class="fa-regular fa-lightbulb"></i>
+                    <div class="toggle-switch">
+                        <input class="toggle-input" id="toggle" type="checkbox">
+                        <label class="toggle-label" for="toggle" id="toggle2"></label>
+                    </div>
+                    <i class="fa-regular fa-moon"></i>
+                </div>
+                
+            </nav>
+        </header>
+        {% block main %}{% endblock %}
+    </div>
     <script src="../../static/modetoggle.js"></script>
 </body>
 </html>

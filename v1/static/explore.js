@@ -236,6 +236,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let newLayoutHTML = `<div class="expanded-view">`;
 
+        // Load bookmark.js if not already loaded
+        loadScript('../static/bookmark.js')
+            .then(() => {
+                console.log('bookmark.js loaded successfully.');
+            })
+            .catch((error) => {
+                console.error('Error loading bookmark.js:', error);
+            });
+
         // Get the total count of images
         const totalImagesCount = allImages.length;
 
@@ -338,6 +347,15 @@ const explorePopupText = document.querySelector('.explorePopup_text');
 
 // Function to show the pop-up
 function showPopup(quizContent) {
+    // Load upload.js 
+    loadScript('../static/upload.js')
+        .then(() => {
+            console.log('upload.js loaded successfully.');
+        })
+        .catch((error) => {
+            console.error('Error loading upload.js:', error);
+        });
+
     // Update the h1 and input value based on the clicked container's content
     explorePopup.querySelector('.highlightText').textContent = quizContent;
     explorePopup.querySelector('input[name="theme"]').value = quizContent;
@@ -368,3 +386,14 @@ document.addEventListener('touchstart', function (event) {
         hidePopup();
     }
 });
+
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}

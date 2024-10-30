@@ -11,7 +11,6 @@
     --lightgrey: #EBEBEB;
     --darkgrey: #AEAEAE;
     --darkgrey2: #141414;
-
 }
 
 * {
@@ -23,13 +22,11 @@
 body {
     background-color: var(--white);
     color: var(--black);
-    transition: background-color 0.3s ease;
 }
 
 body.dark-mode {
     background-color: var(--black);
     color: var(--white);
-    transition: background-color 0.3s ease;
 }
 
 header {
@@ -115,12 +112,10 @@ body.dark-mode .highlightText {
 
 .highlightSection {
     background-color: var(--yellow);
-    transition: background-color 0.3s ease;
 }
 
 body.dark-mode .highlightSection {
     background-color: var(--purple);
-    transition: background-color 0.3s ease;
 }
 
 .buttonprimary1 {
@@ -183,61 +178,60 @@ body.dark-mode .buttonsecondary:hover {
   }
   
 .toggle-switch .toggle-input {
-display: none;
+    display: none;
 }
 
 .toggle-switch .toggle-label {
-position: absolute;
-top: 0;
-left: 0;
-width: 40px;
-height: 24px;
-background-color: var(--darkgrey);
-border-radius: 34px;
-cursor: pointer;
-transition: background-color 0.3s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 24px;
+    background-color: var(--darkgrey);
+    border-radius: 34px;
+    cursor: pointer;
 }
 
 .toggle-switch .toggle-label::before {
-content: "";
-position: absolute;
-width: 20px;
-height: 20px;
-border-radius: 50%;
-top: 2px;
-left: 2px;
-background-color: var(--black);
-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
-transition: transform 0.3s;
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    background-color: var(--black);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
 }
 
 .toggle-switch .toggle-input:checked + .toggle-label::before {
-transform: translateX(16px);
-background-color: var(--white);
+    transform: translateX(16px);
+    background-color: var(--white);
 }
 
 .toggle-switch.light .toggle-label {
-background-color: #BEBEBE;
+    background-color: #BEBEBE;
 }
 
 .toggle-switch.light .toggle-input:checked + .toggle-label {
-background-color: #9B9B9B;
+    background-color: #9B9B9B;
 }
 
 .toggle-switch.light .toggle-input:checked + .toggle-label::before {
-transform: translateX(6px);
+    transform: translateX(6px);
 }
 
 .toggle-switch.dark .toggle-label {
-background-color: #4B4B4B;
+    background-color: #4B4B4B;
 }
 
 .toggle-switch.dark .toggle-input:checked + .toggle-label {
-background-color: #717171;
+    background-color: #717171;
 }
 
 .toggle-switch.dark .toggle-input:checked + .toggle-label::before {
-transform: translateX(16px);
+    transform: translateX(16px);
 }
   
 /*Landing*/
@@ -379,13 +373,13 @@ body.dark-mode .divider2 .modeGallery {
   
 /* Create four equal columns that sit next to each other */
 .column {
-flex: 25%;
-max-width: 25%;
+    flex: 25%;
+    max-width: 25%;
 }
 
 .column img {
-vertical-align: middle;
-width: 100%;
+    vertical-align: middle;
+    width: 100%;
 }
 
   /* From Uiverse.io by adamgiebl */ 
@@ -399,41 +393,41 @@ width: 100%;
   }
   
 .card__content {
-background: var(--white);
-border-radius: 4px;
-width: fit-content;
-padding: 4px 8px;
-color: white;
-align-content: center;
+    background: var(--white);
+    border-radius: 4px;
+    width: fit-content;
+    padding: 4px 8px;
+    color: white;
+    align-content: center;
 }
 
 body.dark-mode .card__content {
-background: var(--black);
-color: var(--white);
+    background: var(--black);
+    color: var(--white);
 }
 
 .card__content p {
-color: var(--black);
+    color: var(--black);
 }
 
 body.dark-mode .card__content p {
-color: var(--white);
+    color: var(--white);
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
 @media screen and (max-width: 800px) {
-.column {
-    flex: 50%;
-    max-width: 50%;
-}
+    .column {
+        flex: 50%;
+        max-width: 50%;
+    }
 }
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
-.column {
-    flex: 100%;
-    max-width: 100%;
-}
+    .column {
+        flex: 100%;
+        max-width: 100%;
+    }
 }
 
 #scrollToTop {
@@ -475,12 +469,10 @@ body.dark-mode #scrollToTop:hover {
     align-items: center;
     justify-content: center;
     background-color: var(--yellowhover);
-    transition: background-color 0.3s ease;
 }
 
 body.dark-mode .mainForm {
     background-color: var(--purplehover);
-    transition: background-color 0.3s ease;
 }
 
 .formContainer {
@@ -489,12 +481,10 @@ body.dark-mode .mainForm {
     padding: 25px;
     border-radius: 8px;
     box-shadow: 10px 10px 15px var(--shadow);
-    transition: background-color 0.3s ease;
 }
 
 body.dark-mode .formContainer {
     background-color: var(--black);
-    transition: background-color 0.3s ease;
 }
 
 .formContainer h1 {
@@ -515,7 +505,6 @@ body.dark-mode .formContainer {
     margin: 5px;
     text-align: center;
     border: var(--darkgrey) solid 1px;
-    transition: background-color 0.3s ease;
     font-size: inherit;
     line-height: inherit;
     padding: 5px 0px;
@@ -588,7 +577,6 @@ body.dark-mode .formContainer input:focus {
     font-weight: 700;
     font-size: 1rem;
     border: none;
-    transition: background-color 0.3s ease;
     width: -webkit-fill-available;
     cursor: pointer;
 }
@@ -605,7 +593,6 @@ body.dark-mode .formContainer input:focus {
     font-weight: 700;
     font-size: 1rem;
     border: none;
-    transition: background-color 0.3s ease;
     width: -webkit-fill-available;
 }
 
@@ -621,12 +608,10 @@ body.dark-mode .formContainer input:focus {
 
 body.dark-mode .buttonprimary2 {
     background-color: var(--yellow);
-    transition: background-color 0.3s ease;
 }
 
 body.dark-mode .loginButton {
     background-color: var(--yellow);
-    transition: background-color 0.3s ease;
 }
 
 body.dark-mode .buttonprimary2:hover {
@@ -670,7 +655,6 @@ body.dark-mode .loginButton:hover {
     font-weight: 700;
     font-size: 1rem;
     width: -webkit-fill-available;
-    transition: background-color 0.3s ease;
     text-decoration: none;
 }
 
@@ -712,26 +696,20 @@ body.dark-mode .errorlist li {
 }
 
 /*Snap*/
-.logout {
-    z-index: 2;
-    position: fixed;
-}
-
 .bodyApp {
     display: flex;
     justify-content: center;
 }
 
-.mainNoPhoto {
+.mainNoScroll {
     top: 65px;
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width: -webkit-fill-available;
-    max-width: 450px;
     height: 70vh;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 #photoForm input {
@@ -739,7 +717,6 @@ body.dark-mode .errorlist li {
 }
 
 .shutter-button {
-    z-index: 2;
     display: inline-block;
     width: 80px; 
     height: 80px; 
@@ -747,11 +724,9 @@ body.dark-mode .errorlist li {
     border: 3px solid var(--black);
     border-radius: 50%; 
     animation: shadows 5s infinite;
-    cursor: pointer; 
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    align-self: baseline;
 }
 
 body.dark-mode .shutter-button {
@@ -793,10 +768,7 @@ body.processing {
     width: 100%;
     height: 100%;
     background: var(--white);
-    z-index: 9999;
-    backdrop-filter: blur(5px);
     align-content: center;
-    text-align: -webkit-center;
   }
 
 body.dark-mode .loading {
@@ -835,13 +807,11 @@ footer {
     max-width: 450px;
     justify-content: space-evenly;
     background-color: var(--white);
-    transition: background-color 0.3s ease;
     padding: 15px 0;
 }
 
 body.dark-mode footer {
     background-color: var(--black);
-    transition: background-color 0.3s ease;
 }
 
 footer a {
@@ -865,23 +835,21 @@ body.dark-mode .active {
 /*Home - Theme completed*/
 .headerApp {
     background-color: var(--white);
-    transition: background-color 0.3s ease;
     max-width: 450px;
-    z-index: 2;
 }
 
 body.dark-mode .headerApp {
     background-color: var(--black);
-    transition: background-color 0.3s ease;
 }
 
-.mainPhoto {
+.mainScroll {
     top: 75px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    padding-bottom: 70px;
+    overflow-x: hidden; 
     width: -webkit-fill-available;
     max-width: 450px;
 }
@@ -890,19 +858,17 @@ body.dark-mode .headerApp {
     margin-bottom: 15px;
 }
 
-.mainPhoto h1 {
+.mainScroll h1 {
     position: fixed;
     top: 59px;
     padding-bottom: 10px;
     z-index: 1;
     background-color: var(--white);
     width: -webkit-fill-available;
-    transition: background-color 0.3s ease;
 }
 
-body.dark-mode .mainPhoto h1 {
+body.dark-mode .mainScroll h1 {
     background-color: var(--black);
-    transition: background-color 0.3s ease;
 }
 
 .photoContainer p {
@@ -972,7 +938,7 @@ body.dark-mode .popup {
 
 .homeEnd {
     height: 160px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -1015,22 +981,12 @@ body.dark-mode .highlightText2 {
 }
 
 /*Explore*/
-.explore {
-    padding-bottom: 70px;
-    overflow-x: hidden; 
-}
-
-.explore h1 {
-    z-index: 2;
-}
-
 .explore h2 {
     width: 100%;
     max-width: 440px;
     text-align: left;
     padding-left: 10px;
     padding-bottom: 5px;
-    transition: top 0.3s; 
     position: relative;
     font-weight: 600;
     color: var(--purple);
@@ -1040,7 +996,7 @@ body.dark-mode .explore h2 {
     color: var(--yellow);
 }
 
-.sticky {
+/*.sticky {
     position: sticky;
     top: 112px;
     background-color: var(--white); 
@@ -1049,7 +1005,7 @@ body.dark-mode .explore h2 {
 
 body.dark-mode .sticky {
     background-color: var(--black);
-}
+}*/
 
 .themeContainer {
     margin-bottom: 20px;
@@ -1314,11 +1270,9 @@ body.dark-mode .participate {
     }
     .mainForm {
         background-color: var(--white);
-        transition: background-color 0.3s ease;
     }
     body.dark-mode .mainForm {
         background-color: var(--black);
-        transition: background-color 0.3s ease;
     }
     .formContainer {
         box-shadow: none;
@@ -1326,10 +1280,10 @@ body.dark-mode .participate {
     .formContainer h1 {
         font-size: 2rem;
     }
-    .mainNoPhoto h1 {
+    .mainNoScroll h1 {
         font-size: 2rem;
     }
-    .mainNoPhoto h2 {
+    .mainNoScroll h2 {
         font-size: 1.2rem;
     }
 }

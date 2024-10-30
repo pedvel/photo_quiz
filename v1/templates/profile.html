@@ -1,28 +1,9 @@
-{% extends 'layout.html' %}
+{% extends 'layoutapp.html' %}
 
-{% block title %}Profile{% endblock %}
+{% block h1 %}{{ username }}{% endblock %}
 
-{% block body %}
-
-<div class="bodyApp">
-    <header class="headerApp">
-        <nav>
-            <a href="{% url 'home' %}">
-                <img src="../../static/img/logo.png" alt="Pixly logo">
-            </a>
-            <h1>{{ username }}</h1>
-            <div>
-                <i class="fa-regular fa-lightbulb"></i>
-                <div class="toggle-switch">
-                    <input class="toggle-input" id="toggle" type="checkbox">
-                    <label class="toggle-label" for="toggle" id="toggle2"></label>
-                </div>
-                <i class="fa-regular fa-moon"></i>
-            </div>
-            
-        </nav>
-    </header>
-    <main class="mainPhoto explore">
+{% block main %}
+    <main class="mainScroll explore">
         <div class="userHeader">
             <div>
                 <a id="followers" class="buttonsecondary2">Followers</a>
@@ -65,12 +46,11 @@
                     <label for="upload" class="shutter-button"></label>
                 </form>  
             </div>
+            <script src="../static/upload.js"></script>
         </div>
         <div class="loading" id="loading">
             <div class="spinner"></div>
         </div> 
-        <script src="../static/upload.js"></script>
-
 
         <div class="image-grid">
             {% for item in photos %}
@@ -84,13 +64,6 @@
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form>
-
-        <!--<div>
-            {% for item in photos %}
-            {{item.quiz_content}}
-            <img src="{{item.pic}}" alt="{{item.theme}}" width="450px">                     
-            {% endfor %}
-        </div>-->
     </main>
 
     <footer>
@@ -98,7 +71,6 @@
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
         <div><a href="{% url 'profile' %}" class="fa-solid fa-user active"></a></div>
     </footer>
-</div>
-<script src="../static/js.js"></script>
-<script src="../static/profile.js"></script>
+
+    <script src="../static/profile.js"></script>
 {% endblock %}

@@ -1,51 +1,32 @@
-{% extends 'layout.html' %}
+{% extends 'layoutapp.html' %}
 {% block title %}Snap{% endblock %}
 
-{% block body %}
+{% block main %}
+    <main class="mainNoScroll">
+        <div>
+            <h2>Today's theme is</h2>
+            <h1 class="highlightText">{{quiz}}</h1>
+        </div>
+        <div>
+            <p>You haven't taken today's theme photo.</p>
+            <p>Snap below!</p>
+        </div>
+        <form id="photoForm" enctype="multipart/form-data">
+            <input id="upload" name="pic" type="file" accept="image/*" capture="environment" required/>
+            <input name="theme" type="hidden" value="{{quiz}}">
+            <label for="upload" class="shutter-button"></label>
+        </form> 
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div> 
+    </main>
 
-<div class="noScroll">
-    <div class="bodyApp">
-        <header class="headerApp">
-            <nav>
-                <a href="{% url 'home' %}">
-                    <img src="../../static/img/logo.png" alt="Pixly logo">
-                </a>
-                <div>
-                    <i class="fa-regular fa-lightbulb"></i>
-                    <div class="toggle-switch">
-                        <input class="toggle-input" id="toggle" type="checkbox">
-                        <label class="toggle-label" for="toggle" id="toggle2"></label>
-                    </div>
-                    <i class="fa-regular fa-moon"></i>
-                </div>
-                
-            </nav>
-        </header>
-        <main class="mainNoPhoto">
-            <div>
-                <h2>Today's theme is</h2>
-                <h1 class="highlightText">{{quiz}}</h1>
-            </div>
-            <div>
-                <p>You haven't taken today's theme photo.</p>
-                <p>Snap below!</p>
-            </div>
-            <form id="photoForm" enctype="multipart/form-data">
-                <input id="upload" name="pic" type="file" accept="image/*" capture="environment" required/>
-                <input name="theme" type="hidden" value="{{quiz}}">
-                <label for="upload" class="shutter-button"></label>
-            </form> 
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-            </div> 
-        </main>
-        <footer>
-            <div><a href="{% url 'snap' %}" class="fa-solid fa-house active"></a></div>
-            <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
-            <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
-        </footer>
-    </div>
-    <script src="../static/js.js"></script>
+    <footer>
+        <div><a href="{% url 'snap' %}" class="fa-solid fa-house active"></a></div>
+        <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
+        <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
+    </footer>
+
     <script src="../static/upload.js"></script>
-</div>
 {% endblock %}
+
