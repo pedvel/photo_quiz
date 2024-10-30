@@ -182,63 +182,63 @@ body.dark-mode .buttonsecondary:hover {
     margin: 5px;
   }
   
-  .toggle-switch .toggle-input {
-    display: none;
-  }
+.toggle-switch .toggle-input {
+display: none;
+}
 
-  .toggle-switch .toggle-label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 24px;
-    background-color: var(--darkgrey);
-    border-radius: 34px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .toggle-switch .toggle-label::before {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    background-color: var(--black);
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s;
-  }
-   
-  .toggle-switch .toggle-input:checked + .toggle-label::before {
-    transform: translateX(16px);
-    background-color: var(--white);
-  }
-  
-  .toggle-switch.light .toggle-label {
-    background-color: #BEBEBE;
-  }
-  
-  .toggle-switch.light .toggle-input:checked + .toggle-label {
-    background-color: #9B9B9B;
-  }
-  
-  .toggle-switch.light .toggle-input:checked + .toggle-label::before {
-    transform: translateX(6px);
-  }
-  
-  .toggle-switch.dark .toggle-label {
-    background-color: #4B4B4B;
-  }
-  
-  .toggle-switch.dark .toggle-input:checked + .toggle-label {
-    background-color: #717171;
-  }
-  
-  .toggle-switch.dark .toggle-input:checked + .toggle-label::before {
-    transform: translateX(16px);
-  }
+.toggle-switch .toggle-label {
+position: absolute;
+top: 0;
+left: 0;
+width: 40px;
+height: 24px;
+background-color: var(--darkgrey);
+border-radius: 34px;
+cursor: pointer;
+transition: background-color 0.3s;
+}
+
+.toggle-switch .toggle-label::before {
+content: "";
+position: absolute;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+top: 2px;
+left: 2px;
+background-color: var(--black);
+box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+transition: transform 0.3s;
+}
+
+.toggle-switch .toggle-input:checked + .toggle-label::before {
+transform: translateX(16px);
+background-color: var(--white);
+}
+
+.toggle-switch.light .toggle-label {
+background-color: #BEBEBE;
+}
+
+.toggle-switch.light .toggle-input:checked + .toggle-label {
+background-color: #9B9B9B;
+}
+
+.toggle-switch.light .toggle-input:checked + .toggle-label::before {
+transform: translateX(6px);
+}
+
+.toggle-switch.dark .toggle-label {
+background-color: #4B4B4B;
+}
+
+.toggle-switch.dark .toggle-input:checked + .toggle-label {
+background-color: #717171;
+}
+
+.toggle-switch.dark .toggle-input:checked + .toggle-label::before {
+transform: translateX(16px);
+}
   
 /*Landing*/
 .landing {
@@ -302,6 +302,7 @@ body.dark-mode .modal-content {
     background-color: var(--yellow);
     color: var(--black);
 }
+
 .modal-content img {
     border-radius: 8px;
 }
@@ -376,16 +377,16 @@ body.dark-mode .divider2 .modeGallery {
     flex-wrap: wrap;
   }
   
-  /* Create four equal columns that sit next to each other */
-  .column {
-    flex: 25%;
-    max-width: 25%;
-  }
-  
-  .column img {
-    vertical-align: middle;
-    width: 100%;
-  }
+/* Create four equal columns that sit next to each other */
+.column {
+flex: 25%;
+max-width: 25%;
+}
+
+.column img {
+vertical-align: middle;
+width: 100%;
+}
 
   /* From Uiverse.io by adamgiebl */ 
 .card {
@@ -397,45 +398,45 @@ body.dark-mode .divider2 .modeGallery {
     background-image: linear-gradient(144deg,var(--purple),var(--yellow));
   }
   
-  .card__content {
-    background: var(--white);
-    border-radius: 4px;
-    width: fit-content;
-    padding: 4px 8px;
-    color: white;
-    align-content: center;
-  }
+.card__content {
+background: var(--white);
+border-radius: 4px;
+width: fit-content;
+padding: 4px 8px;
+color: white;
+align-content: center;
+}
 
-  body.dark-mode .card__content {
-    background: var(--black);
-    color: var(--white);
-  }
+body.dark-mode .card__content {
+background: var(--black);
+color: var(--white);
+}
 
-  .card__content p {
-    color: var(--black);
-  }
+.card__content p {
+color: var(--black);
+}
 
-  body.dark-mode .card__content p {
-    color: var(--white);
-  }
+body.dark-mode .card__content p {
+color: var(--white);
+}
 
-  /* Responsive layout - makes a two column-layout instead of four columns */
-  @media screen and (max-width: 800px) {
-    .column {
-      flex: 50%;
-      max-width: 50%;
-    }
-  }
-  
-  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .column {
-      flex: 100%;
-      max-width: 100%;
-    }
-  }
-  
-  #scrollToTop {
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+.column {
+    flex: 50%;
+    max-width: 50%;
+}
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+.column {
+    flex: 100%;
+    max-width: 100%;
+}
+}
+
+#scrollToTop {
     position: fixed;
     bottom: 65px;
     right: 20px;
@@ -733,7 +734,7 @@ body.dark-mode .errorlist li {
     height: 70vh;
 }
 
-.mainNoPhoto form input {
+#photoForm input {
     display: none;
 }
 
@@ -749,7 +750,8 @@ body.dark-mode .errorlist li {
     cursor: pointer; 
     position: relative;
     left: 50%;
-    transform: translateX(-50%); 
+    transform: translateX(-50%);
+    align-self: baseline;
 }
 
 body.dark-mode .shutter-button {
@@ -797,33 +799,33 @@ body.processing {
     text-align: -webkit-center;
   }
 
-  body.dark-mode .loading {
-    background: var(--black);
-  }
-  
-  .spinner {
-    width: 100px; 
-    height: 100px; 
-    border-radius: 50%; 
-    animation: spin 1s linear infinite;
-    background-image: url('./img/yellow-spinner.png'); 
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
+body.dark-mode .loading {
+background: var(--black);
 }
 
-  body.dark-mode .spinner {
-    background-image: url('./img/purple-spinner.png'); 
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(-360deg);
-    }
-  }
+.spinner {
+width: 100px; 
+height: 100px; 
+border-radius: 50%; 
+animation: spin 1s linear infinite;
+background-image: url('./img/yellow-spinner.png'); 
+background-size: cover; 
+background-position: center; 
+background-repeat: no-repeat; 
+}
+
+body.dark-mode .spinner {
+background-image: url('./img/purple-spinner.png'); 
+}
+
+@keyframes spin {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(-360deg);
+}
+}
 
 footer {
     bottom: 0;
@@ -872,6 +874,7 @@ body.dark-mode .headerApp {
     background-color: var(--black);
     transition: background-color 0.3s ease;
 }
+
 .mainPhoto {
     top: 75px;
     position: relative;
@@ -1179,6 +1182,23 @@ body.dark-mode .explorePopup_text h2 {
     margin-bottom: 20px;
 }
 
+.buttonsecondary2 {
+    border-radius: 8px;
+    border: 1px solid var(--purple);
+    margin: .25rem .125rem;
+    padding: 0.50rem 0.75rem;
+    text-decoration: none;
+    color: var(--purple);
+    font-weight: 400;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+body.dark-mode .buttonsecondary2 {
+    border: 1px solid var(--yellow);
+    color: var(--yellow);
+}
+
 .userHeader p {
     color: var(--darkgrey);
     line-height: 1;
@@ -1192,6 +1212,33 @@ body.dark-mode .explorePopup_text h2 {
 
 .popupprofile {
     top: 30% !important;
+    background-color: var(--purple) !important;
+    color: var(--white) !important;
+}
+
+body.dark-mode .popupprofile {
+    background-color: var(--yellow) !important;
+    color: var(--black) !important;
+}
+
+.participate {
+    width: 100vw;
+    max-width: 450px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--yellow);
+    color: var(--white);
+}
+
+body.dark-mode .participate {
+    background-color: var(--purple);
+    color: var(--black);
+}
+
+.participate i {
+    font-size: 3rem;
 }
 
 /*Media Queries*/
@@ -1285,5 +1332,4 @@ body.dark-mode .explorePopup_text h2 {
     .mainNoPhoto h2 {
         font-size: 1.2rem;
     }
-   
 }
