@@ -82,7 +82,7 @@ def save_image(content, image_field):
         
         # Resize the image
         ogwidth, ogheight = clean_img.size
-        newsize = (int((ogwidth / ogheight) * 450), 450)
+        newsize = (450, int((ogheight / ogwidth) * 450))
         img = clean_img.resize(newsize)
         
         # Save the image as AVIF in a BytesIO buffer
