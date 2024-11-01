@@ -16,5 +16,6 @@ urlpatterns = [
     path('notifications/', views.notifications, name='notifications'),
     path('toggle_favorites/', views.toggle_favorites, name='toggle_favorite'),
     path('load_more/', views.load_more, name='load_more'),
-    path('upload/', views.upload, name='upload')
+    path('upload/', views.upload, name='upload'),
+    path('explore_more', views.explore_more, name='explore_more')
 ]
