@@ -13,6 +13,7 @@ from collections import defaultdict
 from django.core.mail import send_mail
 from photo_quiz.settings import EMAIL_HOST_USER
 from django.db.models import Count
+from collections import Counter
 
 
 
@@ -248,7 +249,11 @@ def profile(request):
     for item in photos:
         item['pic'] = f"{settings.MEDIA_URL}{item['pic']}"
 
+    
     bkm_others = Favorites.objects.filter(image__in=(photo['id'] for photo in photos)).select_related('content').values_list('image__id', flat=True)
+
+    bkm_count = Counter(bkm_others)
+    favorites_count=dict(bkm_count)
 
     total_bkm = len(bkm_others) 
 
@@ -256,7 +261,7 @@ def profile(request):
         'username': user.name,
         'theme':theme,
         'photos':photos,
-        'bkm_others':bkm_others,
+        'bkm_others':favorites_count,
         'total_bkm': total_bkm,
         'today_participation': today_participation
     })
