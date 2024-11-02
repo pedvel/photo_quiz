@@ -11,7 +11,7 @@
             </div>
             <div id="bmkOthers">
                 <p>{{total_bkm}}</p>
-                <p>saves</p>
+                <a href="./saves.html"><p>saves</p></a>
                 <!--<p>List of content id of saved user photos: {{bkm_others}}</p>-->
             </div>
         </div>
@@ -21,13 +21,18 @@
             {% for item in photos %}
                 {% if theme in item.quiz_content %}
                     <div class="photoOfTheDay">
-                        <img src="{{ item.pic }}" alt="{{ item.theme }}">
+                        <img src="{{ item.pic }}" id="{{ item.id }}" alt="{{ item.quiz_content }}">
+                        <input type="hidden" value="{{ item.quiz_content }}">
+                        <input type="checkbox" id="checkbox-{{item.id}}" class="bookmark-toggle" 
+                        onchange="bookmark({{item.id}})"
+                        {% if id in favorites %}checked{% endif %}>
+                        <label for="checkbox-{{item.id}}" class="bookmark-icon {% if id in favorites %}bookmarked{% endif %}"></label>
                     </div>
                 {% endif %}
             {% endfor %}
         {% else %}
         <div class="participate">
-            <i onclick="snapTheme()" class="fa-solid fa-camera snapTheme"></i>
+            <i onclick="snapTheme('{{ theme }}')" class="fa-solid fa-camera snapTheme"></i>
             <p>{{ theme }}</p>
         </div>
         {% endif %}
@@ -46,16 +51,16 @@
                     <label for="upload" class="shutter-button"></label>
                 </form>  
             </div>
-            <script src="../static/upload.js"></script>
         </div>
-        <div class="loading" id="loading">
+        <div class="uploading" id="uploading">
             <div class="spinner"></div>
         </div> 
 
         <div class="image-grid">
             {% for item in photos %}
                 {% if item.quiz_content != theme %}
-                    <img src="{{ item.pic }}" class="image" alt="{{ item.theme }}">
+                    <img src="{{ item.pic }}" id="{{ item.id }}" class="image" alt="{{ item.quiz_content }}">
+                    <input type="hidden" value="{{ item.quiz_content }}">
                 {% endif %}
             {% endfor %}
         </div>
@@ -72,5 +77,12 @@
         <div><a href="{% url 'profile' %}" class="fa-solid fa-user active"></a></div>
     </footer>
 
+    <script>
+        const favorites = {{ favorites|safe }}; // Assuming favorites is a list of IDs
+    </script>
+    <script src="../static/bookmark.js"></script>
+    <script src="../static/loadScript.js"></script>
     <script src="../static/profile.js"></script>
+    <script src="../static/themePopUp.js"></script>
+    <script src="../static/expandedViewProfile.js"></script>
 {% endblock %}

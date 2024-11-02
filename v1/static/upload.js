@@ -9,7 +9,7 @@ document.getElementById('upload').addEventListener('change', function () {
     }
 
     // Show the loading indicator and add "processing" class
-    document.getElementById("loading").style.display = "block"; // Show loading indicator
+    document.getElementById("uploading").style.display = "block"; // Show loading indicator
     document.body.classList.add("processing");
 
     // Log the form data for debugging
@@ -27,7 +27,7 @@ document.getElementById('upload').addEventListener('change', function () {
     })
         .then(response => {
             // Remove the loading indicator and "processing" class after fetch completes
-            document.getElementById("loading").style.display = "none";
+            document.getElementById("uploading").style.display = "none";
             document.body.classList.remove("processing");
 
             if (!response.ok) {
@@ -50,7 +50,7 @@ document.getElementById('upload').addEventListener('change', function () {
         })
         .catch(error => {
             // Remove the loading indicator and "processing" class if there's an error
-            document.getElementById("loading").style.display = "none";
+            document.getElementById("uploading").style.display = "none";
             document.body.classList.remove("processing");
 
             console.error('There was a problem with the fetch operation:', error);

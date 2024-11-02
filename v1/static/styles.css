@@ -760,7 +760,7 @@ body.processing {
     overflow: hidden; /* Prevent scrolling */
 }
 
-.loading {
+.uploading {
     display: none;
     position: fixed;
     top: 0;
@@ -771,7 +771,7 @@ body.processing {
     align-content: center;
   }
 
-body.dark-mode .loading {
+body.dark-mode .uploading {
 background: var(--black);
 }
 
@@ -1070,6 +1070,14 @@ body.dark-mode .sticky {
     transform: translate(-50%, -50%);
 }
 
+.loading {
+    display: none; /* Hidden by default */
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--darkgrey);
+    padding: 20px;
+}
+
 .explorePopup {
     display: none; /* Hidden by default */
     z-index: 1;
@@ -1160,9 +1168,13 @@ body.dark-mode .buttonsecondary2 {
     line-height: 1;
 }
 
+.photoOfTheDay {
+    display: inline-block;
+    position: relative;
+}
+
 .photoOfTheDay img {
     width: 100%;
-    object-fit: cover;
     display: block;
 }
 
