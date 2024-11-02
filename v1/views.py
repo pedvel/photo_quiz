@@ -253,7 +253,7 @@ def profile(request):
     user = request.user
     theme = get_quiz()
     today_participation = existing_content(user)
-    favorites = get_favorites(user)
+    bkm_self = get_favorites(user)
     
     photos = Content.objects.filter(user=user).order_by('-created_at').values('pic', 'quiz_content', 'id')
     for item in photos:
@@ -268,7 +268,7 @@ def profile(request):
     total_bkm = len(bkm_others) 
 
     return render(request, 'profile.html', {
-        'favorites': favorites,
+        'bkm_self': bkm_self,
         'username': user.name,
         'theme':theme,
         'photos':photos,
