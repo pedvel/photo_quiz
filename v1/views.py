@@ -1,4 +1,5 @@
 
+import json
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -13,6 +14,7 @@ from collections import defaultdict
 from django.core.mail import send_mail
 from photo_quiz.settings import EMAIL_HOST_USER
 from django.db.models import Count
+from collections import Counter
 
 
 
@@ -168,43 +170,51 @@ def explore(request):
     #THEME LIST WHERE USER PARTICIPATED IN
     themes = completed_quizzes(user)
     favorites = get_favorites(user) 
-    
-    #SELECT ALL IMAGES
-    content = Content.objects.filter().order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
 
-    grouped_pics = defaultdict(list) #Initialize dict where 'key':' empty list'
-    theme_count = defaultdict(int) #Initialize dict where 'key':'0'
-    
     non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
     non_participated_list=[]
     for item in non_participated_themes:
         theme = item['quiz_content']
         non_participated_list.append(theme)
-
-    for item in content:
-        theme = item['quiz_content']
-        if theme in themes:
-            if theme_count[theme] < 6:
-                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-                username = item['user__name']
-                id=item['id']
-                grouped_pics[theme].append((id, pic_url, username))
-                theme_count[theme] += 1
-        else:
-            if theme_count[theme] < 3:
-                pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-                username = item['user__name']
-                id=item['id']
-                grouped_pics[theme].append((id, pic_url, username))
-                theme_count[theme] += 1
-
-    grouped_pics = {theme:tuple(pics) for theme, pics in grouped_pics.items()}
     
     return render(request, 'explore.html', {
-        'pics':grouped_pics,
         'favorites':favorites,
-        'non_participated_list':non_participated_list
+        'non_participated_list':non_participated_list,
+        'completed_themes':themes
     })
+
+def explore_more(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        count = int(request.GET.get('offset', 0))
+        completed_themes = json.loads(request.GET.get('themes', '[]'))
+        #non_participated_list = request.GET.get('non_participated_list')
+
+        content = Content.objects.filter().order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')[count:count+8]
+
+        grouped_pics = defaultdict(list)
+        theme_count = defaultdict(int)
+
+        for item in content:
+            theme = item['quiz_content']
+            if theme in completed_themes:
+                if theme_count[theme] < 6:
+                    pic_url = f"{settings.MEDIA_URL}{item['pic']}"
+                    username = item['user__name']
+                    id=item['id']
+                    grouped_pics[theme].append((id, pic_url, username))
+                    theme_count[theme] += 1
+            else:
+                if theme_count[theme] < 3:
+                    pic_url = f"{settings.MEDIA_URL}{item['pic']}"
+                    username = item['user__name']
+                    id=item['id']
+                    grouped_pics[theme].append((id, pic_url, username))
+                    theme_count[theme] += 1
+
+        grouped_pics = {theme:tuple(pics) for theme, pics in list(grouped_pics.items())}
+
+        return JsonResponse({'pics': grouped_pics}, safe=False)
+    return JsonResponse({'error':'Invalid request'}, status=400)
 
 
 
@@ -243,20 +253,26 @@ def profile(request):
     user = request.user
     theme = get_quiz()
     today_participation = existing_content(user)
+    bkm_self = get_favorites(user)
     
     photos = Content.objects.filter(user=user).order_by('-created_at').values('pic', 'quiz_content', 'id')
     for item in photos:
         item['pic'] = f"{settings.MEDIA_URL}{item['pic']}"
 
+    
     bkm_others = Favorites.objects.filter(image__in=(photo['id'] for photo in photos)).select_related('content').values_list('image__id', flat=True)
+
+    bkm_count = Counter(bkm_others)
+    favorites_count=dict(bkm_count)
 
     total_bkm = len(bkm_others) 
 
     return render(request, 'profile.html', {
+        'bkm_self': bkm_self,
         'username': user.name,
         'theme':theme,
         'photos':photos,
-        'bkm_others':bkm_others,
+        'bkm_others':favorites_count,
         'total_bkm': total_bkm,
         'today_participation': today_participation
     })
