@@ -125,7 +125,7 @@ def home(request):
         return redirect('index')
     
     quiz = get_quiz()
-    favorites = get_favorites(user)
+    favorites = BookmarkData(user)._get_favorites()
 
     #OBTAIN PIC AND USER
     content_items = Content.objects.filter(quiz_content=quiz).exclude(pic__isnull=True).select_related('user').order_by('-created_at').values('id','pic', 'user__name')
