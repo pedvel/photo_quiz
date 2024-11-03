@@ -185,35 +185,36 @@ def explore(request):
 
 def explore_more(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        count = int(request.GET.get('offset', 0))
+        offset = int(request.GET.get('offset', 0))
         completed_themes = json.loads(request.GET.get('themes', '[]'))
         #non_participated_list = request.GET.get('non_participated_list')
 
-        content = Content.objects.filter().order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')[count:count+8]
+        content = Content.objects.order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
 
         grouped_pics = defaultdict(list)
         theme_count = defaultdict(int)
+        unique_themes = []
+        max_themes = 8
 
         for item in content:
             theme = item['quiz_content']
-            if theme in completed_themes:
-                if theme_count[theme] < 6:
+            if theme not in grouped_pics:
+                unique_themes.append(theme)
+
+            max_pics = 6 if theme in completed_themes else 3
+
+            if theme_count[theme] < max_pics:
                     pic_url = f"{settings.MEDIA_URL}{item['pic']}"
                     username = item['user__name']
                     id=item['id']
+
                     grouped_pics[theme].append((id, pic_url, username))
                     theme_count[theme] += 1
-            else:
-                if theme_count[theme] < 3:
-                    pic_url = f"{settings.MEDIA_URL}{item['pic']}"
-                    username = item['user__name']
-                    id=item['id']
-                    grouped_pics[theme].append((id, pic_url, username))
-                    theme_count[theme] += 1
+           
+        selected_themes = unique_themes[offset:offset+max_themes]
+        result_pics = {theme:tuple(grouped_pics[theme]) for theme in selected_themes}
 
-        grouped_pics = {theme:tuple(pics) for theme, pics in list(grouped_pics.items())}
-
-        return JsonResponse({'pics': grouped_pics}, safe=False)
+        return JsonResponse({'pics': result_pics}, safe=False)
     return JsonResponse({'error':'Invalid request'}, status=400)
 
 
@@ -276,6 +277,9 @@ def profile(request):
         'total_bkm': total_bkm,
         'today_participation': today_participation
     })
+
+def saves(request):
+    return render(request, 'saves.html')
 
 @login_required()
 def notifications(request):

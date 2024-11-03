@@ -17,5 +17,6 @@ urlpatterns = [
     path('toggle_favorites/', views.toggle_favorites, name='toggle_favorite'),
     path('load_more/', views.load_more, name='load_more'),
     path('upload/', views.upload, name='upload'),
-    path('explore_more', views.explore_more, name='explore_more')
+    path('explore_more', views.explore_more, name='explore_more'),
+    path('saves/', views.saves, name='saves')
 ]
