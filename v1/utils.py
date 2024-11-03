@@ -148,7 +148,7 @@ class BookmarkData:
         for item in full_bkm_others:
             item['pic'] = f"{settings.MEDIA_URL}{item['pic']}"
 
-            return full_bkm_others
+        return full_bkm_others
     
     def favorites_count(self):
         return dict(Counter[self.bkm_others])
