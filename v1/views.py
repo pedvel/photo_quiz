@@ -3,7 +3,7 @@ import json
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, get_favorites, save_image
+from .utils import completed_quizzes, get_quiz, existing_content, redirection_check, save_image, BookmarkData
 from .forms import UserForm, ContentForm
 from .models import Content, UserSettings, Favorites
 from django.contrib.auth.views import LoginView
@@ -15,7 +15,6 @@ from django.core.mail import send_mail
 from photo_quiz.settings import EMAIL_HOST_USER
 from django.db.models import Count
 from collections import Counter
-
 
 
 # Create your views here.
@@ -169,7 +168,7 @@ def explore(request):
     
     #THEME LIST WHERE USER PARTICIPATED IN
     themes = completed_quizzes(user)
-    favorites = get_favorites(user) 
+    favorites = BookmarkData(user)._get_favorites() 
 
     non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
     non_participated_list=[]
@@ -252,34 +251,31 @@ def upload(request):
 @login_required()
 def profile(request):
     user = request.user
+    user_data = BookmarkData(user)
     theme = get_quiz()
     today_participation = existing_content(user)
-    bkm_self = get_favorites(user)
     
-    photos = Content.objects.filter(user=user).order_by('-created_at').values('pic', 'quiz_content', 'id')
-    for item in photos:
-        item['pic'] = f"{settings.MEDIA_URL}{item['pic']}"
-
-    
-    bkm_others = Favorites.objects.filter(image__in=(photo['id'] for photo in photos)).select_related('content').values_list('image__id', flat=True)
-
-    bkm_count = Counter(bkm_others)
-    favorites_count=dict(bkm_count)
-
-    total_bkm = len(bkm_others) 
 
     return render(request, 'profile.html', {
-        'bkm_self': bkm_self,
+        'bkm_self': user_data.bkm_self,
         'username': user.name,
         'theme':theme,
-        'photos':photos,
-        'bkm_others':favorites_count,
-        'total_bkm': total_bkm,
+        'photos':user_data.photos,
+        'total_bkm': user_data.total_bookmars(),
         'today_participation': today_participation
     })
 
+@login_required()
 def saves(request):
-    return render(request, 'saves.html')
+    user = request.user
+    user_data = BookmarkData(user)
+
+
+    return render(request, 'saves.html',{
+        'bkm_others':user_data.bkm_others,
+        'bkm_self':user_data.bkm_self,
+        'photos':user_data.full_bkm_others
+    })
 
 @login_required()
 def notifications(request):
