@@ -108,13 +108,6 @@ def save_image(content, image_field):
         return False, f'Error processing the image: {str(e)}'
 
 
-
-def get_favorites(user):
-    favorites = Favorites.objects.filter(user=user).order_by('-id').values_list('image_id', flat=True)
-    return list(favorites)
-
-
-
 class BookmarkData:
 
     def __init__(self, user):

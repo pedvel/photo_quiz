@@ -179,13 +179,13 @@ def explore(request):
     return render(request, 'explore.html', {
         'favorites':favorites,
         'non_participated_list':non_participated_list,
-        'completed_themes':themes
+        'completed_themes':json.dumps(list(themes))
     })
 
 def explore_more(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         offset = int(request.GET.get('offset', 0))
-        completed_themes = json.loads(request.GET.get('themes', '[]'))
+        completed_themes = json.loads(request.GET.get('completed_themes', '[]'))
         #non_participated_list = request.GET.get('non_participated_list')
 
         content = Content.objects.order_by( '-created_at','quiz_content').select_related('user').values('id','pic', 'quiz_content', 'user__name')
