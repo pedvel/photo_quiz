@@ -1,7 +1,6 @@
 // Temporary function to show upcoming features in popups
 const followersButton = document.getElementById('followers');
 const followingButton = document.getElementById('following');
-const bmkOthersDiv = document.getElementById('bmkOthers');
 const popup = document.getElementById('popup');
 
 // Function to display different messages
@@ -34,16 +33,5 @@ followingButton.addEventListener('touchstart', () => {
     <p>You will be able</p>
     <p>to follow other users soon!</p>
 `;
-    showMessage(message);
-});
-
-bmkOthersDiv.addEventListener('touchstart', () => {
-    const message = `
-        <p>This is the total times your photos</p>
-        <p>were saved by others.</p>
-        <br>
-        <p>Soon you will be able to see</p>
-        <p>your most saved photos!</p>
-    `;
     showMessage(message);
 });

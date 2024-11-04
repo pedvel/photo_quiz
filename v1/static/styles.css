@@ -1071,12 +1071,21 @@ body.dark-mode .sticky {
 }
 
 .loading {
-    display: none; /* Hidden by default */
-    text-align: center;
-    font-size: 1.2em;
-    color: var(--darkgrey);
-    padding: 20px;
+    display: none;
+    width: 90px; 
+    height: 90px; 
+    border-radius: 50%; 
+    animation: spin 1s linear infinite;
+    background-image: url('./img/yellow-spinner.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    margin-bottom: 25px;
 }
+
+body.dark-mode .loading {
+    background-image: url('./img/purple-spinner.png'); 
+    }
 
 .explorePopup {
     display: none; /* Hidden by default */
@@ -1146,6 +1155,10 @@ body.dark-mode .explorePopup_text h2 {
     margin-bottom: 20px;
 }
 
+.userHeader a {
+    text-decoration: none;
+}
+
 .buttonsecondary2 {
     border-radius: 8px;
     border: 1px solid var(--purple);
@@ -1207,6 +1220,36 @@ body.dark-mode .participate {
 
 .participate i {
     font-size: 3rem;
+}
+
+/*Saves*/
+.savedPhoto {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    overflow: hidden;
+}
+
+.savedPhoto div {
+    font-size: 3rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.savedPhoto div i {
+    position: relative;
+}
+
+.savedPhoto div p {
+    position: absolute;
+    top: 35%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /*Media Queries*/

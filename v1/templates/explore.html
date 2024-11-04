@@ -4,43 +4,11 @@
 
 {% block main %}
     <main class="mainScroll explore">
+        {{ favorites }}
         <div id="themes-container">
-            {% for quiz_content, images in pics.items %}
-                {% if quiz_content not in non_participated_list %}
-                    <div class="themeContainer">
-                        <h2>{{ quiz_content }}</h2>
-                        <div class="image-grid">
-                            {% for pic in images %}
-                                {% if forloop.counter == 6 %}
-                                <div class="more">
-                                    <input type="hidden" value="{{ pic.2 }}">
-                                    <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image" alt="{{ pic.2 }} {{ quiz_content }}">
-                                    <a id="loadMore" class="highlightText2" data-theme="{{ quiz_content }}" data-offset="6" data-url="{% url 'load_more' %}" ><i class="fa-solid fa-circle-plus"></i></a>
-                                </div>
-                                {% else %}
-                                <input type="hidden" value="{{ pic.2 }}">
-                                <img src="{{ pic.1 }}" id="{{ pic.0 }}" class="image" alt="{{ pic.2 }} {{ quiz_content }}">
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-
-                {% if quiz_content in non_participated_list %}
-                    <div class="themeContainer">
-                        <h2>{{ quiz_content }}</h2>
-                        <div class="image-grid blur">
-                            {% for pic in images %}
-                                <img src="{{ pic.1 }}" class="image" alt="{{ quiz_content }}">
-                            {% endfor %}
-                            <i onclick="snapTheme('{{ quiz_content }}')" class="fa-solid fa-eye highlightText2"></i>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
         </div>
 
-        <div id="loading" class="loading">Loading...</div>
+        <div id="loading" class="loading"></div>
         
         <div id="explorePopup" class="explorePopup">
             <div class="explorePopup_text">
@@ -63,6 +31,8 @@
         </div> 
 
         <div id="popup" class="popup"></div>
+        <input type="hidden" name="completed_themes" value="{{ completed_themes }}">
+        <script>const exploreMoreUrl = "{% url 'explore_more' %}";</script>
     </main>
 
     <footer>
@@ -78,4 +48,5 @@
     <script src="../static/loadMorePhotos.js"></script>
     <script src="../static/expandedViewExplore.js"></script>
     <script src="../static/themePopUp.js"></script>
+    <script src="../static/infinitetest.js"></script>
 {% endblock %}

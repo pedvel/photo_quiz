@@ -16,6 +16,8 @@ async function bookmark(image_id) {
         }
 
         const data = await response.json();
+        const savesField = document.querySelector('.userHeader a p');
+        let saves = parseInt(savesField.textContent, 10);
 
         if (data.status === 'added') {
             console.log('Added to bookmarks');
@@ -23,12 +25,17 @@ async function bookmark(image_id) {
             // Optionally change the icon style to indicate it's bookmarked
             checkbox.nextElementSibling.classList.add('bookmarked'); // Add a class for styling
             popup.textContent = 'Added to bookmarks';
+            saves += 1;
+            savesField.textContent = saves;
+
         } else if (data.status === 'removed') {
             console.log('Removed from bookmarks');
             checkbox.checked = false; // Uncheck the checkbox
             // Remove the bookmarked style
             checkbox.nextElementSibling.classList.remove('bookmarked');
             popup.textContent = 'Removed from bookmarks';
+            saves -= 1;
+            savesField.textContent = saves;
         } else {
             console.error('Error: ', data.message);
         }

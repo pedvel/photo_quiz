@@ -7,29 +7,19 @@
 </a>
 {% endblock %}
 
-{% block h1 %}Test{% endblock %}
+{% block h1 %}Saves{% endblock %}
 
 {% block main %}
     <main class="mainScroll explore">
-        <div class="userHeader">
-            <div>
-                <a id="followers" class="buttonsecondary2">Followers</a>
-                <a id="following" class="buttonsecondary2">Following</a>
-            </div>
-            <div id="bmkOthers">
-                <p>{{total_bkm}}</p>
-                <p>saves</p>
-                <!--<p>List of content id of saved user photos: {{bkm_others}}</p>-->
-            </div>
-        </div>
-        <div id="popup" class="popup popupprofile"></div>
-
         <div class="image-grid">
             {% for item in photos %}
-                {% if item.quiz_content != theme %}
+                <div class="savedPhoto">
                     <img src="{{ item.pic }}" id="{{ item.id }}" class="image" alt="{{ item.quiz_content }}">
-                    <input type="hidden" value="{{ item.quiz_content }}">
-                {% endif %}
+                    <div>
+                        <i class="fa-solid fa-bookmark highlightText2"></i>
+                        <p>3</p>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </main>

@@ -4,16 +4,17 @@
 
 {% block main %}
     <main class="mainScroll explore">
+        {{ bkm_self }}
         <div class="userHeader">
             <div>
                 <a id="followers" class="buttonsecondary2">Followers</a>
                 <a id="following" class="buttonsecondary2">Following</a>
             </div>
-            <div id="bmkOthers">
+            <a href="{% url 'saves' %}">
                 <p>{{total_bkm}}</p>
-                <a href="{% url 'saves' %}"><p>saves</p></a>
+                <p>saves</p>
                 <!--<p>List of content id of saved user photos: {{bkm_others}}</p>-->
-            </div>
+            </a>
         </div>
         <div id="popup" class="popup popupprofile"></div>
 
@@ -22,11 +23,11 @@
                 {% if theme in item.quiz_content %}
                     <div class="photoOfTheDay">
                         <img src="{{ item.pic }}" id="{{ item.id }}" alt="{{ item.quiz_content }}">
-                        <input type="hidden" value="{{ item.quiz_content }}">
+
                         <input type="checkbox" id="checkbox-{{item.id}}" class="bookmark-toggle" 
-                        onchange="bookmark({{item.id}})"
-                        {% if id in favorites %}checked{% endif %}>
-                        <label for="checkbox-{{item.id}}" class="bookmark-icon {% if id in favorites %}bookmarked{% endif %}"></label>
+                            onchange="bookmark({{item.id}})"
+                            {% if item.id in bkm_self %}checked{% endif %}>
+                        <label for="checkbox-{{item.id}}" class="bookmark-icon {% if item.id in bkm_self %}bookmarked{% endif %}"></label>
                     </div>
                 {% endif %}
             {% endfor %}
@@ -78,7 +79,7 @@
     </footer>
 
     <script>
-        const favorites = {{ favorites|safe }}; // Assuming favorites is a list of IDs
+        const favorites = {{ bkm_self|safe }}; // Assuming favorites is a list of IDs
     </script>
     <script src="../static/bookmark.js"></script>
     <script src="../static/loadScript.js"></script>
