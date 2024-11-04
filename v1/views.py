@@ -274,6 +274,7 @@ def saves(request):
     return render(request, 'saves.html',{
         'bkm_others':user_data.bkm_others,
         'bkm_self':user_data.bkm_self,
+        'dict_bkm_others':user_data.favorites_count(),
         'photos':user_data.full_bkm_others
     })
 
