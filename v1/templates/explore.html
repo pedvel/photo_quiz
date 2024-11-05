@@ -4,8 +4,11 @@
 
 {% block main %}
     <main class="mainScroll explore">
-        {{ favorites }}
         <div id="themes-container">
+        </div>
+
+          <!-- Modal for Full-Photo View -->
+        <div class="theme-modal" id="themeModal">
         </div>
 
         <div id="loading" class="loading"></div>
@@ -43,10 +46,10 @@
 
     <script>
         const favorites = {{ favorites|safe }}; // Assuming favorites is a list of IDs
+        const loadMorekUrl = "{% url 'load_more' %}";
     </script>
     <script src="../static/loadScript.js"></script>
     <script src="../static/loadMorePhotos.js"></script>
     <script src="../static/expandedViewExplore.js"></script>
-    <script src="../static/themePopUp.js"></script>
-    <script src="../static/infinitetest.js"></script>
+    <script src="../static/infiniteScroll.js"></script>
 {% endblock %}

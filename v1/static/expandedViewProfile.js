@@ -1,80 +1,92 @@
-document.addEventListener('DOMContentLoaded', function () {
-    let fullThemeContainer = null; // Variable to track the active themeContainer
-    let originalGridState = null;  // To save the original state for the themeContainer
+document.addEventListener("DOMContentLoaded", function () {
+    // Get all images within the image-grid container
+    const images = document.querySelectorAll('.image');
 
-    // Use event delegation for handling image clicks
-    document.body.addEventListener('click', function (event) {
-        const image = event.target.closest('.image');
-        if (image) {
-            const imageGrid = image.closest('.image-grid');
+    images.forEach(image => {
+        // Add click event listener to each image
+        image.addEventListener('click', function () {
+            showFullLayout(image);
 
+            // Remove logo and add "Back" button
             const logoBackContainer = document.getElementById('logoBackContainer');
-            if (imageGrid) {
-                imageGrid.style.display = 'none';
-                scrollPosition = window.scrollY;
-                showExpandedView(imageGrid, image.src);
-                logoBackContainer.innerHTML = '<i id="iconBack" class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>';
+            logoBackContainer.innerHTML = '<i id="iconBack" class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>';
 
-                // Get the newly added icon element
-                const iconBack = document.getElementById('iconBack');
+            // Get the newly added icon element
+            const iconBack = document.getElementById('iconBack');
 
-                // Add an event listener to the icon
-                iconBack.addEventListener('click', function (event) {
-                    // Refreshes page and scrolls to original position
-                    event.preventDefault();
-                    window.location.reload();
-                    window.scrollTo(0, parseInt(scrollPosition, 10));
-                });
-            }
+            // Add an event listener to the icon for going back to grid view
+            iconBack.addEventListener('click', function (event) {
+                event.preventDefault();
+                window.location.reload();
+            });
+        });
+    });
+});
+
+function showFullLayout(clickedImage) {
+    // Hide the grid container
+    document.querySelector('.image-grid').style.display = 'none';
+
+    // Show the expanded view container
+    const fullLayout = document.querySelector('.expanded-view');
+    fullLayout.style.display = 'block'; // Make it visible
+
+    // Clear any existing content in the expanded view container
+    fullLayout.innerHTML = '';
+
+    // Loop through all images and add them to the full-layout in expanded format
+    document.querySelectorAll('.image').forEach(image => {
+        // Extract data attributes from each image
+        const picUrl = image.getAttribute('src');
+        const quizContent = image.getAttribute('alt');
+        const imgId = image.getAttribute('id');
+        const isFavorite = image.getAttribute('bkm_self') === 'true'; // Check if it's in favorites
+
+        // Create a new layout structure for each image
+        const photoContainer = document.createElement('div');
+        photoContainer.classList.add('photoContainer');
+
+        const textDiv = document.createElement('div');
+        textDiv.innerHTML = `<p>${quizContent}</p><p>...</p>`;
+        photoContainer.appendChild(textDiv);
+
+        const photoDiv = document.createElement('div');
+        photoDiv.classList.add('photo');
+
+        // Add image element
+        const imgElement = document.createElement('img');
+        imgElement.src = picUrl;
+        imgElement.alt = quizContent;
+        imgElement.id = `expanded-${imgId}`;
+        photoDiv.appendChild(imgElement);
+
+        // Add bookmark checkbox and label with dynamic checked status and classes
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `checkbox-${imgId}`;
+        checkbox.classList.add('bookmark-toggle');
+        checkbox.checked = isFavorite; // Set checked based on favorite status
+        checkbox.onchange = () => bookmark(imgId);
+
+        const label = document.createElement('label');
+        label.setAttribute('for', `checkbox-${imgId}`);
+        label.classList.add('bookmark-icon');
+        if (isFavorite) {
+            label.classList.add('bookmarked'); // Add bookmarked class if it’s a favorite
         }
+
+        photoDiv.appendChild(checkbox);
+        photoDiv.appendChild(label);
+
+        photoContainer.appendChild(photoDiv);
+        fullLayout.appendChild(photoContainer);
     });
 
-    // Displays a new expanded view of the images
-    function showExpandedView(imageGrid, clickedImageSrc) {
-        const allImages = imageGrid.querySelectorAll('.image');
-        const themes = imageGrid.querySelectorAll('input[type="hidden"]');
-
-        let newLayoutHTML = `<div class="expanded-view">`;
-
-        // Get the total count of images
-        const totalImagesCount = allImages.length;
-
-        // Determine imagesToShow based on totalImagesCount divisibility by 6
-        const imagesToShow = (totalImagesCount % 6 === 0) ? totalImagesCount - 1 : totalImagesCount;
-
-        // Add images to the new layout
-        for (let index = 0; index < imagesToShow; index++) {
-            const img = allImages[index];
-            const theme = themes[index].value;
-            const imgId = img.id;
-
-            newLayoutHTML += `
-                <div class="photoContainer">
-                    <div>
-                        <p>${theme}</p>
-                        <p>...</p>
-                    </div>
-                    <div class="photo">
-                        <img src="${img.src}" alt="${theme}">
-                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
-                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
-                    </div>
-                </div>`;
+    // Scroll to the clicked image within the expanded view
+    setTimeout(() => {
+        const targetImage = document.getElementById(`expanded-${clickedImage.id}`);
+        if (targetImage) {
+            targetImage.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        newLayoutHTML += `</div>`;
-
-        // Add the new layout HTML to the container
-        imageGrid.insertAdjacentHTML('beforeend', newLayoutHTML);
-
-        // Scroll to the clicked image in the expanded view
-        const newImages = imageGrid.querySelectorAll('.photo img');
-        newImages.forEach(newImg => {
-            if (newImg.src === clickedImageSrc) {
-                newImg.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                });
-            }
-        });
-    }
-});
+    }, 100);
+}

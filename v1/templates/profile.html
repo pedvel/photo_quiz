@@ -4,7 +4,6 @@
 
 {% block main %}
     <main class="mainScroll explore">
-        {{ bkm_self }}
         <div class="userHeader">
             <div>
                 <a id="followers" class="buttonsecondary2">Followers</a>
@@ -60,11 +59,13 @@
         <div class="image-grid">
             {% for item in photos %}
                 {% if item.quiz_content != theme %}
-                    <img src="{{ item.pic }}" id="{{ item.id }}" class="image" alt="{{ item.quiz_content }}">
+                    <img src="{{ item.pic }}" id="{{ item.id }}" class="image" alt="{{ item.quiz_content }}" onclick="showFullLayout('{{ item.pic }}','{{ item.quiz_content }}',{{ item.id }})" data-favorite="{% if item.id in bkm_self %}true{% else %}false{% endif %}">
                     <input type="hidden" value="{{ item.quiz_content }}">
                 {% endif %}
             {% endfor %}
         </div>
+
+        <div class="expanded-view" style="display: none;"></div>
         
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}

@@ -808,6 +808,7 @@ footer {
     justify-content: space-evenly;
     background-color: var(--white);
     padding: 15px 0;
+    z-index: 1;
 }
 
 body.dark-mode footer {
@@ -836,6 +837,7 @@ body.dark-mode .active {
 .headerApp {
     background-color: var(--white);
     max-width: 450px;
+    z-index: 3;
 }
 
 body.dark-mode .headerApp {
@@ -1143,6 +1145,26 @@ body.dark-mode .explorePopup_text h2 {
 
 .explorePopup input {
     display: none;
+}
+
+.theme-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white);
+    justify-content: center;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-top: 65px;
+    z-index: 2;
+    margin-bottom: 65px;
+    box-sizing: border-box;
+}
+
+body.dark-mode .theme-modal {
+    background-color: var(--black);
 }
 
 /*PROFILE*/
