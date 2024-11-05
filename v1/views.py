@@ -168,7 +168,8 @@ def explore(request):
     
     #THEME LIST WHERE USER PARTICIPATED IN
     themes = completed_quizzes(user)
-    favorites = BookmarkData(user)._get_favorites() 
+    user_data = BookmarkData(user)
+    favorites = user_data.bkm_self 
 
     non_participated_themes = Content.objects.filter().exclude(quiz_content__in=themes).values('quiz_content').annotate(pic_count=Count('pic')).order_by('-pic_count')
     non_participated_list=[]
