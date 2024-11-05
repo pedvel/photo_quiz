@@ -1,6 +1,7 @@
 {% extends 'layoutapp.html' %}
 
 
+
 {% block logo %}
 <a id="logoBackContainer" href="{% url 'profile' %}">
     <i class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>
@@ -17,7 +18,11 @@
                     <img src="{{ item.pic }}" id="{{ item.id }}" class="image" alt="{{ item.quiz_content }}">
                     <div>
                         <i class="fa-solid fa-bookmark highlightText2"></i>
-                        <p>3</p>
+                        {% for key, value in dict_bkm_others.items %}
+                        {% if key == item.id %}
+                        <p> {{value}} </p>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             {% endfor %}

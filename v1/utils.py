@@ -144,7 +144,7 @@ class BookmarkData:
         return full_bkm_others
     
     def favorites_count(self):
-        return dict(Counter[self.bkm_others])
+        return dict(Counter(self.bkm_others))
     
     def total_bookmars(self):
         return self.total_bkm

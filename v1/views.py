@@ -261,7 +261,7 @@ def profile(request):
         'username': user.name,
         'theme':theme,
         'photos':user_data.photos,
-        'total_bkm': user_data.total_bookmars(),
+        'total_bkm': user_data.total_bkm,
         'today_participation': today_participation
     })
 
