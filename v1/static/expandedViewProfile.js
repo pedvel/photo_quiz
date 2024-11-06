@@ -40,7 +40,7 @@ function showFullLayout(clickedImage) {
         const picUrl = image.getAttribute('src');
         const quizContent = image.getAttribute('alt');
         const imgId = image.getAttribute('id');
-        const isFavorite = image.getAttribute('bkm_self') === 'true'; // Check if it's in favorites
+        const isFavorite = image.getAttribute('data-favorite') === 'true'; // Check if it's in favorites
 
         // Create a new layout structure for each image
         const photoContainer = document.createElement('div');

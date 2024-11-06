@@ -2,6 +2,7 @@
 
 const themeModal = document.getElementById('themeModal');
 const logoBackContainer = document.getElementById('logoBackContainer');
+const originalLogoContent = logoBackContainer.innerHTML;
 const mainTitle = document.querySelector('h1'); // Assuming this is the main title
 let scrollPosition = 0;
 
@@ -43,8 +44,10 @@ function showExpandedView(themeContainer, clickedImageSrc, theme) {
 
     allImages.forEach((img, index) => {
         const username = usernameInputs[index].value;
-        const imgId = img.id;
+        const imgId = parseInt(img.id); // Ensure imgId is an integer
+        const isFavorite = favorites.includes(imgId); // Check if imgId is in favorites
 
+        // Add HTML for each image and a placeholder for the checkbox
         newLayoutHTML += `
             <div class="photoContainer">
                 <div>
@@ -53,13 +56,20 @@ function showExpandedView(themeContainer, clickedImageSrc, theme) {
                 </div>
                 <div class="photo">
                     <img src="${img.src}" alt="${username} ${theme}">
-                    <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
-                    <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
+                    <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" ${isFavorite ? 'checked' : ''}>
+                    <label for="checkbox-${imgId}" class="bookmark-icon ${isFavorite ? 'bookmarked' : ''}"></label>
                 </div>
             </div>`;
     });
     newLayoutHTML += `</div>`;
     themeModal.innerHTML = newLayoutHTML; // Clear previous content and set new layout
+
+    // Attach event listeners to all checkboxes after adding them to the DOM
+    themeModal.querySelectorAll('.bookmark-toggle').forEach((checkbox) => {
+        const imgId = parseInt(checkbox.id.split('-')[1]); // Extract imgId from checkbox id
+        checkbox.checked = favorites.includes(imgId); // Set checked state based on favorites array
+        checkbox.addEventListener('change', () => bookmark(imgId)); // Attach bookmark handler
+    });
 
     // Scroll to the clicked image in the modal
     const newImages = themeModal.querySelectorAll('.photo img');
@@ -71,6 +81,15 @@ function showExpandedView(themeContainer, clickedImageSrc, theme) {
             });
         }
     });
+
+    // Load bookmark.js if not already loaded
+    loadScript('../static/bookmarkExplore.js')
+        .then(() => {
+            console.log('bookmark.js loaded successfully.');
+        })
+        .catch((error) => {
+            console.error('Error loading bookmark.js:', error);
+        });
 }
 
 function closeExpandedView() {
@@ -82,5 +101,5 @@ function closeExpandedView() {
 
     // Restore "Explore" title and remove back button if it exists
     mainTitle.textContent = 'Explore';
-    logoBackContainer.innerHTML = ''; // Clear back button
+    logoBackContainer.innerHTML = originalLogoContent; // Clear back button
 }
