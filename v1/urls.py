@@ -1,22 +1,29 @@
 from django.urls import path
-from . import views
 from django.contrib.auth import views as auth_views
-from .views import CustomLoginView
+from v1.authentication.login import CustomLoginView
+from v1.authentication.register import register
+from v1.authentication.profile import profile
+from v1.bookmarks.views import toggle_favorites, saves
+from v1.content.views import snap, home, explore, explore_more, load_more, upload
+from v1.views.notifications import notifications
+from v1.views.index import index 
+
+
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('register/', views.register, name='register'),
+    path('', index, name='index'),
+    path('register/', register, name='register'),
     path('login/', CustomLoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('snap/', views.snap, name='snap'),
-    path('home/', views.home, name='home'),
-    path('explore/', views.explore, name='explore'),
-    path('profile/', views.profile, name='profile'),
-    path('notifications/', views.notifications, name='notifications'),
-    path('toggle_favorites/', views.toggle_favorites, name='toggle_favorite'),
-    path('load_more/', views.load_more, name='load_more'),
-    path('upload/', views.upload, name='upload'),
-    path('explore_more/', views.explore_more, name='explore_more'),
-    path('saves/', views.saves, name='saves')
+    path('snap/', snap, name='snap'),
+    path('home/', home, name='home'),
+    path('explore/', explore, name='explore'),
+    path('profile/', profile, name='profile'),
+    path('notifications/', notifications, name='notifications'),
+    path('toggle_favorites/', toggle_favorites, name='toggle_favorite'),
+    path('load_more/', load_more, name='load_more'),
+    path('upload/', upload, name='upload'),
+    path('explore_more/', explore_more, name='explore_more'),
+    path('saves/', saves, name='saves')
 ]

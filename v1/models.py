@@ -56,7 +56,6 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.name or self.email.split('@')[0]
 
 
-#FIX ISSUE WHEN DELETING USER // ADD LOGIC TO DELETE IMAGES
 class Content(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contents')
     pic = models.ImageField(upload_to='uploads/', blank=True, null=True)
@@ -68,7 +67,7 @@ class Content(models.Model):
         verbose_name_plural = 'Contents'
 
     def __str__(self):
-        return f'Content created bu {self.user} for quiz {self.quiz_content}'
+        return f'Content created by {self.user} for quiz {self.quiz_content}'
 
 
 class UserSettings(models.Model):
