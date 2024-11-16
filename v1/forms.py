@@ -1,6 +1,6 @@
 from django import forms
 from .models import Content, User
-from .utils import email_check
+from v1.utils.email_check import email_check
 
 
 class UserForm(forms.ModelForm):
