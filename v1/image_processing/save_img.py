@@ -3,30 +3,16 @@ from PIL import Image
 import pillow_avif
 from django.core.files.base import ContentFile
 
-
-
-
-
+from v1.image_processing.image_resize import image_resize
 from v1.image_processing.orientation import correct_image_orientation
 
 
 def save_image(content, image_field):
     try:
-        # Open the original image
-        ogimg = Image.open(image_field)
-        ogimg = correct_image_orientation(ogimg)
+        img = image_resize(image_field)
+        img_io=io.BytesIO()
+
         
-        # Create a new image without EXIF data
-        clean_img = Image.new(ogimg.mode, ogimg.size)
-        clean_img.paste(ogimg)
-        
-        # Resize the image
-        ogwidth, ogheight = clean_img.size
-        newsize = (450, int((ogheight / ogwidth) * 450))
-        img = clean_img.resize(newsize)
-        
-        # Save the image as AVIF in a BytesIO buffer
-        img_io = io.BytesIO()
         img.save(img_io, format='AVIF', quality=50, reduction=2)  # AVIF-specific options
         img_io.seek(0)
         
