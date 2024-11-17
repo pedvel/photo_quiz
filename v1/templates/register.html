@@ -28,6 +28,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{form.non_field_errors}}
+                <input type="hidden" id="dark_mode">
                 <div>
                     <label for="{{ form.email.id_for_label }}">Email</label>
                     {{ form.email }}
@@ -60,6 +61,19 @@
             <p>Already have an account? <a href="{% url 'login' %}" class="highlightText">Log In</a></p>
         </div>
         <div class="popup" id="popup"></div>
+    <script>
+        // Retrieve the saved theme from localStorage
+        const savedTheme = localStorage.getItem('theme');
+
+        // Set dark_mode to true if the saved theme is 'dark-mode', else false
+        let dark_mode = false;
+        if (savedTheme === 'dark-mode') {
+            dark_mode = true;
+        } 
+
+        // Insert dark_mode value into the hidden input element
+        document.getElementById('dark_mode').value = dark_mode;
+    </script>
     </main>
     <script src="../../static/password.js"></script>
 </div>

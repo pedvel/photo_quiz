@@ -69,8 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 divMore.appendChild(img);
 
                                 const loadButton = document.createElement("a");
-                                loadButton.id = "loadMore";
                                 loadButton.className = "highlightText2";
+                                loadButton.id = "loadMore";
                                 loadButton.dataset.theme = theme;
                                 loadButton.dataset.offset = "6";
                                 loadButton.dataset.url = loadMorekUrl;
@@ -96,13 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             const img = document.createElement("img");
                             img.src = pic_url;
                             img.className = "image";
+                            img.alt = id;
                             //Agrega la imagen a la grilla
                             imageGrid.appendChild(img);
                         });
 
                         const eyeIcon = document.createElement("i");
                         eyeIcon.className = "fa-solid fa-eye highlightText2";
-                        eyeIcon.onclick = () => snapTheme(theme);
+                        imageGrid.onclick = () => snapTheme(theme);
                         imageGrid.appendChild(eyeIcon);
                     }
                     //Agrega la grilla al tema

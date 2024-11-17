@@ -8,8 +8,19 @@ let scrollPosition = 0;
 
 // Event listener for image click
 document.body.addEventListener('click', function (event) {
+    // Exit if popup is open or clicks are temporarily ignored
+    if (popupOpen || ignoreClicks) return;
+
     const image = event.target.closest('.image');
     if (!image) return;
+
+    // Check if the image is inside a "blur" div within the themeContainer
+    const imageGrid = image.closest('.image-grid');
+    if (imageGrid && imageGrid.classList.contains('blur')) return; // Exit if "blur" class is found
+
+    // Exclude images inside a "more" container
+    const moreContainer = image.closest('.more');
+    if (moreContainer) return;
 
     const themeContainer = image.closest('.themeContainer');
     if (!themeContainer) return;
@@ -26,6 +37,7 @@ document.body.addEventListener('click', function (event) {
     const theme = themeContainer.querySelector('h2').textContent;
     mainTitle.textContent = theme;
 
+    // Show the expanded view if none of the exclusion conditions are met
     showExpandedView(themeContainer, image.src, theme);
 });
 
