@@ -62,10 +62,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         // If sixth image
                         if (imgCount === 6) {
-                            loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl);
+                            // Check if the container is an image grid or expanded view
+                            if (container.classList.contains('image-grid')) {
+                                loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl);
+                            } else {
+                                loadSixthPhotoToExpandedLayout(container, username, imgUrl, imgId, theme, offset, dataUrl);
+                            }
                         } else {
                             // Append based on the container type
-                            appendGridImage(container, username, imgUrl, imgId, theme);
+                            if (container.classList.contains('image-grid')) {
+                                appendGridImage(container, username, imgUrl, imgId, theme);
+                            } else {
+                                appendExpandedImage(container, username, imgUrl, imgId, theme);
+                            }
                         }
                     });
 
@@ -127,5 +136,47 @@ document.addEventListener('DOMContentLoaded', function () {
         img.className = 'image';
         img.alt = username + " " + theme;
         container.appendChild(img);
+    }
+
+    // LOAD MORE - EXPANDED
+    // Sixth photo
+    function loadSixthPhotoToExpandedLayout(container, username, imgUrl, imgId, theme, offset, dataUrl) {
+        const sixthPhotoExpandedLayoutHTML = `
+        <div class="more photoContainer">
+            <div>
+                <p>${username}</p>
+                <p>...</p>
+            </div>
+            <div class="photo">
+                <img src="${imgUrl}">
+                <a id="loadMore" class="highlightText2"
+                   data-theme="${theme}"
+                   data-offset="${offset + 6}"
+                   data-url="${dataUrl}">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </a>
+                <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
+            </div>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', sixthPhotoExpandedLayoutHTML);
+    }
+
+    // Remaining photos
+    function appendExpandedImage(container, username, imgUrl, imgId, theme) {
+        let newLayoutHTML = `
+                <div class="photoContainer">
+                    <div>
+                        <p>${username}</p>
+                        <p>...</p>
+                    </div>
+                    <div class="photo">
+                        <img src="${imgUrl}" alt="${username} ${theme}">
+                        <input type="checkbox" id="checkbox-${imgId}" class="bookmark-toggle" onchange="bookmark(${imgId})" ${favorites.includes(parseInt(imgId)) ? 'checked' : ''}>
+                        <label for="checkbox-${imgId}" class="bookmark-icon ${favorites.includes(parseInt(imgId)) ? 'bookmarked' : ''}"></label>
+                    </div>
+                </div>`;
+
+        container.insertAdjacentHTML('beforeend', newLayoutHTML);
     }
 });
