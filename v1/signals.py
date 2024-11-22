@@ -12,8 +12,12 @@ def login_user(sender, user, request, **kwargs):
     login(request, user)
 
 @receiver(user_registered)
-def set_user_settings(sender, user, is_subscribed, **kwargs):
-    user_settings = UserSettings.objects.create(user=user, suscribed = is_subscribed)
+def set_user_settings(sender, user, is_subscribed, dark_mode, **kwargs):
+    user_settings = UserSettings.objects.create(
+        user=user, 
+        suscribed = is_subscribed,
+        dark_mode = dark_mode
+     )
 
 @receiver(user_registered)
 def send_welcome_mail(sender, user, **kwargs):

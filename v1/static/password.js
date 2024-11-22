@@ -31,7 +31,7 @@ function checkDeviceOrientation(event) {
     } else {
         isDesktop = true; // Desktop device
         // Redirect to index.html if desktop
-        window.location.href = indexUrl;
+        //window.location.href = indexUrl;
     }
 }
 

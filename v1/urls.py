@@ -4,7 +4,7 @@ from v1.authentication.login import CustomLoginView
 from v1.authentication.register import register
 from v1.authentication.profile import profile
 from v1.bookmarks.views import toggle_favorites, saves
-from v1.content.views import snap, home, explore, explore_more, load_more, upload
+from v1.content.views import explore_theme, snap, home, explore, explore_more, load_more, upload
 from v1.views.notifications import notifications
 from v1.views.index import index 
 
@@ -25,5 +25,6 @@ urlpatterns = [
     path('load_more/', load_more, name='load_more'),
     path('upload/', upload, name='upload'),
     path('explore_more/', explore_more, name='explore_more'),
-    path('saves/', saves, name='saves')
+    path('saves/', saves, name='saves'),
+    path('explore/<str:theme>/', explore_theme, name='explore_theme'),
 ]

@@ -1,9 +1,7 @@
 from django.shortcuts import redirect, render
-from django.core.mail import send_mail
-from django.contrib.auth import login, get_backends
 from photo_quiz.settings import EMAIL_HOST_USER
 from v1.forms import UserForm
-from v1.models import UserSettings, User
+from v1.models import User
 from v1.content.check import redirection_check
 from v1.signals import user_registered
 
@@ -22,8 +20,12 @@ def register(request):
             user.save()
 
             is_subscribed=request.POST.get('subscribe', False)
-            #ACA AGREGAR LA PREFERENCIA DE DARK O LIGHT MODE
-            user_registered.send(sender=User, user=user, request=request, is_subscribed=bool(is_subscribed))
+            if request.POST.get('dark_mode') == 'false':
+                dark_mode = False
+            else:
+                dark_mode=True
+            
+            user_registered.send(sender=User, user=user, request=request, is_subscribed=bool(is_subscribed), dark_mode=dark_mode)
 
             return redirect('snap')
     else:
