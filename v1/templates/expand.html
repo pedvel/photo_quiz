@@ -1,0 +1,26 @@
+{% extends 'layoutapp.html' %}
+
+
+
+
+{% block h1 %}  {% endblock %}
+
+{% block main %}
+
+
+
+
+<div>
+    <h3>Images:</h3>
+    <ul>
+        {% for photo in photos %}
+            <li>
+                <p> {{photo.quiz_content}} </p>
+                <img src="{{ photo.pic }}" alt="Image for {{ photo.quiz_content }}">
+                
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
