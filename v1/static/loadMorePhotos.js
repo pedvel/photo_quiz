@@ -22,16 +22,22 @@ document.addEventListener('DOMContentLoaded', function () {
         // Hide "more" button
         loadMoreButton.style.display = 'none';
 
+        // Remove the "more" class from the div
+        moreDiv.classList.remove('more');
+
         // Retrieves necessary data attributes for data fetch
         const theme = loadMoreButton.getAttribute('data-theme');
         const offset = parseInt(loadMoreButton.getAttribute('data-offset'), 10);
+        console.log("Initial offset:", offset);
+        const limit = parseInt(loadMoreButton.getAttribute('data-limit'), 10);
+        console.log("Initial limit:", limit);
         const dataUrl = loadMoreButton.getAttribute('data-url');
 
-        dataFetch(loadMoreButton, theme, offset, dataUrl);
+        dataFetch(loadMoreButton, theme, offset, dataUrl, limit);
     }
 
-    function dataFetch(button, theme, offset, dataUrl) {
-        fetch(`${dataUrl}?theme=${encodeURIComponent(theme)}&offset=${offset}`, {
+    function dataFetch(button, theme, offset, dataUrl, limit) {
+        fetch(`${dataUrl}?theme=${encodeURIComponent(theme)}&offset=${offset}&limit=${limit}`, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -62,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         // If sixth image
                         if (imgCount === 6) {
-                            loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl);
+                            loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl, limit);
                         } else {
                             // Append based on the container type
                             appendGridImage(container, username, imgUrl, imgId, theme);
@@ -85,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // LOAD MORE - GRID VIEW
     // Sixth photo
-    function loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl) {
+    function loadSixthPhotoToGridLayout(container, username, imgUrl, imgId, theme, offset, dataUrl, limit) {
         const moreDiv = document.createElement('div');
         moreDiv.className = 'more';
 
@@ -107,6 +113,9 @@ document.addEventListener('DOMContentLoaded', function () {
         loadMoreButton.className = 'highlightText2';
         loadMoreButton.setAttribute('data-theme', theme);
         loadMoreButton.setAttribute('data-offset', offset + 6);
+        console.log("New offset:", offset + 6);
+        loadMoreButton.setAttribute('data-limit', limit);
+        console.log("New limit:", limit);
         loadMoreButton.setAttribute('data-url', dataUrl);
         loadMoreButton.innerHTML = '<i class="fa-solid fa-circle-plus"></i>';
         moreDiv.appendChild(loadMoreButton);

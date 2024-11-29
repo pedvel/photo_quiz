@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 loadButton.id = "loadMore";
                                 loadButton.dataset.theme = theme;
                                 loadButton.dataset.offset = "6";
+                                loadButton.dataset.limit = "6";
                                 loadButton.dataset.url = loadMorekUrl;
 
                                 // Add the icon HTML inside the button

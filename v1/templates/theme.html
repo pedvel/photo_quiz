@@ -1,25 +1,27 @@
 {% extends 'layoutapp.html' %}
+{% load static %}
 
+{% block logo %}
+<a id="logoBackContainer" href="javascript:history.back()">
+    <i class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>
+</a>
+{% endblock %}
 
-
-
-{% block h1 %} {{theme}} {% endblock %}
+{% block h1 %}{{ theme }}{% endblock %}
 
 {% block main %}
+<main class="mainScroll expanded-theme">
+    <div class="theme-modal" id="themeModal">
+        <div id="expanded-view"></div>
+    </div>
 
-
-
-
-<div>
-    <h3>Images:</h3>
-    <ul>
-        {% for image in images_list %}
-            <li>
-                <img src="{{ image.pic_url }}" alt="Image for {{ image.quiz_content }}">
-                <p>Uploaded by: {{ image.user_name }}</p>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-
+    <div id="loading" class="loading"></div>
+    <div id="popup" class="popup"></div>
+</main>
+<script>
+    const favorites = {{ bkm_self|safe }}; // Assuming favorites is a list of IDs
+    const theme = "{{ theme }}";  // Django variable for theme
+</script>
+<script src="{% static 'expandedViewScript.js' %}"></script>
+<script src="{% static 'bookmarkExplore.js' %}"></script>
 {% endblock %}
