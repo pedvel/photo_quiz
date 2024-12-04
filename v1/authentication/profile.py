@@ -30,6 +30,7 @@ def profile_expand(request):
 
     return render(request, 'expand.html', {
         'bkm_self':user_data.bkm_self,
+        'bkm_others':user_data.bkm_others,
         'username':user.name,
         'photos':user_data.photos,
 

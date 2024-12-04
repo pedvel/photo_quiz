@@ -95,13 +95,10 @@ def explore_theme(request, theme):
     user_data=BookmarkData(user)
     bkm_self=user_data.bkm_self
 
-    #images = Content.objects.filter(quiz_content=theme).order_by('-created_at').select_related('user').values('id', 'pic', 'user__name')[:6]
-
-    #images_list = [{'pic_url': f"{settings.MEDIA_URL}{item['pic']}", 'id':item['id'], 'user_name': item['user__name']} for item in images] 
+   
 
     return render(request, 'theme.html', {
         'theme':theme,
-        #'images_list':images_list,
         'bkm_self':bkm_self
     })
 
