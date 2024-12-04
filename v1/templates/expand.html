@@ -1,26 +1,46 @@
 {% extends 'layoutapp.html' %}
 
+{% block logo %}
+<a id="logoBackContainer" href="javascript:history.back()">
+    <i class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>
+</a>
+{% endblock %}
 
-
-
-{% block h1 %}  {% endblock %}
+{% block h1 %}{{ username }}{% endblock %}
 
 {% block main %}
+    <main class="mainScroll explore">
+        <div id="popup" class="popup popupprofile"></div>
+        <div id="expanded-view">
 
+            {% for photo in photos %}
+            <div class="photoContainer">
+                <div>
+                    <p>{{ photo.quiz_content }}</p>
+                    <p></p>
+                </div>
+                <div class="photo">
+                    <img src="{{ photo.pic }}" alt="{{photo.quiz_content}}" id="{{ photo.id }}">
+                    <input type="checkbox" id="checkbox-{{ photo.id }}" class="bookmark-toggle" 
+                    onchange="bookmark({{ photo.id }})"
+                    {% if photo.id in bkm_self %}checked{% endif %}>
+                    <label for="checkbox-{{ photo.id }}" class="bookmark-icon {% if photo.id in bkm_self %}bookmarked{% endif %}"></label>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
 
+    <footer>
+        <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
+        <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
+        <div><a href="{% url 'profile' %}" class="fa-solid fa-user active"></a></div>
+    </footer>
 
-
-<div>
-    <h3>Images:</h3>
-    <ul>
-        {% for photo in photos %}
-            <li>
-                <p> {{photo.quiz_content}} </p>
-                <img src="{{ photo.pic }}" alt="Image for {{ photo.quiz_content }}">
-                
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-
+    <script>
+        const favorites = {{ bkm_self|safe }}; // Assuming favorites is a list of IDs
+    </script>
+    <script src="../static/bookmarkExpandedView.js"></script>
+    <script src="../static/loadScript.js"></script>
+    <script src="../static/expandedViewProfile.js"></script>
 {% endblock %}

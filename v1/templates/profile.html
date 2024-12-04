@@ -4,6 +4,7 @@
 
 {% block main %}
     <main class="mainScroll explore">
+        <div id="popup" class="popup popupprofile"></div>
         <div class="userHeader">
             <div>
                 <a id="followers" class="buttonsecondary2">Followers</a>
@@ -15,7 +16,6 @@
                 <!--<p>List of content id of saved user photos: {{bkm_others}}</p>-->
             </a>
         </div>
-        <div id="popup" class="popup popupprofile"></div>
 
         {% if today_participation %}
             {% for item in photos %}
@@ -84,7 +84,6 @@
     </script>
     <script src="../static/bookmarkProfile.js"></script>
     <script src="../static/loadScript.js"></script>
-    <script src="../static/profile.js"></script>
     <script src="../static/themePopUp.js"></script>
-    <script src="../static/expandedViewProfile.js"></script>
+    <script src="../static/profileToExpandedView.js"></script>
 {% endblock %}
