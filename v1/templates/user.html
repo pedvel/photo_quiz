@@ -7,14 +7,8 @@
         <div id="popup" class="popup popupprofile"></div>
         <div class="userHeader">
             <div>
-                <a id="followers" class="buttonsecondary2">Followers</a>
-                <a id="following" class="buttonsecondary2">Following</a>
+                <button id="follow" class="buttonsecondary2">Follow</button>
             </div>
-            <a href="{% url 'saves' %}">
-                <p>{{total_bkm}}</p>
-                <p>saves</p>
-                <!--<p>List of content id of saved user photos: {{bkm_others}}</p>-->
-            </a>
         </div>
 
         {% if today_participation %}
@@ -30,32 +24,8 @@
                     </div>
                 {% endif %}
             {% endfor %}
-        {% else %}
-        <div class="participate">
-            <i onclick="snapTheme('{{ theme }}')" class="fa-solid fa-camera snapTheme"></i>
-            <p>{{ theme }}</p>
-        </div>
         {% endif %}
         
-        <div id="explorePopup" class="explorePopup">
-            <div class="explorePopup_text">
-                <div>
-                    <p>Snap and participate</p>
-                    <p>in today's theme</p>
-                    <h1 class="highlightText">{{ theme }}</h1>
-                </div>
-                <!-- Hidden form -->
-                <form id="photoForm" enctype="multipart/form-data">
-                    <input id="upload" name="pic" type="file" accept="image/*" capture="environment" required/>
-                    <input name="theme" type="hidden" value="{{theme}}">
-                    <label for="upload" class="shutter-button"></label>
-                </form>  
-            </div>
-        </div>
-        <div class="uploading" id="uploading">
-            <div class="spinner"></div>
-        </div> 
-
         <div class="image-grid">
             {% for item in photos %}
                 {% if item.quiz_content != theme %}
@@ -64,19 +34,12 @@
                 {% endif %}
             {% endfor %}
         </div>
-
-        <div class="expanded-view" style="display: none;"></div>
-        
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
     </main>
 
     <footer>
         <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
-        <div><a href="{% url 'profile' %}" class="fa-solid fa-user active"></a></div>
+        <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
     </footer>
 
     <script>
