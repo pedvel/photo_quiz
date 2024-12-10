@@ -36,7 +36,7 @@
     <footer>
         <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass active"></a></div>
-        <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
+        <div><a href="{% url 'profile' name=user.name %}" class="fa-solid fa-user"></a></div>
     </footer>
 
     <script>

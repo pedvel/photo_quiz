@@ -19,7 +19,7 @@ urlpatterns = [
     path('snap/', snap, name='snap'),
     path('home/', home, name='home'),
     path('explore/', explore, name='explore'),
-    path('profile/', profile, name='profile'),
+    #path('profile/', profile, name='profile'),
     path('notifications/', notifications, name='notifications'),
     path('toggle_favorites/', toggle_favorites, name='toggle_favorite'),
     path('load_more/', load_more, name='load_more'),
@@ -27,5 +27,6 @@ urlpatterns = [
     path('explore_more/', explore_more, name='explore_more'),
     path('saves/', saves, name='saves'),
     path('explore/<str:theme>/', explore_theme, name='explore_theme'),
-    path('profile/expand', profile_expand, name='profile_expand')
+    path('profile/expand', profile_expand, name='profile_expand'),
+    path('<str:name>/', profile, name='profile')
 ]

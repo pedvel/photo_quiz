@@ -1,27 +1,35 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from v1.content.check import get_quiz, existing_content
 from v1.bookmarks.data import BookmarkData
+from v1.models import User
 
 
 
 
 @login_required()
-def profile(request):
-    user = request.user
+def profile(request, name):
+    user = get_object_or_404(User, name=name)    
     user_data = BookmarkData(user)
-    theme = get_quiz()
-    today_participation = existing_content(user)
+    theme = get_quiz()      #ESTO CREO QUE SOLO SIRVE PARA USER=REQUEST.USER
+    today_participation = existing_content(user) #""
     
-
-    return render(request, 'profile.html', {
-        'bkm_self': user_data.bkm_self,
-        'username': user.name,
-        'theme':theme,
-        'photos':user_data.photos,
-        'total_bkm': user_data.total_bkm,
-        'today_participation': today_participation
+    if user == request.user:
+        return render(request, 'profile.html', {
+            'bkm_self': user_data.bkm_self,
+            'username': name,
+            'theme':theme,
+            'photos':user_data.photos,
+            'total_bkm': user_data.total_bkm,
+            'today_participation': today_participation
     })
+    else:
+        return render(request, 'user.html', {
+            'bkm_self':user_data.bkm_self,
+            'username':name,
+            'theme':theme, #Ver si es necesario
+            'photos':user_data.photos
+        })
 
 
 def profile_expand(request):

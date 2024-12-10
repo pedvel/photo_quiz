@@ -35,6 +35,7 @@ def upload(request):
 
 @login_required
 def snap(request):
+
     user=request.user
     if existing_content(user):
         return redirect('home')
@@ -43,6 +44,7 @@ def snap(request):
 
     return render(request, 'snap.html', {
         'quiz': quiz,
+        'user':user
     })
 
 @login_required
