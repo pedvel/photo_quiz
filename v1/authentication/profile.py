@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from v1.content.check import get_quiz, existing_content
 from v1.bookmarks.data import BookmarkData
-from v1.models import User
-
+from v1.models import Follow, User
 
 
 
@@ -32,6 +32,7 @@ def profile(request, name):
         })
 
 
+@login_required()
 def profile_expand(request):
     user=request.user
     user_data = BookmarkData(user)
@@ -43,3 +44,24 @@ def profile_expand(request):
         'photos':user_data.photos,
 
     })
+
+
+@login_required()
+def toggle_follow(request):
+    if request.method == 'GET':
+        user_follower=request.user
+        user_followed=User.objects.get(name=request.GET.get('name'))
+
+        try:
+            follow_instance, created=Follow.objects.get_or_create(
+                follower=user_follower,
+                followed=user_followed
+            )
+            if not created:
+                follow_instance.delete()
+                return JsonResponse({'status':'Unfollowed'})
+            else:
+                return JsonResponse({'status':'followed'})
+        except User.DoesNotExist:
+            return JsonResponse({'status':'error', 'message': 'User not found'}, status=404)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
