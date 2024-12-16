@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from v1.authentication.login import CustomLoginView
 from v1.authentication.register import register
-from v1.authentication.profile import profile, profile_expand
+from v1.authentication.profile import profile, profile_expand, toggle_follow
 from v1.bookmarks.views import toggle_favorites, saves
 from v1.content.views import explore_theme, snap, home, explore, explore_more, load_more, upload
 from v1.views.notifications import notifications
@@ -28,5 +28,6 @@ urlpatterns = [
     path('saves/', saves, name='saves'),
     path('explore/<str:theme>/', explore_theme, name='explore_theme'),
     path('profile/expand', profile_expand, name='profile_expand'),
-    path('<str:name>/', profile, name='profile')
+    path('<str:name>/', profile, name='profile'),
+    path('toggle_follow/', toggle_follow, name='toggle_follow')
 ]
