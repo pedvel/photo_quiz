@@ -12,8 +12,9 @@ def profile(request, name):
     user = get_object_or_404(User, name=name)    
     user_data = BookmarkData(user)
     theme = get_quiz()    
-    today_participation = existing_content(user) 
+    today_participation = existing_content(user)
     
+     
     if user == request.user:
         return render(request, 'profile.html', {
             'bkm_self': user_data.bkm_self,
@@ -24,11 +25,14 @@ def profile(request, name):
             'today_participation': today_participation
     })
     else:
+        is_followed=True if Follow.objects.filter(follower=request.user, followed=user).exists() else False
+
         return render(request, 'user.html', {
             'bkm_self':user_data.bkm_self,
             'username':name,
             'theme':theme,
-            'photos':user_data.photos
+            'photos':user_data.photos,
+            'is_followed':is_followed
         })
 
 
