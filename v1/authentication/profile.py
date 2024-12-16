@@ -11,8 +11,8 @@ from v1.models import User
 def profile(request, name):
     user = get_object_or_404(User, name=name)    
     user_data = BookmarkData(user)
-    theme = get_quiz()      #ESTO CREO QUE SOLO SIRVE PARA USER=REQUEST.USER
-    today_participation = existing_content(user) #""
+    theme = get_quiz()    
+    today_participation = existing_content(user) 
     
     if user == request.user:
         return render(request, 'profile.html', {
@@ -27,7 +27,7 @@ def profile(request, name):
         return render(request, 'user.html', {
             'bkm_self':user_data.bkm_self,
             'username':name,
-            'theme':theme, #Ver si es necesario
+            'theme':theme,
             'photos':user_data.photos
         })
 
