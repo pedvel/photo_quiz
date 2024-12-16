@@ -1,7 +1,7 @@
 {% extends 'layoutapp.html' %}
 
 {% block logo %}
-<a id="logoBackContainer" href="{% url 'profile' %}">
+<a id="logoBackContainer" href="javascript:history.back()">
     <i class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>
 </a>
 {% endblock %}
@@ -30,7 +30,7 @@
     <footer>
         <div><a href="{% url 'home' %}" class="fa-solid fa-house"></a></div>
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
-        <div><a href="{% url 'profile' %}" class="fa-solid fa-user active"></a></div>
+        <div><a href="{% url 'profile' name=user.name %}" class="fa-solid fa-user active"></a></div>
     </footer>
 
     <script>

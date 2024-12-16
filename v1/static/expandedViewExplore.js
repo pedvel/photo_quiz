@@ -40,11 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 images.forEach(item => {
                     const { id, pic_url, user_name } = item;
                     const isFavorite = favorites.includes(id);
+                    const profileUrl = `/${user_name}`;
 
                     newLayoutHTML += `
                 <div class="photoContainer">
                     <div>
-                        <p>${user_name}</p>
+                        <a href="${profileUrl}">${user_name}</a>
                     </div>
                     <div class="photo">
                         <img src="${pic_url}" alt="${user_name} ${theme}" id="${id}">

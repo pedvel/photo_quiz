@@ -877,6 +877,11 @@ body.dark-mode .mainScroll h1 {
     font-weight: 500;
 }
 
+.photoContainer a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .photoContainer > div:first-child {
     display: flex;
     justify-content: space-between;
@@ -1175,8 +1180,8 @@ body.dark-mode .theme-modal {
     margin-bottom: 20px;
 }
 
-.userHeader a {
-    text-decoration: none;
+.userHeader i {
+    font-size: 2rem;
 }
 
 .buttonsecondary2 {

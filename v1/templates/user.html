@@ -1,5 +1,11 @@
 {% extends 'layoutapp.html' %}
 
+{% block logo %}
+<a id="logoBackContainer" href="javascript:history.back()">
+    <i class="fa-solid fa-arrow-left" style="font-size: 2rem;"></i>
+</a>
+{% endblock %}
+
 {% block h1 %}{{ username }}{% endblock %}
 
 {% block main %}
@@ -7,7 +13,9 @@
         <div id="popup" class="popup popupprofile"></div>
         <div class="userHeader">
             <div>
-                <button id="follow" class="buttonsecondary2">Follow</button>
+                <i class="fa-solid fa-circle-plus highlightText"></i>
+
+                <i class="fa-solid fa-circle-minus highlightText2"></i>
             </div>
         </div>
 

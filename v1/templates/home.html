@@ -7,7 +7,7 @@
             {% for id, pic, user in pics %}
             <div class="photoContainer">
                 <div>
-                    <p>{{user}}</p>
+                    <a href="{% url 'profile' name=user %}">{{user}}</a>
                     <p>...</p>
                 </div>
                 <div class="photo">
@@ -35,7 +35,7 @@
     <footer>
         <div><a href="{% url 'home' %}" class="fa-solid fa-house active"></a></div>
         <div><a href="{% url 'explore' %}" class="fa-solid fa-compass"></a></div>
-        <div><a href="{% url 'profile' %}" class="fa-solid fa-user"></a></div>
+        <div><a href="{% url 'profile' name=user.name %}" class="fa-solid fa-user"></a></div>
     </footer>
 
     <script src="../static/bookmarkHome.js"></script>
